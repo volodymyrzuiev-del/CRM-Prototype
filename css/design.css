@@ -96,7 +96,7 @@
 .ds-fields { display: flex; flex-wrap: wrap; gap: var(--x12); align-items: flex-start; }
 
 .ds-specimen { display: flex; flex-direction: column; gap: var(--x3); min-width: 120px; }
-.ds-specimen > span:first-child,
+.ds-specimen > span:not([class]),
 .ds-caption {
     font-size: 11px;
     line-height: 14px;

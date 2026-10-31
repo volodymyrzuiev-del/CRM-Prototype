@@ -101,6 +101,7 @@
     --input-text: #101112;
     --input-icon: #5a96cc;
     --input-chevron: #d2d2d2;
+    --input-clear: #a3a3a3;
     --input-disabled-fill: #f0f0f0;
     --input-disabled-border: #d2d2d2;
     --input-disabled-text: #d2d2d2;
@@ -117,6 +118,10 @@
     --chip-icon: #3c84c2;
     --ava-purple: #ae8bcc;
     --ava-green: #62bc67;
+    --ava-blue: #5a96cc;
+    --ava-orange: #ee9911;
+    --ava-yellow: #efc116;
+    --ava-red: #e26e5d;
     --avatar-fill: #5a96cc;
     --avatar-fill-alt: #9b71bf;
     --avatar-text: #ffffff;
@@ -399,6 +404,10 @@
     --chip-icon: #b3cfeb;
     --ava-purple: #ae8bcc;
     --ava-green: #62bc67;
+    --ava-blue: #5a96cc;
+    --ava-orange: #ee9911;
+    --ava-yellow: #efc116;
+    --ava-red: #e26e5d;
     --check-border: #b3cfeb;
     --check-fill: #3c84c2;
     --check-text: #f0f0f0;
@@ -1074,6 +1083,30 @@ input.emp-input:disabled {
     border-color: var(--input-active-border);
     box-shadow: 0 0 0 2px var(--input-shadow);
 }
+/* Clear cross of a select: hidden until the value differs from the default (js/empire.js). */
+.emp-input__clear {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: var(--x8);
+    height: var(--x8);
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--input-clear);
+    cursor: pointer;
+    flex: 0 0 auto;
+}
+.emp-input__clear svg { width: var(--x6); height: var(--x6); display: block; }
+.emp-input__clear:hover,
+.emp-input__clear:focus-visible { color: var(--input-icon); outline: none; }
+.emp-input.has-clear .emp-input__clear { display: flex; }
+/* The cross takes the chevron's place, so fields keep their width; the list still opens on a click in the field. */
+.emp-input.has-clear .emp-input__chevron-btn,
+.emp-input.has-clear > .emp-input__chevron { display: none; }
+.emp-input__clear { width: var(--x10); height: var(--x10); }
+.emp-field--sm .emp-input__clear { width: var(--x8); height: var(--x8); }
 .emp-input__chevron-btn {
     display: flex;
     align-items: center;
@@ -1141,6 +1174,15 @@ input.emp-input:disabled {
 }
 .emp-select-chip__x svg { display: block; width: var(--x8); height: var(--x8); }
 
+/* Multi-select, small (32): chips 20px (select-chips small-20), same wrapping behaviour as the 44 field. */
+.emp-field--sm .emp-input--multi { height: auto; min-height: var(--x16); padding: var(--x2) var(--x3); }
+.emp-field--sm .emp-input--multi .emp-input__body { gap: var(--x2); }
+.emp-field--sm .emp-input--multi .emp-input__control { height: var(--x10); font-size: var(--x7); line-height: var(--x10); }
+.emp-field--sm .emp-input--multi .emp-input__chevron-btn { height: var(--x10); }
+.emp-field--sm .emp-select-chip { height: var(--x10); padding: 0 var(--x3); font-size: var(--x6); line-height: var(--x8); }
+.emp-field--sm .emp-select-chip__x,
+.emp-field--sm .emp-select-chip__x svg { width: var(--x6); height: var(--x6); }
+
 .emp-drop {
     position: absolute;
     left: 0;
@@ -1155,6 +1197,8 @@ input.emp-input:disabled {
     box-shadow: var(--drop-shadow);
 }
 .emp-combo.is-open .emp-drop { display: flex; }
+/* Long lists scroll inside the drop: up to 9 rows are visible. */
+.emp-drop { max-height: 368px; overflow-y: auto; }
 .emp-drop__item {
     display: flex;
     align-items: center;
@@ -1211,6 +1255,10 @@ input.emp-input:disabled {
 }
 .emp-drop__ava--purple { background: var(--ava-purple); }
 .emp-drop__ava--green { background: var(--ava-green); }
+.emp-drop__ava--blue { background: var(--ava-blue); }
+.emp-drop__ava--orange { background: var(--ava-orange); }
+.emp-drop__ava--yellow { background: var(--ava-yellow); }
+.emp-drop__ava--red { background: var(--ava-red); }
 .emp-drop__code,
 .emp-drop__name {
     font-size: var(--x7);
@@ -1989,6 +2037,11 @@ body.emp-app {
 }
 .emp-table__row[hidden] { display: none; }
 .emp-table__row:has(.emp-amenu.is-open) { z-index: 12; }
+/* A dropdown, date picker or tip opened inside a cell must not be clipped by the cell and must sit above the next rows. */
+.emp-table__row:has(.emp-combo.is-open),
+.emp-table__row:has(.emp-date.is-open) { z-index: 12; }
+.emp-table__row > :has(.emp-combo.is-open),
+.emp-table__row > :has(.emp-date.is-open) { overflow: visible; }
 .emp-table__row > :where(:not(.emp-amenu)) {
     min-width: 0;
     min-height: var(--emp-row-h, 36px);

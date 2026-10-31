@@ -8,9 +8,12 @@
     --emp-table-min: 0;
 }
 
+/* Bar with boxed tabs: buttons and the counter line up with the middle of the tabs. */
+.cd-table > .emp-table__bar { align-items: center; }
+
 .cd-tools {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
     gap: var(--x8);
     flex-wrap: wrap;
 }

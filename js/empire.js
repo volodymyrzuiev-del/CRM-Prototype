@@ -660,7 +660,13 @@
 
     var people = [
         { id: "4444", code: "4444", name: "Alex Green", initials: "AG", tone: "purple" },
-        { id: "0000", code: "0000", name: "John Smith", initials: "AG", tone: "green" }
+        { id: "0000", code: "0000", name: "John Smith", initials: "JS", tone: "green" },
+        { id: "1111", code: "1111", name: "Olivia Lee", initials: "OL", tone: "blue" },
+        { id: "1245", code: "1245", name: "Maria Lopez", initials: "ML", tone: "orange" },
+        { id: "2131", code: "2131", name: "Daniel Kim", initials: "DK", tone: "yellow" },
+        { id: "3307", code: "3307", name: "Winston Wolf", initials: "WW", tone: "red" },
+        { id: "5512", code: "5512", name: "Charles Gascoigne", initials: "CG", tone: "purple" },
+        { id: "7800", code: "7800", name: "Andrew Jameson", initials: "AJ", tone: "blue" }
     ];
 
     document.querySelectorAll("#fields .emp-field").forEach(function (field) {
@@ -793,10 +799,15 @@
         var button = combo.querySelector(".emp-input__chevron-btn");
         var picks = combo.querySelector(".emp-input__picks");
         var selected = {};
+        var order = [];
         buildDrop(combo, "multi");
+        function unpick(id) {
+            delete selected[id];
+            order = order.filter(function (key) { return key !== id; });
+        }
         function paint() {
             picks.innerHTML = "";
-            var ids = Object.keys(selected);
+            var ids = order.slice();
             input.closest(".emp-input").classList.toggle("has-picks", ids.length > 0);
             ids.forEach(function (id) {
                 var chip = document.createElement("span");
@@ -811,7 +822,7 @@
                 remove.addEventListener("mousedown", function (event) {
                     event.preventDefault();
                     event.stopPropagation();
-                    delete selected[id];
+                    unpick(id);
                     var row = combo.querySelector('.emp-drop__item[data-id="' + id + '"]');
                     if (row) row.classList.remove("is-selected");
                     paint();
@@ -842,10 +853,11 @@
             event.preventDefault();
             var id = item.getAttribute("data-id");
             if (selected[id]) {
-                delete selected[id];
+                unpick(id);
                 item.classList.remove("is-selected");
             } else {
                 selected[id] = item.getAttribute("data-name");
+                order.push(id);
                 item.classList.add("is-selected");
             }
             input.value = "";
@@ -877,6 +889,42 @@
             chevron.parentNode.insertBefore(button, chevron);
             button.appendChild(chevron);
         }
+        // Clear cross: shown while the value differs from the default; a click restores the default.
+        // The default is data-emp-default, or the value the field had when the page loaded.
+        var initial = input.getAttribute("data-emp-default");
+        if (initial === null) {
+            initial = input.value;
+            input.setAttribute("data-emp-default", initial);
+        }
+        var clear = document.createElement("button");
+        clear.type = "button";
+        clear.className = "emp-input__clear";
+        clear.setAttribute("aria-label", "Clear");
+        clear.innerHTML = '<svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-chip-x"></use></svg>';
+        var chevronSlot = box.querySelector(".emp-input__chevron-btn") || box.querySelector(".emp-input__chevron");
+        if (chevronSlot) chevronSlot.parentNode.insertBefore(clear, chevronSlot);
+        else box.appendChild(clear);
+        function syncClear() {
+            var off = input.disabled || field.classList.contains("is-disabled");
+            box.classList.toggle("has-clear", !off && input.value !== initial);
+        }
+        var native = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value");
+        Object.defineProperty(input, "value", {
+            configurable: true,
+            get: function () { return native.get.call(this); },
+            set: function (next) { native.set.call(this, next); syncClear(); }
+        });
+        input.addEventListener("input", syncClear);
+        input.addEventListener("change", syncClear);
+        clear.addEventListener("mousedown", function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            input.value = initial;
+            setComboOpen(combo, false);
+            input.dispatchEvent(new Event("input", { bubbles: true }));
+            input.dispatchEvent(new Event("change", { bubbles: true }));
+        });
+        syncClear();
         var drop = document.createElement("div");
         drop.className = "emp-drop";
         input.getAttribute("data-emp-options").split("|").forEach(function (label) {

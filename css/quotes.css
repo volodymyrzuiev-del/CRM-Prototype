@@ -1,0 +1,108 @@
+/* Quotes — layout and local blocks of this section (Figma: CRM 3.0 / Quotes). Global look comes from empire.css. */
+.qt-page { display: flex; flex-direction: column; min-height: 100vh; }
+.qt { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; gap: var(--x6); }
+.qt-board, .qt-work { display: flex; flex-direction: column; gap: var(--x6); flex: 1 1 auto; min-height: 0; }
+.qt-board[hidden], .qt-work[hidden] { display: none; }
+.qt-bar { display: flex; align-items: center; justify-content: space-between; gap: var(--x6); }
+.qt-filters { display: flex; align-items: flex-end; flex-wrap: wrap; gap: var(--x6); }
+.qt-filters__status, .qt-filters__date { width: 200px; }
+.qt-filters__search { width: 360px; }
+.qt-count { margin-left: auto; font-size: var(--x6); line-height: var(--x8); color: var(--chat-meta); }
+.qt-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--x6); }
+.qt-empty { grid-column: 1 / -1; display: flex; flex-direction: column; align-items: center; gap: var(--x4); padding: var(--x32) 0; border: 1px dashed var(--chat-line); border-radius: var(--x3); color: var(--chat-meta); text-align: center; }
+.qt-empty strong { color: var(--chat-text); font-family: "Noto Sans Display", "Noto Sans", sans-serif; font-size: var(--x8); line-height: var(--x12); }
+@media (max-width: 1399px) { .qt-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 767px) { .qt-grid { grid-template-columns: 1fr; } .qt-filters__search, .qt-filters__status, .qt-filters__date { width: 100%; } }
+
+/* Quote card — local block */
+.qt-card { display: flex; flex-direction: column; gap: var(--x4); height: 560px; padding: var(--x8); border: 1px solid var(--chat-line); border-radius: var(--x3); background: var(--chat-panel); }
+.qt-card__head { display: flex; align-items: center; gap: var(--x4); min-width: 0; }
+.qt-card__company { flex: 1 1 auto; min-width: 0; margin: 0; font-size: var(--x10); line-height: var(--x14, 28px); font-weight: 600; color: var(--chat-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.qt-marks { display: flex; align-items: center; flex-wrap: wrap; justify-content: flex-end; gap: var(--x2); }
+.qt-gmail { width: var(--x8); height: var(--x8); color: var(--chat-danger); flex: 0 0 auto; }
+.qt-card__contact, .qt-card__email, .qt-card__date, .qt-card__subject, .qt-mail__company { margin: 0; }
+.qt-card__contact { color: var(--chat-meta); }
+.qt-card__email { font-family: "Noto Sans Display", "Noto Sans", sans-serif; font-weight: 500; color: var(--chat-text); }
+.qt-card__date { font-size: var(--x6); line-height: var(--x8); color: var(--chat-meta); }
+.qt-card__subject { color: var(--chat-meta); }
+.qt-card__subject strong { font-family: "Noto Sans Display", "Noto Sans", sans-serif; font-weight: 500; color: var(--chat-text); }
+.qt-card__body { flex: 1 1 auto; margin: 0; min-height: 0; white-space: pre-line; color: var(--chat-text); display: -webkit-box; -webkit-line-clamp: 18; -webkit-box-orient: vertical; overflow: hidden; }
+.qt-card__actions { display: grid; grid-template-columns: 1fr 1fr; gap: var(--x6); }
+.qt-card__actions .emp-btn { width: 100%; }
+
+/* Workspace */
+.qt-crumbs { display: flex; align-items: center; gap: var(--x4); font-family: "Noto Sans Display", "Noto Sans", sans-serif; font-size: var(--x10); line-height: var(--x12); font-weight: 600; }
+.qt-crumbs__sep { color: var(--chat-muted); }
+.qt-crumbs__review { margin-left: auto; }
+.qt-cols { display: grid; grid-template-columns: 400px 460px minmax(0, 1fr); gap: var(--x6); flex: 1 1 auto; min-height: 640px; height: calc(100vh - 210px); }
+@media (max-width: 1499px) { .qt-cols { grid-template-columns: 340px 420px minmax(0, 1fr); } }
+@media (max-width: 1199px) { .qt-cols { grid-template-columns: 1fr; height: auto; } .qt-rail { max-height: 420px; } .qt-chat { height: 640px; } }
+.qt-rail { display: flex; flex-direction: column; gap: var(--x6); min-height: 0; overflow-y: auto; padding-right: var(--x2); }
+.qt-mini { display: flex; flex-direction: column; gap: var(--x4); flex: 0 0 auto; padding: var(--x8); border: 1px solid var(--chat-line); border-radius: var(--x3); background: var(--chat-panel); cursor: pointer; text-align: left; }
+.qt-mini.is-active { border: 2px solid var(--chat-accent-line); cursor: default; }
+.qt-mini .qt-marks { justify-content: flex-start; }
+.qt-mini__lane { margin: 0; font-family: "Noto Sans Display", "Noto Sans", sans-serif; font-weight: 500; color: var(--chat-text); }
+.qt-mini__thread { height: 360px; }
+.qt-drivers, .qt-chat { min-height: 0; display: flex; flex-direction: column; border: 1px solid var(--chat-line); border-radius: var(--x3); background: var(--chat-panel); overflow: hidden; }
+.qt-chat > .emp-chat { border: 0; border-radius: 0; }
+.qt-placeholder { margin: auto; display: flex; flex-direction: column; align-items: center; gap: var(--x4); padding: var(--x16); text-align: center; color: var(--chat-meta); }
+.qt-placeholder svg { width: 32px; height: 32px; color: var(--chat-muted); }
+.qt-placeholder strong { color: var(--chat-text); font-family: "Noto Sans Display", "Noto Sans", sans-serif; font-size: var(--x8); line-height: var(--x12); }
+.qt-dsec { display: flex; flex-direction: column; gap: var(--x3); padding: var(--x6) var(--x8); border-bottom: 1px solid var(--chat-row-line); }
+.qt-drow { display: flex; align-items: center; gap: var(--x4); min-width: 0; }
+.qt-drow--between { justify-content: space-between; }
+.qt-drow .emp-field { flex: 1 1 auto; width: auto; }
+.qt-strong { font-family: "Noto Sans Display", "Noto Sans", sans-serif; font-weight: 600; }
+.qt-muted { font-size: var(--x6); line-height: var(--x8); color: var(--chat-meta); }
+.qt-grow { flex: 1 1 auto; min-width: 0; }
+.qt-head-row { background: var(--chat-in); }
+.qt-list { flex: 1 1 auto; min-height: 0; overflow-y: auto; }
+.qt-driver { display: flex; align-items: flex-start; gap: var(--x4); padding: var(--x6) var(--x8); border-bottom: 1px solid var(--chat-row-line); cursor: pointer; }
+.qt-driver:hover { background: var(--chat-hover); }
+.qt-driver.is-selected { background: var(--chat-out); }
+.qt-driver__info { display: flex; flex-direction: column; gap: var(--x2); flex: 1 1 auto; min-width: 0; }
+.qt-driver__name { display: flex; align-items: center; gap: var(--x2); }
+.qt-driver__dist { display: inline-flex; align-items: center; gap: var(--x2); font-size: var(--x6); line-height: var(--x8); color: var(--chat-accent); }
+.qt-driver__side { display: flex; flex-direction: column; align-items: flex-end; gap: var(--x2); }
+.qt-driver__rate { font-family: "Noto Sans Display", "Noto Sans", sans-serif; font-size: var(--x8); line-height: var(--x12); font-weight: 600; }
+.qt-star { width: 12px; height: 12px; color: var(--chat-warning-line); }
+.qt-icon { width: var(--x6); height: var(--x6); flex: 0 0 auto; }
+.qt-offer { display: flex; flex-direction: column; align-items: center; gap: var(--x3); width: 400px; max-width: 100%; padding: var(--x8); border: 1px solid var(--chat-out-line); border-radius: var(--x6); background: var(--chat-out); color: var(--chat-text); }
+.qt-offer__row { display: flex; align-items: baseline; flex-wrap: wrap; justify-content: center; gap: var(--x2); }
+.qt-offer__value { font-family: "Noto Sans", sans-serif; font-size: var(--x8); line-height: var(--x12); font-weight: 600; color: var(--chat-accent); }
+.qt-offer__loc { text-decoration: underline; color: var(--chat-accent); font-size: var(--x6); }
+.qt-offer__done { display: inline-flex; align-items: center; gap: var(--x2); color: var(--chat-success); font-weight: 600; }
+
+/* Check quote modal */
+.qt-check { display: grid; grid-template-columns: 560px minmax(0, 1fr); gap: var(--x12); align-items: start; padding-right: var(--x4); }
+@media (max-width: 1199px) { .qt-check { grid-template-columns: 1fr; } }
+.qt-check__mail, .qt-check__offer { display: flex; flex-direction: column; gap: var(--x6); min-width: 0; }
+.qt-h { display: flex; align-items: center; gap: var(--x3); margin: 0; font-family: "Noto Sans", sans-serif; font-size: var(--x10); line-height: var(--x12); font-weight: 600; color: var(--chat-text); }
+.qt-h .emp-icon { width: 20px; height: 20px; color: var(--chat-danger); }
+.qt-mail { display: flex; flex-direction: column; gap: var(--x4); padding: var(--x8); border: 1px solid var(--chat-line); border-radius: var(--x3); }
+.qt-mail__head { display: flex; flex-direction: column; gap: var(--x); }
+.qt-mail__company { font-size: var(--x8); line-height: var(--x12); font-weight: 600; }
+.qt-mail__body { margin: 0; padding-top: var(--x4); border-top: 1px solid var(--chat-line); white-space: pre-line; max-height: 220px; overflow-y: auto; }
+.qt-mail__thread { height: 320px; }
+.qt-stops { display: grid; grid-template-columns: 1fr 1fr; gap: var(--x12); }
+.qt-stops__col { display: flex; flex-direction: column; align-items: flex-start; gap: var(--x6); }
+.qt-stops__col .emp-field, .qt-three .emp-field, .qt-wide { width: 100%; max-width: none; }
+.qt-pair { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--x6); }
+.qt-pair__item { display: flex; align-items: flex-end; gap: var(--x6); }
+.qt-pair__item .emp-field { width: 200px; }
+.qt-three { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--x6); }
+.qt-bid { display: flex; flex-direction: column; gap: var(--x4); padding: var(--x8); border-radius: var(--x3); background: var(--chat-in); }
+.qt-bid__title { font-weight: 600; }
+.qt-bid__row { display: flex; align-items: center; justify-content: space-between; gap: var(--x6); }
+.qt-bid__rate { width: 220px; }
+
+/* Quote rules modal */
+.qt-rules { display: flex; flex-direction: column; gap: var(--x6); }
+.qt-rules__search { display: flex; align-items: center; gap: var(--x4); }
+.qt-rules__search .emp-field { flex: 1 1 auto; width: auto; max-width: none; }
+.qt-rules__search .emp-btn[hidden] { display: none; }
+.qt-rules__table { --emp-cols: 48px minmax(0, 1fr) minmax(0, 1.4fr) 72px; }
+.qt-rules__del { display: inline-flex; padding: 0; border: 0; background: none; color: var(--chat-danger); cursor: pointer; }
+.qt-rules__del svg { width: 20px; height: 20px; }
+.qt-rules__empty { margin: 0; color: var(--chat-meta); }
+.qt-drivers .emp-tab { white-space: nowrap; }

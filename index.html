@@ -8,10 +8,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Display:wght@400;500;600&family=Noto+Sans:wdth,wght@87.5,700;100,400;100,500;100,600;100,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/empire.css?v=ds9">
+    <link rel="stylesheet" href="css/empire.css?v=ds10">
     <link rel="stylesheet" href="css/header.css?v=ds3">
     <link rel="stylesheet" href="css/toast.css?v=t2">
-    <link rel="stylesheet" href="css/design.css?v=ds4">
+    <link rel="stylesheet" href="css/design.css?v=ds5">
     <script>
         (function () {
             var theme = localStorage.getItem("emp-theme");
@@ -290,6 +290,12 @@
                 </span>
                 <span class="emp-navitem__label">Bids</span>
             </a>
+            <a class="emp-navitem" href="quotes.html">
+                <span class="emp-navitem__icon">
+                    <svg class="emp-navitem__glyph" viewBox="0 0 24 24"><use href="#nav-chats"></use></svg>
+                </span>
+                <span class="emp-navitem__label">Quotes</span>
+            </a>
             <a hidden class="emp-navitem" href="#">
                 <span class="emp-navitem__icon">
                     <svg class="emp-navitem__glyph" viewBox="0 0 24 24"><use href="#nav-expedite-fleet"></use></svg>
@@ -469,6 +475,7 @@
                             <a href="#view-rows">View rows</a>
                             <a href="#modal">Modal windows</a>
                             <a href="#preview">File preview</a>
+                            <a href="#chat">Chat</a>
                         </div>
                     </div>
                 </nav>
@@ -1583,6 +1590,22 @@
                     </div>
                 </section>
 
+                <section class="ds-section" id="chat">
+                    <div class="ds-section__head">
+                        <h2>Chat</h2>
+                        <p><code>emp-chat</code> · <code>--compact</code> · <code>emp-inbox</code> <code>emp-chat-list</code> <code>emp-chat-item</code> · <code>empChat.mount(node, options)</code> · Figma: Components / Chat</p>
+                    </div>
+                    <div class="ds-stack">
+                        <div class="ds-specimen ds-specimen--wide"><span>Inbox · Regular · all message types, reactions, replies, pins, search, notes, @mentions, voice, files (drop or paste), demo replies</span><div class="ds-chat ds-chat--inbox" id="ds-inbox"></div></div>
+                        <div class="ds-row ds-chat-row">
+                            <div class="ds-specimen"><span>Compact · email thread</span><div class="ds-chat ds-chat--compact" id="ds-chat-compact"></div></div>
+                            <div class="ds-specimen"><span>Empty</span><div class="ds-chat ds-chat--state" id="ds-chat-empty"></div></div>
+                            <div class="ds-specimen"><span>Error</span><div class="ds-chat ds-chat--state" id="ds-chat-error"></div></div>
+                            <div class="ds-specimen"><span>Closed</span><div class="ds-chat ds-chat--state" id="ds-chat-closed"></div></div>
+                        </div>
+                    </div>
+                </section>
+
                 <section class="ds-section" id="preview">
                     <div class="ds-section__head">
                         <h2>File preview</h2>
@@ -1752,8 +1775,8 @@
             <div class="emp-mw__foot"><button class="emp-btn emp-btn--outline emp-btn--lg" type="button" data-overlay-close>Cancel</button><button class="emp-btn emp-btn--alarm emp-btn--lg" type="button" data-overlay-close>Delete</button></div>
         </div>
     </div>
-    <script src="js/toast.js?v=t2"></script>
-    <script src="js/empire.js?v=ds6"></script>
+    <script src="js/toast.js?v=t3"></script>
+    <script src="js/empire.js?v=ds7"></script>
     <script>
         (function () {
             var types = ["primary", "secondary", "outline", "link", "additional", "alarm"];
@@ -1801,6 +1824,55 @@
             render("md");
             render("lg");
         })();
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var me = { name: "Andrew Jameson", avatar: "AJ" };
+            var team = [{ name: "Anna Lu", role: "Dispatcher", avatar: "AL" }, { name: "Andrew Jameson", role: "Dispatcher", avatar: "AJ" }, { name: "Winston Wolf", role: "Manager", avatar: "WW" }];
+            var people = [
+                { name: "2323 John Driver", sub: "Rojer Holloway LLC [11] · online", av: "JD", time: "9:07 AM", last: "You: Got it, thanks!", unread: 0, channel: "phone" },
+                { name: "Johnson & Johnson · Brooklyn S.", sub: "debra.holt@example.com", av: "JJ", time: "8:58 AM", last: "Can you send the rate for LA → Austin?", unread: 2, channel: "file" },
+                { name: "Dispatch team", sub: "5 members", av: "DT", time: "8:40 AM", last: "Anna Lu: @Andrew check load #1245360", unread: 3, channel: "chat" },
+                { name: "1422 Tom Bob", sub: "Bob Trucking [4]", av: "TB", time: "Yesterday", last: "Driver accepted offer", unread: 0, channel: "phone", offline: true }
+            ];
+            var inbox = document.getElementById("ds-inbox");
+            inbox.className = "ds-chat ds-chat--inbox emp-inbox";
+            inbox.innerHTML = '<div class="emp-chat-list"><div class="emp-chat-list__head"><div class="emp-field emp-field--sm"><div class="emp-input"><span class="emp-input__icon" aria-hidden="true"><svg class="emp-input__search" viewBox="0 0 12 12"><use href="#i-input-search-sm"></use></svg></span><input class="emp-input__control" type="text" placeholder="Search chats" aria-label="Search chats"></div></div><div class="emp-tabs__list emp-tabs__list--boxed"><button class="emp-tab is-active" type="button">All</button><button class="emp-tab" type="button">Unread<span class="emp-tab__count">5</span></button><button class="emp-tab" type="button">Mine</button></div></div><div class="emp-chat-list__items">' +
+                people.map(function (p, i) { return '<button class="emp-chat-item' + (i === 0 ? " is-active" : "") + (p.unread ? " is-unread" : "") + '" type="button"><span class="emp-avatar emp-avatar--lg">' + p.av + '<span class="emp-avatar__dot' + (p.offline ? " is-offline" : "") + '"></span></span><span class="emp-chat-item__info"><span class="emp-chat-item__top"><span class="emp-chat-item__name">' + p.name + "</span>" + empChat.icon(p.channel, "sm") + '<span class="emp-chat-item__time">' + p.time + '</span></span><span class="emp-chat-item__bottom"><span class="emp-chat-item__last">' + p.last + "</span>" + (p.unread ? '<span class="emp-chat-item__count">' + p.unread + "</span>" : "") + "</span></span></button>"; }).join("") + "</div></div><div></div>";
+            var chat = empChat.mount(inbox.lastChild, {
+                me: me, mentions: team, notes: true, channel: "via App",
+                quick: ["You are welcome", "Thank you", "Please, share your current location"],
+                header: { name: "2323 John Driver (TX)", sub: "Rojer Holloway LLC [11] · online", avatar: "JD", presence: "online", phone: "+15550102323", tags: [{ text: "Only ENG", cls: "emp-chip--orange" }, { text: "Other company sticker", cls: "emp-chip--outline emp-chip--red" }] },
+                demo: { name: "John Driver", avatar: "JD", channel: "via App", replies: ["Got it 👍", "On my way, ETA 1h 20m.", "Copy that."] },
+                earlier: [{ side: "in", author: "John Driver", day: "Yesterday", time: "6:10 PM", text: "Available tomorrow from 6 AM in Dallas, TX." }, { side: "out", author: me.name, avatar: me.avatar, day: "Yesterday", time: "6:12 PM", status: "read", text: "Thanks, I’ll keep you posted." }],
+                unreadFrom: "u1",
+                messages: [
+                    { kind: "event", tone: "neutral", text: "Offer sent to 5 drivers by Andrew Jameson", time: "8:30 AM", day: "Today" },
+                    { id: "m-first", side: "out", author: me.name, avatar: me.avatar, time: "8:41 AM", status: "read", edited: true, channel: "via App", text: "Hi John! Load from Dallas, TX to Atlanta, GA, 2 pallets, 1,500 lbs. Rate $1,050. Can you take it?" },
+                    { side: "in", author: "John Driver", time: "8:55 AM", channel: "via SMS", text: "Sí, puedo estar allí en 1.5 horas.", translated: { from: "Spanish", original: "Sí, puedo estar allí en 1.5 horas." }, reactions: [{ e: "👍", n: 2, mine: false, who: "Anna Lu, Winston Wolf" }, { e: "✅", n: 1, mine: true, who: "Andrew Jameson" }] },
+                    { side: "in", author: "John Driver", time: "8:56 AM", type: "voice", duration: "0:24" },
+                    { side: "in", author: "John Driver", time: "8:57 AM", type: "location", place: "Coeur d’Alene, NM 04205", placeNote: "Live location · updated 2 min ago" },
+                    { kind: "event", tone: "success", text: "John Driver accepted offer", time: "9:02 AM" },
+                    { id: "u1", side: "in", author: "John Driver", time: "9:05 AM", text: "I am at the gate, sending the BOL photo.", reply: { id: "m-first", author: "Andrew Jameson", text: "Hi John! Load from Dallas, TX to Atlanta, GA…" } },
+                    { side: "in", author: "John Driver", time: "9:05 AM", type: "image", src: "icons/upload/photo.jpeg.png", caption: "BOL photo" },
+                    { side: "in", author: "John Driver", time: "9:06 AM", type: "file", file: { name: "BOL_1245352.pdf", size: "PDF · 245 KB" } },
+                    { side: "in", author: "John Driver", time: "9:06 AM", type: "gallery", more: 3, srcs: ["icons/upload/photo.jpeg.png", "icons/upload/bol.png", "icons/upload/photo.jpeg.png"] },
+                    { side: "out", author: me.name, avatar: me.avatar, time: "9:07 AM", status: "read", forwarded: "Anna Lu", type: "link", text: "Tracking: https://track.empire.com/1245352", preview: { url: "#", domain: "track.empire.com", title: "Load #1245352 — In transit", text: "Dallas, TX → Atlanta, GA · ETA 9:30 AM" } },
+                    { side: "out", author: me.name, avatar: me.avatar, time: "9:08 AM", type: "note", text: "@Anna Lu please double-check the rate with the broker before booking.", seenBy: ["Anna Lu", "Winston Wolf", "John Driver"] },
+                    { side: "in", author: "John Driver", time: "9:09 AM", type: "deleted" },
+                    { side: "out", author: me.name, avatar: me.avatar, time: "9:10 AM", status: "failed", text: "Call me when you are loaded" }
+                ]
+            });
+            chat.pinned = ["m-first"]; chat.paintPinned();
+            empChat.mount(document.getElementById("ds-chat-compact"), { size: "compact", me: { name: "Dispatcher", avatar: "AJ" }, channel: "via Email", placeholder: "Reply to Brooklyn", messages: [
+                { side: "in", author: "Brooklyn Simmons", time: "12:30 AM", channel: "via Email", text: "Lorem ipsum dolor sit amet consectetur. Bibendum donec enim dui pretium purus." },
+                { side: "out", author: "Dispatcher", avatar: "AJ", time: "12:34 AM", status: "delivered", text: "Okay" },
+                { side: "in", author: "Brooklyn Simmons", time: "12:36 AM", type: "file", file: { name: "Rate_confirmation_1245352.pdf", size: "PDF · 245 KB" } }
+            ] });
+            empChat.mount(document.getElementById("ds-chat-empty"), { size: "compact", me: me, messages: [], quick: ["Hi!", "Are you available?"] });
+            empChat.mount(document.getElementById("ds-chat-error"), { size: "compact", me: me, messages: [], state: "error", onRetry: function () { if (window.empToast) window.empToast("connection"); } });
+            empChat.mount(document.getElementById("ds-chat-closed"), { size: "compact", me: me, disabled: true, messages: [{ side: "in", author: "Tom Bob", time: "Yesterday", day: "Yesterday", text: "Delivered, thanks!" }, { kind: "event", tone: "neutral", text: "Conversation closed by Winston Wolf", time: "Yesterday" }] });
+        });
     </script>
 </body>
 </html>

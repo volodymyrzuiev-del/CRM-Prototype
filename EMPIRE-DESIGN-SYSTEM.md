@@ -215,6 +215,7 @@ Noto Sans. Стиль выбирается по месту в интерфейс
 | Аватар | `emp-avatar`, `--sm` (24) / M (32) / `--lg` (40), второй цвет `--alt`, точка `emp-avatar__dot` | `#avatars` | Avatar `1061:52823` |
 | Аккордеон | `emp-accordion` (набор в общей рамке), `emp-accordion__item`, `is-open`, `emp-accordion__panel` (контент, мин. 48), `emp-accordion--solo`; `data-emp-accordion` — открыт один пункт | `#accordion` | Accordion `1253:14730` |
 | Карточка файла | `emp-file`, без превью `emp-file--empty` + `emp-file__ghost`, `is-selected`, пусто `emp-file--none` + `emp-file__none`; маркеры `icons/upload/file-*.svg`, заглушки `icons/upload/ph-*.svg` | `#upload` | File preview `189:5930` |
+| Чат | `emp-chat`, `--compact`; `__head`, `__pinned`, `__search`, `__list`, `__msg` (`--out`, `--note`, `is-grouped`, `is-deleted`, `is-failed`), `__bubble`, `__meta`, `__status--sending/sent/delivered/read/failed`, `__quote`, `__reactions`, `__tools`, `__pop`, `__typing`, `__jump`, `__drop`, `__state`, `__composer` (`is-note`, `is-disabled`), `__quick`, `__modes`; список чатов `emp-inbox`, `emp-chat-list`, `emp-chat-item`. Запуск: `empChat.mount(node, options)` | `#chat` | Chat `7728:8082` |
 
 CRM-таблица настраивается переменными на контейнере экрана: `--emp-cols` (колонки грида, последняя 40px под action menu), `--emp-row-h` (минимальная высота строки, по умолчанию 36px), `--emp-table-min` (минимальная ширина). Границы ячеек — inset-тень 1px `--table-line`, поэтому высота строки совпадает с Figma.
 
@@ -259,8 +260,16 @@ Action menu по Figma: кнопка 40px, точки 3×3 с шагом 5px. De
 | `unreadable` | error | File cannot be read | The file is corrupted or empty. Please check it and try again. |
 | `upload` | error | Upload failed | Unable to upload the file. Please try again or select another file. |
 | `saveFailed` | error | Upload failed | Unable to save changes. Please try again. |
+| `messageCopied` | info | Copied | Message text has been copied to your clipboard. |
+| `forwarded` | success | Forwarded | Message has been forwarded. |
+| `pinned` | info | Pinned | Message is pinned at the top of the chat. |
+| `archived` | success | Archived | "[Name]" has been moved to the archive. |
+| `restored` | success | Restored | "[Name]" has been restored to active quotes. |
+| `offerCreated` | success | BID & Offer created | The offer has been sent to drivers. |
+| `booked` | success | Booked | "[Name]" has been booked for this load. |
+| `ruleConflict` | error | Error: unsuccessful | This broker is already on the opposite list. Remove it first. |
 
-`sent` принимает `{ name }`, `large` принимает `{ size }`. Макет: [Toasts, node 6558:24180](https://www.figma.com/design/X1zmjtoFusntm0yJrB2nyW/Empire-design-system--bootstrap-?node-id=6558-24180).
+`sent`, `archived`, `restored` и `booked` принимают `{ name }`, `large` принимает `{ size }`. Макет: [Toasts, node 6558:24180](https://www.figma.com/design/X1zmjtoFusntm0yJrB2nyW/Empire-design-system--bootstrap-?node-id=6558-24180).
 
 ### Аккордеон
 
@@ -280,3 +289,25 @@ Action menu по Figma: кнопка 40px, точки 3×3 с шагом 5px. De
 ### Мультиселект
 
 `emp-combo[data-emp-multi]` с `emp-input--multi`: размер 44 (чипсы 24) и `emp-field--sm` 32 (чипсы 20). Ширина поля — ширина `emp-field` (по умолчанию 360), чипсы переносятся на новые строки, поле растёт по высоте. Чипсы идут в порядке выбора.
+
+### Чат
+
+Один глобальный компонент для любого диалога в CRM: водители (приложение, SMS), брокеры и шиперы (email-треды), клиенты, внутренний чат команды, комментарии к грузу или квоте. Стили — блок `emp-chat` в `css/empire.css`, поведение — в `js/empire.js`, образец — `#chat` на Design. Иконки чата (Bootstrap Icons) компонент подключает сам, отдельный спрайт на странице не нужен.
+
+Запуск: `empChat.mount(node, options)`. Основные опции: `me` (кто пишет), `messages`, `size: "compact"`, `header` (имя, подзаголовок, аватар, метки, телефон, статус присутствия), `quick` (быстрые ответы), `mentions` (люди для @), `notes: true` (режим «Internal note»), `channel` (via App / SMS / Email), `earlier` (история для «Load earlier»), `unreadFrom` (id первого непрочитанного), `renderCard` (карточки процесса в чате, например Offer card), `disabled`, `state` (`empty` / `loading` / `error`), `onSend`, `demo` (имитация ответа собеседника для прототипа).
+
+Сообщение — объект: `side` (`in` / `out`), `author`, `avatar`, `time`, `day`, `type` (`text`, `file`, `image`, `gallery`, `video`, `voice`, `location`, `link`, `note`, `deleted`), `status` (`sending`, `sent`, `delivered`, `read`, `failed`), `reply`, `forwarded`, `edited`, `channel`, `translated`, `reactions`, `seenBy`. Системная строка — `{ kind: "event", tone, text }`, карточка — `{ kind: "card", ... }`.
+
+Поведение:
+
+- Подряд от одного автора сообщения группируются: аватар и мета только у первого. Разделители дат и «New messages» ставятся автоматически.
+- Поле ввода растёт до 3 строк, дальше скролл. Enter — отправить, Shift+Enter — новая строка, ↑ в пустом поле — редактировать последнее своё, Esc — отменить ответ, редактирование или закрыть меню.
+- Наведение на сообщение показывает панель: реакция, ответить, переслать, закрепить, ещё (копировать, редактировать, повторить, удалить).
+- Файлы: скрепка, перетаскивание на чат, вставка из буфера; до 10 файлов по 25 МБ, прогресс загрузки и Retry.
+- Голосовые: запись через `MediaRecorder`, таймер, отмена, отправка.
+- `@` открывает список людей, ↑↓ и Enter выбирают.
+- Пока пользователь прокрутил вверх, новые сообщения считает кнопка «вниз».
+- Поиск по чату подсвечивает совпадения, ↑↓ переходят между ними.
+- Для продакшна поле ввода и эмодзи можно перевести на `autosize` и `emoji-picker-element`, ссылки — на `linkifyjs`, HTML писем чистить `DOMPurify`. В прототипе это сделано встроенным кодом.
+
+Экран Quotes (`quotes.html`, `css/quotes.css`, `js/quotes.js`): доска квот (Active / Archive, фильтры, карточки), Check quote (письмо, тред брокера в компактном чате, форма Offer и BID), рабочая область квоты (список квот, водители, чат с водителем), Quote Rules (Always include / Exclude, добавление email, ошибка конфликта), подтверждение архивации. Карточка квоты, строка водителя и Offer card — локальные блоки раздела.

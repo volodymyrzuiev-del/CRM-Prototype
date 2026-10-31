@@ -12,7 +12,15 @@
         large: { tone: "error", title: "File is too large", text: "Maximum allowed file size is [X] MB.", icon: "icons/controls/error-fill.svg" },
         unreadable: { tone: "error", title: "File cannot be read", text: "The file is corrupted or empty. Please check it and try again.", icon: "icons/controls/error-fill.svg" },
         upload: { tone: "error", title: "Upload failed", text: "Unable to upload the file. Please try again or select another file.", icon: "icons/controls/error-fill.svg" },
-        saveFailed: { tone: "error", title: "Upload failed", text: "Unable to save changes. Please try again.", icon: "icons/controls/error-fill.svg" }
+        saveFailed: { tone: "error", title: "Upload failed", text: "Unable to save changes. Please try again.", icon: "icons/controls/error-fill.svg" },
+        messageCopied: { tone: "info", title: "Copied", text: "Message text has been copied to your clipboard.", icon: "icons/toast/copy-toast.svg" },
+        forwarded: { tone: "success", title: "Forwarded", text: "Message has been forwarded.", icon: "icons/controls/success-fill.svg" },
+        pinned: { tone: "info", title: "Pinned", text: "Message is pinned at the top of the chat.", icon: "icons/controls/success-fill.svg" },
+        archived: { tone: "success", title: "Archived", text: "\"[Name]\" has been moved to the archive.", icon: "icons/controls/success-fill.svg" },
+        restored: { tone: "success", title: "Restored", text: "\"[Name]\" has been restored to active quotes.", icon: "icons/controls/success-fill.svg" },
+        offerCreated: { tone: "success", title: "BID & Offer created", text: "The offer has been sent to drivers.", icon: "icons/controls/success-fill.svg" },
+        booked: { tone: "success", title: "Booked", text: "\"[Name]\" has been booked for this load.", icon: "icons/controls/success-fill.svg" },
+        ruleConflict: { tone: "error", title: "Error: unsuccessful", text: "This broker is already on the opposite list. Remove it first.", icon: "icons/controls/error-fill.svg" }
     };
 
     function stack() {

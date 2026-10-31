@@ -174,3 +174,10 @@
     line-height: 20px;
 }
 #scroll .emp-scroll p { margin: 0 0 12px; }
+
+#chat .ds-specimen { min-width: 0; }
+.ds-chat { height: 720px; }
+.ds-chat--inbox { width: 100%; }
+.ds-chat-row { align-items: stretch; flex-wrap: wrap; }
+.ds-chat--compact { width: 400px; height: 480px; }
+.ds-chat--state { width: 320px; height: 480px; }

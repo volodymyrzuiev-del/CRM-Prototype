@@ -1,5 +1,12 @@
 /* OTR Brokers — layout of the searched board. Shared controls stay emp-*. */
 
+.br-board {
+    display: flex;
+    flex-direction: column;
+    gap: var(--x12);
+    min-width: 0;
+}
+
 .br-bar {
     display: flex;
     justify-content: space-between;
@@ -60,11 +67,21 @@
 .br-result {
     display: flex;
     flex-direction: column;
-    gap: var(--x16);
+    gap: var(--x12);
     min-width: 0;
 }
 
 .br-result[hidden] { display: none; }
+
+.br-panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--x16);
+    min-width: 0;
+    padding: var(--x4);
+    background-color: var(--surface);
+    border-radius: var(--x3);
+}
 
 .br-top {
     display: flex;
@@ -146,31 +163,38 @@
 }
 
 .br-sheet {
-    background: var(--surface);
+    width: 100%;
+    min-width: 0;
+    overflow: hidden;
+    background-color: var(--surface);
     border: 1px solid var(--table-line);
     border-radius: var(--x4);
-    overflow: auto;
-    min-width: 0;
 }
 
 .br-grid {
     width: 100%;
-    border-collapse: separate;
+    max-width: 100%;
+    margin: 0;
+    border-collapse: collapse;
     border-spacing: 0;
     table-layout: fixed;
-    background: var(--surface);
+    background-color: var(--surface);
 }
 
-.br-grid--general,
-.br-grid--related { min-width: 1792px; }
+.br-grid thead,
+.br-grid tbody,
+.br-grid tr {
+    background-color: var(--surface);
+}
 
 .br-grid th,
 .br-grid td {
     height: 40px;
     padding: 0 var(--x5);
+    border: 0;
     border-right: 1px solid var(--table-line);
     border-bottom: 1px solid var(--table-line);
-    background: var(--surface);
+    background-color: var(--surface);
     color: var(--text);
     font-size: var(--x7);
     line-height: var(--x10);
@@ -182,8 +206,7 @@
     text-overflow: ellipsis;
 }
 
-.br-grid tr:last-child th,
-.br-grid tr:last-child td { border-bottom: 0; }
+.br-grid tbody tr:last-child td { border-bottom: 0; }
 
 .br-grid th:last-child,
 .br-grid td:last-child { border-right: 0; }
@@ -197,8 +220,22 @@
     color: var(--input-label);
 }
 
-.br-grid--general .br-col--side { width: 8.9286%; }
-.br-grid--general .br-col--wide { width: 36.6071%; }
+.br-grid--general col:nth-child(1) { width: 14%; }
+.br-grid--general col:nth-child(2),
+.br-grid--general col:nth-child(3) { width: 31.5%; }
+.br-grid--general col:nth-child(4),
+.br-grid--general col:nth-child(5) { width: 11.5%; }
+
+@media (min-width: 1600px) {
+    .br-grid--general col:nth-child(1),
+    .br-grid--general col:nth-child(4),
+    .br-grid--general col:nth-child(5) { width: 8.9286%; }
+    .br-grid--general col:nth-child(2),
+    .br-grid--general col:nth-child(3) { width: 36.6071%; }
+}
+
+.br-grid--general th,
+.br-grid--general td { text-overflow: clip; }
 .br-grid--related .br-col--status,
 .br-grid--related .br-col--company,
 .br-grid--related .br-col--contact { width: 13.3929%; }
@@ -236,16 +273,16 @@
 .br-grid .br-ok { color: var(--pill-success); }
 .br-grid .br-bad { color: var(--pill-alarm); }
 
-.br-grid td[data-copy-row] {
-    position: relative;
-    padding-right: 44px;
+.br-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    min-width: 0;
 }
 
-.br-grid td[data-copy-row] .emp-copy {
-    position: absolute;
-    top: 8px;
-    right: 10px;
-}
+.br-line .br-pair { flex: 1 1 auto; }
+.br-line .emp-copy { position: static; flex: 0 0 24px; }
 
 .br-grid td[data-copy-row]:hover,
 .br-grid td[data-copy-row]:focus-within { background: var(--surface-muted); }

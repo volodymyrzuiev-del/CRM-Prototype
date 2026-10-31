@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/empire.css?v=ds7">
     <link rel="stylesheet" href="css/header.css?v=ds2">
-    <link rel="stylesheet" href="css/brokers.css?v=br6">
+    <link rel="stylesheet" href="css/brokers.css?v=br19">
     <link rel="stylesheet" href="css/toast.css?v=t2">
     <script>
         (function () {
@@ -323,7 +323,7 @@
                 <span class="emp-navitem__icon">
                     <svg class="emp-navitem__glyph" viewBox="0 0 24 24"><use href="#nav-warehouses"></use></svg>
                 </span>
-                <span class="emp-navitem__label">Warhouses</span>
+                <span class="emp-navitem__label">Warehouses</span>
             </a>
             <a hidden class="emp-navitem" href="#">
                 <span class="emp-navitem__icon">
@@ -435,7 +435,7 @@
                 </button>
             </div>
             <div class="emp-head__center">
-                <div class="emp-head__field"><div class="emp-field emp-field--sm"><div class="emp-field__title"><span class="emp-field__label">Company</span></div><div class="emp-input"><input class="emp-input__control" type="text" value="Empie National" readonly data-emp-options="Empie National|Sierra|Big Trucks|Brokerage"><svg class="emp-input__chevron" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-input-chevron"></use></svg></div></div></div>
+                <div class="emp-head__field"><div class="emp-field emp-field--sm"><div class="emp-field__title"><span class="emp-field__label">Company</span></div><div class="emp-input"><input class="emp-input__control" type="text" value="Empire National" readonly data-emp-options="Empire National|Sierra|Big Trucks|Brokerage"><svg class="emp-input__chevron" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-input-chevron"></use></svg></div></div></div>
                 <div class="emp-head__field"><div class="emp-field emp-field--sm"><div class="emp-field__title"><span class="emp-field__label">Department</span></div><div class="emp-input"><input class="emp-input__control" type="text" value="Expedite department" readonly data-emp-options="Expedite department|OTR|Pricing|Accounting"><svg class="emp-input__chevron" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-input-chevron"></use></svg></div></div></div>
             </div>
             <div class="emp-head__end">
@@ -487,6 +487,7 @@
             </div>
 
             <div class="br-result" id="br-result" hidden>
+                <div class="br-panel">
                 <div class="br-top">
                     <div class="br-facts">
                         <div class="emp-kv">
@@ -559,7 +560,7 @@
                                 <tr>
                                     <td></td>
                                     <td class="br-muted">2972 Westheimer Rd. Santa Ana, IL 85486</td>
-                                    <td data-copy-row><span class="br-pair br-link"><svg class="br-glyph" viewBox="0 0 16 16" aria-hidden="true"><use href="#i-br-mail"></use></svg><span data-copy>felicia.reid@example.com</span></span><button class="emp-copy" type="button" aria-label="Copy"><img src="icons/action-menu/copy.svg" alt="" width="24" height="24"></button></td>
+                                    <td data-copy-row><span class="br-line"><span class="br-pair br-link"><svg class="br-glyph" viewBox="0 0 16 16" aria-hidden="true"><use href="#i-br-mail"></use></svg><span data-copy>felicia.reid@example.com</span></span><button class="emp-copy" type="button" aria-label="Copy"><img src="icons/action-menu/copy.svg" alt="" width="24" height="24"></button></span></td>
                                     <td></td>
                                     <td></td>
                                 </tr>
@@ -673,7 +674,9 @@
                         </table>
                     </div>
                 </div>
+                </div>
 
+                <div class="br-panel">
                 <section class="br-block">
                     <h2 class="br-title">Related companies</h2>
                     <div class="br-sheet">
@@ -739,6 +742,7 @@
                         </table>
                     </div>
                 </section>
+                </div>
             </div>
         </section>
         </div>

@@ -96,7 +96,7 @@
 .ds-fields { display: flex; flex-wrap: wrap; gap: var(--x12); align-items: flex-start; }
 
 .ds-specimen { display: flex; flex-direction: column; gap: var(--x3); min-width: 120px; }
-.ds-specimen > span,
+.ds-specimen > span:first-child,
 .ds-caption {
     font-size: 11px;
     line-height: 14px;
@@ -120,15 +120,22 @@
 }
 
 .ds-tabs-frozen { margin-bottom: var(--x8); }
+/* One tooltip per row so the open bubbles never cover another specimen. */
 .ds-tips {
     display: grid;
-    grid-template-columns: repeat(2, max-content);
-    gap: 120px 160px;
-    justify-content: center;
-    padding: 100px 24px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 96px var(--x12);
+    align-items: center;
+    padding: 72px 24px;
 }
+.ds-tips > [data-place="top"] { grid-column: 2; justify-self: center; }
+.ds-tips > [data-place="right"] { grid-column: 1; justify-self: start; }
+.ds-tips > [data-place="left"] { grid-column: 3; justify-self: end; }
+.ds-tips > [data-place="bottom"] { grid-column: 2; justify-self: center; }
+.ds-tips > [data-place="auto"] { grid-column: 2; justify-self: center; margin-top: 24px; }
 #info .ds-stack { max-width: 608px; }
-#accordion .ds-row { margin-top: var(--x8); }
+#chips .ds-row { align-items: center; gap: var(--x4); }
+#accordion .ds-row { margin-top: var(--x8); align-items: flex-start; }
 #upload .ds-specimen { width: 100%; min-width: 0; }
 #date .ds-specimen { width: 100%; min-width: 0; }
 #info .ds-specimen { width: 100%; min-width: 0; }
@@ -149,3 +156,21 @@
 }
 .ds-kv { max-width: 656px; }
 #page-header .emp-head { margin-top: var(--x8); }
+.ds-specimen--files { width: 100%; margin-top: var(--x8); }
+.ds-files { display: flex; flex-wrap: wrap; gap: var(--x5); }
+.ds-status { display: flex; flex-direction: column; gap: var(--x5); }
+.ds-status-row { display: grid; grid-template-columns: 48px 64px 128px; align-items: center; justify-items: start; }
+#date .ds-specimen + .ds-specimen { margin-top: var(--x8); }
+/* Scroll specimen box (the global emp-scroll only styles the scrollbar). */
+#scroll .emp-scroll {
+    width: 280px;
+    max-width: 100%;
+    height: 340px;
+    overflow: auto;
+    margin: 0;
+    padding: 8px 16px 8px 8px;
+    color: var(--text);
+    font-size: 14px;
+    line-height: 20px;
+}
+#scroll .emp-scroll p { margin: 0 0 12px; }

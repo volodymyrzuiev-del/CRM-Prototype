@@ -184,7 +184,7 @@
         var phoneLabel = document.getElementById("cd-phone-label");
         var lastLabel = document.getElementById("cd-last-label");
         var lastInput = document.querySelector("[data-cd-filter='status']");
-        if (phoneLabel) phoneLabel.textContent = declined ? "Cell phone" : "Phone umber";
+        if (phoneLabel) phoneLabel.textContent = declined ? "Cell phone" : "Phone number";
         if (lastLabel) lastLabel.textContent = declined ? "Reason of decline" : "Status";
         if (lastInput) {
             lastInput.placeholder = declined ? "Choose status" : "Select status";

@@ -206,7 +206,7 @@
             '<div class="emp-file__bot">' +
                 '<button class="emp-file__act emp-file__act--delete" type="button" aria-label="Delete"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-trash"></use></svg></button>' +
                 '<button class="emp-file__act emp-file__act--download" type="button" aria-label="Download"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-download"></use></svg></button>' +
-                '<button class="emp-file__act" type="button" aria-label="More"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-dots"></use></svg></button>' +
+                '<button class="emp-file__act" type="button" aria-label="More"><svg viewBox="0 0 20 20" aria-hidden="true"><use href="#i-file-dots"></use></svg></button>' +
             '</div>';
     }
 
@@ -216,15 +216,35 @@
         var content = zone.querySelector(".emp-upload__content");
         if (!drop || !input || !content) return;
 
-        function iconFor(file) {
-            if (file.type.indexOf("image/") === 0) return "i-file-image";
-            if (file.type.indexOf("video/") === 0) return "i-file-play";
-            if (file.type === "application/pdf" || /\.pdf$/i.test(file.name)) return "i-file-pdf";
-            return "i-file-rich";
+        // File kinds from Figma "File preview": 12px type marker + 80px placeholder when there is no preview.
+        var KINDS = {
+            image: ["file-image", "ph-image"],
+            pdf: ["file-pdf", "file-rich"],
+            doc: ["file-word", "ph-text"],
+            excel: ["file-excel", "ph-table"],
+            text: ["file-text", "ph-text"],
+            video: ["file-play", "ph-video"],
+            archive: ["file-zip", "ph-zip"],
+            sound: ["file-music", "soundwave"],
+            other: ["file-other", "ph-other"]
+        };
+        function kindOf(file) {
+            var name = file.name || "";
+            var type = file.type || "";
+            if (type.indexOf("image/") === 0) return "image";
+            if (type === "application/pdf" || /\.pdf$/i.test(name)) return "pdf";
+            if (/\.(docx?|odt|rtf)$/i.test(name)) return "doc";
+            if (/\.(xlsx?|csv|ods)$/i.test(name)) return "excel";
+            if (type === "text/plain" || /\.(txt|md)$/i.test(name)) return "text";
+            if (type.indexOf("video/") === 0) return "video";
+            if (type.indexOf("audio/") === 0) return "sound";
+            if (/\.(zip|rar|7z|tar|gz)$/i.test(name)) return "archive";
+            return "other";
         }
 
         function card(file) {
             var item = document.createElement("article");
+            var kind = KINDS[kindOf(file)];
             item.className = "emp-file";
             var image = file.type.indexOf("image/") === 0;
             var url = image ? URL.createObjectURL(file) : "";
@@ -232,11 +252,11 @@
             if (!image) item.classList.add("emp-file--empty");
             var media = image
                 ? '<img class="emp-file__img" src="' + url + '" alt="">'
-                : '<svg class="emp-file__ghost" viewBox="0 0 80 80" aria-hidden="true"><use href="#i-file-rich"></use></svg>';
+                : '<img class="emp-file__ghost" src="icons/upload/' + kind[1] + '.svg" alt="" width="80" height="80">';
             item.innerHTML = media +
                 '<div class="emp-file__shade">' +
                     '<div class="emp-file__top">' +
-                        '<span class="emp-file__line"><svg class="emp-file__type" viewBox="' + (iconFor(file) === "i-file-rich" ? "0 0 80 80" : "0 0 12 12") + '" aria-hidden="true"><use href="#' + iconFor(file) + '"></use></svg><span class="emp-file__name"></span></span>' +
+                        '<span class="emp-file__line"><img class="emp-file__type" src="icons/upload/' + kind[0] + '.svg" alt="" width="12" height="12"><span class="emp-file__name"></span></span>' +
                         '<span class="emp-file__kind">Attachment type</span>' +
                     '</div>' +
                     fileActions() +
@@ -1059,11 +1079,11 @@
     });
 
     var previewFiles = [
-        { id: "image", name: "photo.jpeg", kind: "Attachment type", type: "BOL", note: "photo of the BOL", date: "02/12/2025", author: "Charles Gascoigne", media: "image", icon: "i-file-image", src: "icons/upload/photo.jpeg.png" },
-        { id: "pdf", name: "BOL.pdf", kind: "Attachment type", type: "BOL", note: "photo of the BOL", date: "02/12/2025", author: "Charles Gascoigne", media: "pdf", icon: "i-file-pdf", src: "icons/upload/bol.png", pdf: true },
-        { id: "doc", name: "Letter.docx", kind: "Attachment type", type: "BOL", note: "photo of the BOL", date: "02/12/2025", author: "Charles Gascoigne", media: "doc", icon: "i-file-rich", src: "icons/upload/bol.png" },
-        { id: "xls", name: "Zvit.xls", kind: "Attachment type", type: "BOL", note: "photo of the BOL", date: "02/12/2025", author: "Charles Gascoigne", media: "doc", icon: "i-file-rich", src: "icons/upload/photo.jpeg.png" },
-        { id: "video", name: "VID_123_45.mp4", kind: "Attachment type", type: "Rate confirmation", note: "photo of the BOL", date: "02/12/2025", author: "Charles Gascoigne", media: "video", icon: "i-file-play", src: "icons/upload/video.png" }
+        { id: "image", name: "photo.jpeg", kind: "Attachment type", type: "BOL", note: "photo of the BOL", date: "02/12/2025", author: "Charles Gascoigne", media: "image", marker: "file-image", src: "icons/upload/photo.jpeg.png" },
+        { id: "pdf", name: "BOL.pdf", kind: "Attachment type", type: "BOL", note: "photo of the BOL", date: "02/12/2025", author: "Charles Gascoigne", media: "pdf", marker: "file-pdf", src: "icons/upload/bol.png", pdf: true },
+        { id: "doc", name: "Letter.docx", kind: "Attachment type", type: "BOL", note: "photo of the BOL", date: "02/12/2025", author: "Charles Gascoigne", media: "doc", marker: "file-word", ghost: "ph-text", src: "icons/upload/ph-text.svg" },
+        { id: "xls", name: "Zvit.xls", kind: "Attachment type", type: "BOL", note: "photo of the BOL", date: "02/12/2025", author: "Charles Gascoigne", media: "doc", marker: "file-excel", ghost: "ph-table", src: "icons/upload/ph-table.svg" },
+        { id: "video", name: "VID_123_45.mp4", kind: "Attachment type", type: "Rate confirmation", note: "photo of the BOL", date: "02/12/2025", author: "Charles Gascoigne", media: "video", marker: "file-play", src: "icons/upload/video.png" }
     ];
     var previewRoot = document.querySelector(".emp-preview");
     var previewList = document.querySelector("[data-preview-list]");
@@ -1087,9 +1107,13 @@
             previewList.innerHTML = '<div class="emp-file emp-preview__empty"><svg viewBox="0 0 16 16" aria-hidden="true"><use href="#i-folder"></use></svg><span>No files found</span></div>';
         } else {
             previewList.innerHTML = previewFiles.map(function (item) {
-                return '<article class="emp-file' + (item.pdf ? " emp-file--pdf" : "") + (file && item.id === file.id ? " is-selected" : "") + '" tabindex="0" data-file="' + item.id + '">' +
-                    '<img class="emp-file__img" src="' + item.src + '" alt="">' +
-                    '<div class="emp-file__shade"><div class="emp-file__top"><span class="emp-file__line"><svg class="emp-file__type" viewBox="0 0 12 12" aria-hidden="true"><use href="#' + item.icon + '"></use></svg><span class="emp-file__name">' + item.name + '</span></span><span class="emp-file__kind">' + item.kind + '</span></div>' +
+                // A file without a preview image shows the Figma "Preview=No" placeholder for its type.
+                var media = item.ghost
+                    ? '<img class="emp-file__ghost" src="icons/upload/' + item.ghost + '.svg" alt="" width="80" height="80">'
+                    : '<img class="emp-file__img" src="' + item.src + '" alt="">';
+                return '<article class="emp-file' + (item.pdf ? " emp-file--pdf" : "") + (item.ghost ? " emp-file--empty" : "") + (file && item.id === file.id ? " is-selected" : "") + '" tabindex="0" data-file="' + item.id + '">' +
+                    media +
+                    '<div class="emp-file__shade"><div class="emp-file__top"><span class="emp-file__line"><img class="emp-file__type" src="icons/upload/' + item.marker + '.svg" alt="" width="12" height="12"><span class="emp-file__name">' + item.name + '</span></span><span class="emp-file__kind">' + item.kind + '</span></div>' +
                     fileActions() +
                     '</div></article>';
             }).join("");
@@ -1111,6 +1135,7 @@
             sheet.style.width = "";
             sheet.style.height = "";
             if (file && file.src && media !== "video") sheet.src = file.src;
+            sheet.classList.toggle("is-ghost", !!(file && file.ghost));
         }
         if (video && file && media === "video") video.poster = file.src;
         previewRoot.querySelectorAll("video, audio").forEach(paintMedia);
@@ -1143,7 +1168,7 @@
     }
     function fitSize(view) {
         var img = previewRoot.querySelector("[data-preview-sheet]");
-        var ratio = img && img.naturalWidth && img.naturalHeight ? img.naturalWidth / img.naturalHeight : 0.77;
+        var ratio = img && !img.classList.contains("is-ghost") && img.naturalWidth && img.naturalHeight ? img.naturalWidth / img.naturalHeight : 0.77;
         var boxW = Math.max(40, view.clientWidth - 24);
         var boxH = Math.max(40, view.clientHeight - 24);
         var w = boxW;

@@ -117,6 +117,9 @@
     --chip-icon: #3c84c2;
     --ava-purple: #ae8bcc;
     --ava-green: #62bc67;
+    --avatar-fill: #5a96cc;
+    --avatar-fill-alt: #9b71bf;
+    --avatar-text: #ffffff;
     --check-border: #95bce1;
     --check-fill: #1b68a9;
     --check-text: #101112;
@@ -131,6 +134,7 @@
     --check-error-border: #e26e5d;
     --check-error-text: #c73322;
     --check-ring: #2c2c2c;
+    --check-hover-ring: #d1e1f5;
     --track-off: #d2d2d2;
     --track-on: #1e71b8;
     --track-knob-off: #ffffff;
@@ -154,6 +158,15 @@
     --selchip-disabled: #a3a3a3;
     --selchip-disabled-border: #ffffff;
     --selchip-text: #ffffff;
+
+    /* Chips-tags (Figma 929:12571): fill / fill-hover / fill-pressed, outline line / line-hover / line-pressed */
+    --chip-blue-fill: #5a96cc; --chip-blue-fill-hover: #1b68a9; --chip-blue-fill-pressed: #15578b; --chip-blue-line: #3c84c2; --chip-blue-line-hover: #b3cfeb; --chip-blue-line-pressed: #e5ecf3;
+    --chip-red-fill: #d73925; --chip-red-fill-hover: #a7281b; --chip-red-fill-pressed: #871c15; --chip-red-line: #d73925; --chip-red-line-hover: #eea296; --chip-red-line-pressed: #f9d7ce;
+    --chip-green-fill: #45a149; --chip-green-fill-hover: #327933; --chip-green-fill-pressed: #255e24; --chip-green-line: #45a149; --chip-green-line-hover: #8fd794; --chip-green-line-pressed: #d1ffd8;
+    --chip-purple-fill: #743ea5; --chip-purple-fill-hover: #531d87; --chip-purple-fill-pressed: #441576; --chip-purple-line: #743ea5; --chip-purple-line-hover: #c1a4d8; --chip-purple-line-pressed: #e8d7f2;
+    --chip-orange-fill: #ee9911; --chip-orange-fill-hover: #bd770d; --chip-orange-fill-pressed: #8c5408; --chip-orange-line: #ee9911; --chip-orange-line-hover: #9d600a; --chip-orange-line-pressed: #fce29d;
+    --chip-yellow-fill: #f3cf34; --chip-yellow-fill-hover: #c09911; --chip-yellow-fill-pressed: #82630a; --chip-yellow-line: #f3cf34; --chip-yellow-line-hover: #91710c; --chip-yellow-line-pressed: #fffbca;
+    --chip-grey-fill: #404040; --chip-grey-fill-hover: #2c2c2c; --chip-grey-fill-pressed: #181818; --chip-grey-line: #404040; --chip-grey-line-hover: #a3a3a3; --chip-grey-line-pressed: #7b7b7b;
     --tip-fill: #f0f0f0;
     --tip-border: #95bce1;
     --tip-text: #404040;
@@ -179,6 +192,7 @@
     --page-hover: #d1e1f5;
     --page-active: #3c84c2;
     --page-active-text: #ffffff;
+    --page-pressed: #1b68a9;
     --page-arrow: #101112;
     --page-arrow-off: #a3a3a3;
     --acc-fill: #f8f8f8;
@@ -211,6 +225,16 @@
     --file-icon-hot-bg: #d1e1f5;
     --file-delete-hot: #dd5341;
     --file-delete-hot-bg: #f9d7ce;
+    --status-available-on: #78ca7d;
+    --status-available: #45a149;
+    --status-local-use: #dfb414;
+    --status-emergency-use: #ee9911;
+    --status-hidden-oos: #c1a4d8;
+    --status-out-of-service: #743ea5;
+    --status-not-available: #d73925;
+    --status-inactive: #8f8f8f;
+    --file-border-selected: #1e71b8;
+    --file-none-text: #8f8f8f;
     --date-label: #3c84c2;
     --date-icon: #3c84c2;
     --date-input-fill: #ffffff;
@@ -780,7 +804,7 @@ textarea { font-family: inherit; }
 .emp-btn--link {
     background: transparent;
     color: var(--link);
-    box-shadow: var(--shadow);
+    box-shadow: none;
 }
 .emp-btn--link:hover,
 .emp-btn--link.is-hover {
@@ -833,6 +857,9 @@ textarea { font-family: inherit; }
 }
 .emp-btn--outline:disabled,
 .emp-btn--outline.is-disabled { border-color: var(--outline-disabled-border); }
+/* Link has no plate: default and disabled are text only (Figma Button/Button, Type=Link). */
+.emp-btn--link:disabled,
+.emp-btn--link.is-disabled { background: transparent; border-color: transparent; }
 
 /* Fields. Single row and extended, from the Input component. */
 
@@ -905,6 +932,7 @@ textarea { font-family: inherit; }
     height: 124px;
     border-radius: var(--x2) var(--x2) var(--x8) var(--x2);
     position: relative;
+    overflow: visible;
 }
 .emp-field--sm .emp-input--extended { height: 124px; }
 
@@ -1006,8 +1034,8 @@ textarea { font-family: inherit; }
 }
 .emp-input__resize {
     position: absolute;
-    right: 0;
-    bottom: 0;
+    right: -2px;
+    bottom: -2px;
     width: 11px;
     height: 11px;
     pointer-events: none;
@@ -1331,6 +1359,12 @@ input.emp-input:disabled {
     background: var(--check-fill);
 }
 
+/* Hover (Figma State=hover): light ring inside the 1px border, for checked and unchecked. */
+.emp-check:not(.is-disabled):hover .emp-check__input:not(:disabled) + .emp-check__box,
+.emp-radio:not(.is-disabled):hover .emp-radio__input:not(:disabled) + .emp-radio__box,
+.emp-check.is-hover .emp-check__box,
+.emp-radio.is-hover .emp-radio__box { box-shadow: inset 0 0 0 1px var(--check-hover-ring), 0 0 0 1px var(--check-hover-ring); }
+
 .emp-check.is-error .emp-check__box,
 .emp-radio.is-error .emp-radio__box { border: 1.5px solid var(--check-error-border); background: transparent; }
 
@@ -1437,7 +1471,7 @@ input.emp-input:disabled {
     align-items: center;
     justify-content: center;
     height: var(--x8);
-    padding: 0 var(--x4);
+    padding: 0 var(--x2);
     border-radius: 2.4px;
     background: var(--counter);
     color: var(--counter-text);
@@ -1456,32 +1490,61 @@ input.emp-input:disabled {
     background: var(--surface-muted);
 }
 
-/* Chips */
+/* Chips — Figma Chips-tags: Type Fill/Outline, Size S/M/L, 7 colors, states Default/Hover/Pressed/Disabled/Loading.
+   Default: Fill, Medium, Blue. Pressed = is-active, Loading = is-loading (left icon becomes a spinner). */
 
 .emp-chip {
+    --ch-fill: var(--chip-blue-fill);
+    --ch-fill-hover: var(--chip-blue-fill-hover);
+    --ch-fill-pressed: var(--chip-blue-fill-pressed);
+    --ch-line: var(--chip-blue-line);
+    --ch-line-hover: var(--chip-blue-line-hover);
+    --ch-line-pressed: var(--chip-blue-line-pressed);
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: var(--x2);
     height: var(--x12);
     padding: 0 var(--x4);
-    border: 1px solid var(--selchip-border);
+    border: 1px solid var(--ch-fill-hover);
     border-radius: 160px;
-    background: var(--selchip-fill);
+    background: var(--ch-fill);
     color: var(--selchip-text);
     font-family: "Noto Sans", sans-serif;
     font-size: var(--x7);
     line-height: var(--x10);
     font-weight: 400;
+    white-space: nowrap;
     cursor: pointer;
 }
-.emp-chip .emp-icon { width: var(--x8); height: var(--x8); }
+.emp-chip .emp-icon { width: var(--x8); height: var(--x8); flex: 0 0 auto; }
 .emp-chip:hover,
-.emp-chip.is-hover { background: var(--selchip-hover); border-color: var(--selchip-hover-border); color: var(--selchip-text); }
+.emp-chip.is-hover { background: var(--ch-fill-hover); border-color: var(--ch-fill); }
 .emp-chip.is-active,
-.emp-chip.is-active:hover { background: var(--selchip-pressed); border-color: var(--selchip-pressed-border); color: var(--selchip-text); }
+.emp-chip.is-loading { background: var(--ch-fill-pressed); border-color: var(--ch-fill); }
+
+.emp-chip--outline { background: transparent; border-color: var(--ch-line); color: var(--ch-line); }
+.emp-chip--outline:hover,
+.emp-chip--outline.is-hover { background: var(--ch-line-hover); border-color: var(--ch-line); }
+.emp-chip--outline.is-active,
+.emp-chip--outline.is-loading { background: var(--ch-line-pressed); border-color: var(--ch-line); }
+
 .emp-chip:disabled,
 .emp-chip.is-disabled { background: var(--selchip-disabled); border-color: var(--selchip-disabled-border); color: var(--selchip-text); cursor: not-allowed; }
+
+.emp-chip--sm { gap: var(--x); height: var(--x8); padding: 0 var(--x2); font-size: var(--x5); line-height: var(--x7); }
+.emp-chip--sm .emp-icon,
+.emp-chip--sm .emp-chip__x,
+.emp-chip--sm .emp-chip__spin { width: var(--x6); height: var(--x6); }
+.emp-chip--lg { height: var(--x16); }
+
+.emp-chip--red { --ch-fill: var(--chip-red-fill); --ch-fill-hover: var(--chip-red-fill-hover); --ch-fill-pressed: var(--chip-red-fill-pressed); --ch-line: var(--chip-red-line); --ch-line-hover: var(--chip-red-line-hover); --ch-line-pressed: var(--chip-red-line-pressed); }
+.emp-chip--green { --ch-fill: var(--chip-green-fill); --ch-fill-hover: var(--chip-green-fill-hover); --ch-fill-pressed: var(--chip-green-fill-pressed); --ch-line: var(--chip-green-line); --ch-line-hover: var(--chip-green-line-hover); --ch-line-pressed: var(--chip-green-line-pressed); }
+.emp-chip--purple { --ch-fill: var(--chip-purple-fill); --ch-fill-hover: var(--chip-purple-fill-hover); --ch-fill-pressed: var(--chip-purple-fill-pressed); --ch-line: var(--chip-purple-line); --ch-line-hover: var(--chip-purple-line-hover); --ch-line-pressed: var(--chip-purple-line-pressed); }
+.emp-chip--orange { --ch-fill: var(--chip-orange-fill); --ch-fill-hover: var(--chip-orange-fill-hover); --ch-fill-pressed: var(--chip-orange-fill-pressed); --ch-line: var(--chip-orange-line); --ch-line-hover: var(--chip-orange-line-hover); --ch-line-pressed: var(--chip-orange-line-pressed); }
+.emp-chip--yellow { --ch-fill: var(--chip-yellow-fill); --ch-fill-hover: var(--chip-yellow-fill-hover); --ch-fill-pressed: var(--chip-yellow-fill-pressed); --ch-line: var(--chip-yellow-line); --ch-line-hover: var(--chip-yellow-line-hover); --ch-line-pressed: var(--chip-yellow-line-pressed); }
+.emp-chip--grey { --ch-fill: var(--chip-grey-fill); --ch-fill-hover: var(--chip-grey-fill-hover); --ch-fill-pressed: var(--chip-grey-fill-pressed); --ch-line: var(--chip-grey-line); --ch-line-hover: var(--chip-grey-line-hover); --ch-line-pressed: var(--chip-grey-line-pressed); }
+
 .emp-chip__x {
     width: var(--x8);
     height: var(--x8);
@@ -1495,47 +1558,88 @@ input.emp-input:disabled {
     justify-content: center;
     padding: 0;
 }
+.emp-chip__x .emp-icon { width: 100%; height: 100%; }
+.emp-chip__spin {
+    display: none;
+    width: var(--x8);
+    height: var(--x8);
+    flex: 0 0 auto;
+    background: currentColor;
+    -webkit-mask: url("../icons/controls/circle-loading.svg") center / contain no-repeat;
+    mask: url("../icons/controls/circle-loading.svg") center / contain no-repeat;
+    animation: emp-spin 1s linear infinite;
+}
+.emp-chip.is-loading .emp-chip__spin { display: inline-block; }
+.emp-chip.is-loading > .emp-icon:first-child { display: none; }
+@keyframes emp-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .emp-chip__spin { animation: none; } }
 
 /* Status, avatar, info */
 
+/* Statuses (Figma 911:14126): unit status in three sizes.
+   sm = 12px dot, md = 24px circle with the abbreviation, lg = 128px outline pill with the full name (default). */
 .emp-status {
+    --st: var(--status-inactive);
     display: inline-flex;
     align-items: center;
-    gap: var(--x3);
-    height: var(--x12);
-    padding: 0 var(--x4);
-    border-radius: 999px;
+    justify-content: center;
+    gap: var(--x2);
+    box-sizing: border-box;
+    width: 128px;
+    padding: var(--x2) var(--x6);
+    border: 1px solid var(--st);
+    border-radius: var(--x6);
+    color: var(--st);
+    font-family: "Noto Sans", sans-serif;
     font-size: var(--x6);
-    font-weight: 600;
-    background: var(--surface-muted);
-    color: var(--text-secondary);
+    line-height: normal;
+    font-weight: 700;
+    font-variant-numeric: lining-nums proportional-nums;
+    white-space: nowrap;
 }
-.emp-status::before {
-    content: "";
-    width: var(--x3);
-    height: var(--x3);
-    border-radius: 50%;
-    background: currentColor;
+.emp-status--md { width: var(--x12); padding: var(--x2); border-radius: 19px; }
+.emp-status--sm {
+    width: var(--x6);
+    height: var(--x6);
+    padding: 0;
+    border: 0;
+    border-radius: 160px;
+    background: var(--st);
+    font-size: 0;
+    overflow: hidden;
+    flex: 0 0 auto;
 }
-.emp-status--success { background: var(--success-soft); color: var(--success); }
-.emp-status--warning { background: var(--warning-soft); color: var(--warning); }
-.emp-status--alarm { background: var(--alarm-soft); color: var(--alarm); }
-.emp-status--info { background: var(--info-soft); color: var(--info); }
+.emp-status--available-on { --st: var(--status-available-on); }
+.emp-status--available { --st: var(--status-available); }
+.emp-status--local-use { --st: var(--status-local-use); }
+.emp-status--emergency-use { --st: var(--status-emergency-use); }
+.emp-status--hidden-oos { --st: var(--status-hidden-oos); }
+.emp-status--out-of-service,
+.emp-status--safety-oos { --st: var(--status-out-of-service); }
+.emp-status--mechanical-oos,
+.emp-status--not-available { --st: var(--status-not-available); }
+.emp-status--inactive { --st: var(--status-inactive); }
 
+/* Avatar (standalone), Figma 1061:52823: filled circle with white SemiBold initials. */
 .emp-avatar {
     width: var(--x16);
     height: var(--x16);
     border-radius: 50%;
-    background: var(--primary-soft);
-    color: var(--primary);
+    background: var(--avatar-fill);
+    color: var(--avatar-text);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: var(--x6);
-    font-weight: 700;
+    flex: 0 0 auto;
+    font-family: "Noto Sans Display", "Noto Sans", sans-serif;
+    font-size: var(--x7);
+    line-height: var(--x8);
+    font-weight: 600;
     position: relative;
 }
-.emp-avatar--lg { width: var(--x20); height: var(--x20); font-size: var(--x7); }
+.emp-avatar--sm { width: var(--x12); height: var(--x12); font-size: var(--x5); line-height: var(--x6); }
+.emp-avatar--lg { width: var(--x20); height: var(--x20); font-size: var(--x10); line-height: var(--x12); }
+.emp-avatar--alt { background: var(--avatar-fill-alt); }
 .emp-avatar__dot {
     position: absolute;
     right: -1px;
@@ -1601,7 +1705,7 @@ input.emp-input:disabled {
     z-index: 5;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     width: max-content;
     padding: var(--x3);
     border: 1px solid var(--tip-border);
@@ -1659,6 +1763,8 @@ input.emp-input:disabled {
 }
 button.emp-page:hover,
 .emp-page.is-hover { background: var(--page-hover); color: var(--page-text); }
+button.emp-page:active,
+.emp-page.is-pressed { background: var(--page-pressed); border-color: var(--page-pressed); color: var(--page-active-text); }
 .emp-page.is-active,
 .emp-page.is-active:hover {
     background: var(--page-active);
@@ -1690,11 +1796,15 @@ button.emp-page:hover,
     max-width: 100%;
     display: flex;
     flex-direction: column;
+    border: 1px solid var(--acc-border);
     border-radius: var(--x2);
     overflow: hidden;
 }
-.emp-accordion__item { margin-bottom: -1px; }
-.emp-accordion__item:last-child { margin-bottom: 0; }
+/* Items overlap the set frame by 1px, so the frame and item borders read as one line (Figma Accordeon set). */
+.emp-accordion__item { margin: 0 -1px -1px; }
+.emp-accordion__item:first-child { margin-top: -1px; }
+.emp-accordion--solo { border: 0; }
+.emp-accordion--solo .emp-accordion__item { margin: 0; }
 .emp-accordion__trigger {
     width: 100%;
     height: 44px;
@@ -1731,8 +1841,21 @@ button.emp-page:hover,
 }
 .emp-accordion__chevron { width: 16px; height: 16px; flex: 0 0 16px; color: var(--acc-chevron); }
 .emp-accordion__item.is-open .emp-accordion__chevron { transform: scaleY(-1); }
-.emp-accordion__panel { display: none; height: 48px; background: var(--acc-panel); }
-.emp-accordion__item.is-open .emp-accordion__panel { display: block; }
+/* Content box: closed by default, opens to its content (min 48px), padding 10/16 as in Figma. */
+.emp-accordion__panel {
+    display: none;
+    min-height: var(--x24);
+    padding: var(--x5) var(--x8);
+    background: var(--acc-panel);
+    color: var(--text);
+    font-family: "Noto Sans Display", "Noto Sans", sans-serif;
+    font-size: var(--x6);
+    line-height: var(--x8);
+}
+.emp-accordion__item.is-open .emp-accordion__panel { display: block; animation: emp-acc-open 0.2s ease; }
+.emp-accordion__panel > :last-child { margin-bottom: 0; }
+@keyframes emp-acc-open { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .emp-accordion__item.is-open .emp-accordion__panel { animation: none; } }
 
 /* Menu */
 
@@ -2333,6 +2456,8 @@ button.emp-file,
     box-shadow: 0 1px 4px rgba(62, 77, 112, 0.25);
 }
 .emp-preview__page [hidden] { display: none !important; }
+/* A document without a preview: white page with the 80px type placeholder in the middle (File preview, Preview=No). */
+.emp-preview__page img.is-ghost { object-fit: none; object-position: center; }
 .emp-preview__zoom {
     position: relative;
     flex: 0 0 auto;
@@ -2721,6 +2846,23 @@ button.emp-file,
     object-fit: fill;
 }
 .emp-file--empty { background: var(--file-bg); }
+.emp-file.is-selected { border: 2px solid var(--file-border-selected); }
+/* Type=No files */
+.emp-file--none {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--x2);
+    background: var(--file-bg);
+}
+.emp-file--none .emp-file__ghost { position: static; transform: none; }
+.emp-file__none {
+    font-family: "Noto Sans Display", "Noto Sans", sans-serif;
+    font-size: var(--x6);
+    line-height: var(--x8);
+    font-weight: 500;
+    color: var(--file-none-text);
+}
 .emp-file__ghost {
     position: absolute;
     left: 50%;
@@ -2849,20 +2991,6 @@ button.emp-file,
     border-radius: 12px;
     background: var(--scroll-thumb);
 }
-.emp-scroll {
-    width: 280px;
-    max-width: 100%;
-    height: 340px;
-    overflow: auto;
-    margin: 0;
-    padding: 8px 16px 8px 8px;
-    border: 0;
-    background: transparent;
-    color: var(--text);
-    font-size: 14px;
-    line-height: 20px;
-}
-.emp-scroll p { margin: 0 0 12px; }
 
 .emp-breadcrumb {
     display: flex;

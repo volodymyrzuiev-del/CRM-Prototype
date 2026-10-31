@@ -70,6 +70,8 @@
 .emp-head__bell { position: relative; width: 24px; height: 24px; color: var(--text); flex: 0 0 24px; }
 .emp-head__bell-icon { width: 24px; height: 24px; display: block; }
 .emp-head__bell .emp-tab__count { position: absolute; left: 13px; top: -3px; }
+/* Figma Header: clock — 32 — bell — 24 — avatar frame. The counter overhangs the bell, so the 24px gap is kept in every width. */
+.emp-head__bell + .emp-head__who { margin-left: calc(var(--x12) - var(--x16)); }
 
 .emp-head__who { gap: var(--x4); }
 .emp-head__name {
@@ -92,4 +94,5 @@
     .emp-head__center { width: 100%; min-width: 0; justify-content: center; }
     .emp-head__field { width: auto; flex: 1 1 0; max-width: 240px; min-width: 0; }
     .emp-head__end { gap: var(--x8); }
+    .emp-head__bell + .emp-head__who { margin-left: calc(var(--x12) - var(--x8)); }
 }

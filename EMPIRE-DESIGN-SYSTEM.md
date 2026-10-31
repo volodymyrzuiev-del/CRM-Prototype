@@ -210,6 +210,11 @@ Noto Sans. Стиль выбирается по месту в интерфейс
 | Строки View | `emp-kv`, `emp-kv__row`, `emp-kv__label`, `emp-kv__value`, `emp-copy`, `emp-copy--title`, `data-copy-row` | `#view-rows` | View rows |
 | Форма в модалке | `emp-form`, `emp-form__row` | `#modal` | MW body |
 | Модальное окно | `emp-mw--sm/--md/--lg`, `--form`, `--fit`, `--confirm`, `emp-mw__icon`, `emp-mw__text`, `emp-mw__body.is-overflow` | `#modal` | `6040:23766` |
+| Чипсы | `emp-chip`, тип `--outline`, размер `--sm` (16) / по умолчанию M (24) / `--lg` (32), цвет `--red` `--green` `--purple` `--orange` `--yellow` `--grey` (по умолчанию blue), состояния `is-hover` `is-active` (Pressed) `is-loading` `disabled`, `emp-chip__x`, `emp-chip__spin` | `#chips` | Chips-tags `929:12571` |
+| Статус юнита | `emp-status` (L, пилюля 128), `--md` (круг 24, аббревиатура), `--sm` (точка 12); цвет `--available-on` `--available` `--local-use` `--emergency-use` `--hidden-oos` `--out-of-service` `--safety-oos` `--mechanical-oos` `--not-available` `--inactive` | `#statuses` | Statuses `911:14126` |
+| Аватар | `emp-avatar`, `--sm` (24) / M (32) / `--lg` (40), второй цвет `--alt`, точка `emp-avatar__dot` | `#avatars` | Avatar `1061:52823` |
+| Аккордеон | `emp-accordion` (набор в общей рамке), `emp-accordion__item`, `is-open`, `emp-accordion__panel` (контент, мин. 48), `emp-accordion--solo`; `data-emp-accordion` — открыт один пункт | `#accordion` | Accordion `1253:14730` |
+| Карточка файла | `emp-file`, без превью `emp-file--empty` + `emp-file__ghost`, `is-selected`, пусто `emp-file--none` + `emp-file__none`; маркеры `icons/upload/file-*.svg`, заглушки `icons/upload/ph-*.svg` | `#upload` | File preview `189:5930` |
 
 CRM-таблица настраивается переменными на контейнере экрана: `--emp-cols` (колонки грида, последняя 40px под action menu), `--emp-row-h` (минимальная высота строки, по умолчанию 36px), `--emp-table-min` (минимальная ширина). Границы ячеек — inset-тень 1px `--table-line`, поэтому высота строки совпадает с Figma.
 
@@ -256,3 +261,12 @@ Action menu по Figma: кнопка 40px, точки 3×3 с шагом 5px. De
 | `saveFailed` | error | Upload failed | Unable to save changes. Please try again. |
 
 `sent` принимает `{ name }`, `large` принимает `{ size }`. Макет: [Toasts, node 6558:24180](https://www.figma.com/design/X1zmjtoFusntm0yJrB2nyW/Empire-design-system--bootstrap-?node-id=6558-24180).
+
+### Аккордеон
+
+По умолчанию все пункты закрыты. Открытый пункт показывает тело с контентом внутри общей рамки набора; пустое тело не оставлять. Экран меняет только раскладку тела (например, `display: flex` и отступы для формы), рамку и шапку пункта не переопределяет.
+
+### Карточка файла: типы
+
+Тип определяется в `js/empire.js` по MIME и расширению: Image, PDF, Doc (doc, docx, odt, rtf), Excel (xls, xlsx, csv, ods), Text (txt, md), Video, Sound, Archive (zip, rar, 7z, tar, gz), Other. Если превью нет, карточка показывает заглушку 80 px своего типа; в окне превью документ без картинки выводится белым листом с той же заглушкой.
+

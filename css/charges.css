@@ -16,25 +16,14 @@
 .ch-report__top { display: flex; align-items: center; gap: var(--x4); }
 .ch-report__name { font-size: var(--x8); line-height: var(--x12); font-weight: 700; }
 .ch-report .emp-kv { margin-top: var(--x6); }
-.ch-report .emp-accordion { width: 100%; margin-top: var(--x8); gap: 0; }
-.ch-report .emp-accordion__item {
-    margin: 0;
-    border: 1px solid var(--acc-border);
-    border-bottom: 0;
-    background: var(--acc-fill);
-}
-.ch-report .emp-accordion__item:last-child { border-bottom: 1px solid var(--acc-border); }
-.ch-report .emp-accordion__trigger { border: 0; background: transparent; }
-.ch-report .emp-accordion__panel { height: auto; padding: 0; background: var(--surface); }
+.ch-report .emp-accordion { width: 100%; margin-top: var(--x8); }
 .ch-report .emp-accordion__item.is-open .emp-accordion__panel {
     display: flex;
     flex-direction: column;
     gap: var(--x6);
-    min-height: 48px;
-    border-top: 1px solid var(--acc-border);
+    padding: var(--x8);
     background: var(--surface);
 }
-.ch-report .emp-accordion__item.is-open .emp-accordion__panel:not(:empty) { padding: var(--x8); }
 .ch-report .emp-upload { max-width: none; }
 .ch-report .emp-accordion .emp-field { width: 100%; max-width: none; min-width: 0; }
 .ch-note.emp-input {

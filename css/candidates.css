@@ -94,10 +94,8 @@
 .cd-tone--interview { color: #743ea5; }
 .cd-status--process .emp-input .emp-input__control:not(:placeholder-shown),
 .cd-status--hired .emp-input .emp-input__control:not(:placeholder-shown),
-.cd-status--declined .emp-input .emp-input__control:not(:placeholder-shown),
 .cd-tone--process,
-.cd-tone--hired,
-.cd-tone--declined { color: #45a149; }
+.cd-tone--hired { color: #45a149; }
 .cd-status--declined .emp-input .emp-input__control:not(:placeholder-shown),
 .cd-tone--declined { color: #d73925; }
 .cd-status--hired .emp-input { background: #d1ffd8; }

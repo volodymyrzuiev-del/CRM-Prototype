@@ -76,15 +76,18 @@
 .qt-offer__done { display: inline-flex; align-items: center; gap: var(--x2); color: var(--chat-success); font-weight: 600; }
 
 /* Check quote modal */
-.qt-check { display: grid; grid-template-columns: 560px minmax(0, 1fr); gap: var(--x12); align-items: start; padding-right: var(--x4); }
-@media (max-width: 1199px) { .qt-check { grid-template-columns: 1fr; } }
+.qt-check { display: grid; grid-template-columns: 560px minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); gap: var(--x12); align-items: stretch; overflow: hidden; }
+.qt-check__mail { min-height: 0; }
+.qt-check__offer { min-height: 0; overflow-y: auto; padding-right: var(--x4); }
+@media (max-width: 1199px) { .qt-check { grid-template-columns: 1fr; grid-template-rows: none; overflow: auto; } .qt-check__offer { overflow: visible; } .qt-mail__thread { height: 420px; flex: none; } }
 .qt-check__mail, .qt-check__offer { display: flex; flex-direction: column; gap: var(--x6); min-width: 0; }
 .qt-h { display: flex; align-items: center; gap: var(--x3); margin: 0; font-family: "Noto Sans", sans-serif; font-size: var(--x10); line-height: var(--x12); font-weight: 600; color: var(--chat-text); }
-.qt-mail { display: flex; flex-direction: column; gap: var(--x4); padding: var(--x8); border: 1px solid var(--chat-line); border-radius: var(--x3); }
+.qt-mail { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; gap: var(--x4); padding: var(--x8); border: 1px solid var(--chat-line); border-radius: var(--x3); }
 .qt-mail__head { display: flex; flex-direction: column; gap: var(--x); }
 .qt-mail__company { font-size: var(--x8); line-height: var(--x12); font-weight: 600; }
 .qt-mail__body { margin: 0; padding-top: var(--x4); border-top: 1px solid var(--chat-line); white-space: pre-line; max-height: 220px; overflow-y: auto; }
-.qt-mail__thread { height: 320px; }
+.qt-mail__thread { flex: 1 1 auto; min-height: 240px; }
+.qt-mail__thread > div { height: 100%; }
 .qt-stops { display: grid; grid-template-columns: 1fr 1fr; gap: var(--x12); }
 .qt-stops__col { display: flex; flex-direction: column; align-items: flex-start; gap: var(--x6); }
 .qt-stops__col .emp-field, .qt-three .emp-field, .qt-wide { width: 100%; max-width: none; }

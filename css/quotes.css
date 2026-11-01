@@ -17,9 +17,10 @@
 /* Quote card — local block */
 .qt-card { display: flex; flex-direction: column; gap: var(--x4); height: 560px; padding: var(--x8); border: 1px solid var(--chat-line); border-radius: var(--x3); background: var(--chat-panel); }
 .qt-card__company { flex: 0 0 auto; min-width: 0; margin: 0; font-size: var(--x10); line-height: var(--x14, 28px); font-weight: 600; color: var(--chat-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.qt-marks { display: flex; align-items: center; flex-wrap: wrap; gap: var(--x3); min-height: var(--x12); }
+.qt-marks { display: flex; align-items: flex-start; gap: var(--x3); min-height: var(--x12); }
+.qt-marks__chips { display: flex; flex-wrap: wrap; align-items: center; gap: var(--x3); flex: 1 1 auto; min-width: 0; }
+.qt-marks__source { display: flex; align-items: center; gap: var(--x3); flex: 0 0 auto; min-height: var(--x12); }
 .qt-marks .emp-chip { white-space: nowrap; }
-.qt-marks .qt-gmail { margin-left: auto; }
 .qt-gmail { width: var(--x8); height: var(--x8); flex: 0 0 auto; display: block; }
 .qt-gmail--lg { width: var(--x10); height: var(--x10); }
 .qt-card__contact, .qt-card__email, .qt-card__date, .qt-card__subject, .qt-mail__company { margin: 0; }

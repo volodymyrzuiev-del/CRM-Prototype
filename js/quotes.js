@@ -29,9 +29,9 @@
         ];
     }
     var QUOTES = [
-        { id: 1245352, company: "Johnson & Johnson", contact: "Brooklyn Simmons", email: "debra.holt@example.com", date: "2020-05-05 10:21:13", days: 0, subject: "quote", isNew: true, irrelevant: "Dry Van, 4 pallets, DIMS 190×75×56, air ride", offer: true, bid: true, lane: "Los Angeles, CA – Austin, TX", pu: "Los Angeles, CA", del: "Austin, TX", miles: 1380,
+        { id: 1245352, company: "Johnson & Johnson", contact: "Brooklyn Simmons", email: "debra.holt@example.com", date: "2020-05-05 10:21:13", days: 0, subject: "quote", isNew: true, offer: true, bid: true, lane: "Los Angeles, CA – Austin, TX", pu: "Los Angeles, CA", del: "Austin, TX", miles: 1380,
           body: "AIRLINE ACCOUNT NUMBER:\n01119230011 (Turkish Airlines)\nVEHICLE TYPE: VAN\nDANGEROUS GOODS: NO\nTOTAL PIECES: 4\nTOTAL WEIGHT: 157.00 KG\n2 of 120.0 x 80.0 x 101.0 CM @ 60.0 KG each\nCommodity: Other - Automotive Parts\nIDs: ATE9NCD2Z3, AT7Y2E6PTZ\n1 of 60.0 x 41.0 x 30.0 CM @ 7.0 KG\nCommodity: Other - Automotive Parts\nID: ATFD664JA3", drivers: 5 },
-        { id: 1245353, company: "General Electric", contact: "Ethan Carter", email: "jane.doe456@example.com", date: "2020-05-04 09:18:16", days: 1, subject: "quote", irrelevant: "Dry Van, 4 pallets, DIMS length 190, height 75, width 56, air ride", offer: true, bid: true, lane: "Madera, CA – Lithia Springs, GA", pu: "Madera, CA", del: "Lithia Springs, GA", miles: 2280,
+        { id: 1245353, company: "General Electric", contact: "Ethan Carter", email: "jane.doe456@example.com", date: "2020-05-04 09:18:16", days: 1, subject: "quote", offer: true, bid: true, lane: "Madera, CA – Lithia Springs, GA", pu: "Madera, CA", del: "Lithia Springs, GA", miles: 2280,
           body: "Madera CA to Lithia spring GA\nCan I get a spring van, material is ready now in Madera CA pickup ASAP\n1 PALLET 31X47X23= 443 LBS\nLithia Springs GA 30122", drivers: 3 },
         { id: 1245354, company: "IBM", contact: "Cody Fisher", email: "nevaeh.simmons@example.com", date: "2020-05-03 08:14:01", days: 2, subject: "quote", isNew: true, irrelevant: "Air waybill shipment, needs TSA-approved carrier", lane: "Los Angeles, CA – Atlanta, GA", pu: "Los Angeles, CA 90045", del: "Atlanta, GA 30320", miles: 2170,
           body: "PICKUP TIME:\nDec 01, 2025, 20:30 PST\nDELIVER BY:\nDec 02, 2025, 12:00 CST\nDELIVERY INSTRUCTIONS:\nNone\nAIR WAYBILLS:\n235-95087705\nOrder details\nORDER REFERENCES:\nPICKUP ADDRESS:\nTurkish Airlines\nSWISSPORT\n5871 West Imperial Highway\nLos Angeles, CA 90045\nUnited States of America\nDELIVERY ADDRESS:\nAtlanta, GA 30320\nUnited States of America\nTOTAL PIECES: 4\nTOTAL WEIGHT: 157 KG" },
@@ -59,12 +59,13 @@
     function btn(label, type, icon, attrs) { return '<button class="emp-btn emp-btn--' + type + ' emp-btn--md" type="button" ' + (attrs || "") + '><span class="emp-btn__label">' + label + "</span>" + (icon ? '<span class="emp-btn__glyph">' + svg(icon) + "</span>" : "") + "</button>"; }
 
     function marks(q) {
-        var h = "";
-        if (q.offer) h += '<span class="emp-chip emp-chip--outline emp-chip--grey">Offer created</span>';
+        var h = '<span class="qt-marks__chips">';
+        if (q.offer) h += '<span class="emp-chip emp-chip--green">Offer created</span>';
         if (q.irrelevant) h += '<span class="emp-tip" data-place="auto"><span class="emp-chip emp-chip--orange" tabindex="0">Irrelevant</span><span class="emp-tip__bubble" role="tooltip"><span class="emp-tip__line">' + esc(q.irrelevant) + "</span></span></span>";
         if (q.bid) h += '<span class="emp-chip emp-chip--green">BID created</span>';
+        h += '</span><span class="qt-marks__source">';
         if (q.isNew) h += '<span class="emp-chip emp-chip--red">NEW</span>';
-        return h + '<svg class="qt-gmail" viewBox="0 0 48 48" role="img" aria-label="Gmail"><use href="#q-gmail"></use></svg>';
+        return h + '<svg class="qt-gmail" viewBox="0 0 48 48" role="img" aria-label="Gmail"><use href="#q-gmail"></use></svg></span>';
     }
     function filtered() {
         var needle = state.q.trim().toLowerCase();

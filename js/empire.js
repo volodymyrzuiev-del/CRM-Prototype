@@ -1032,7 +1032,7 @@
             }
         });
         tip.setAttribute("data-placed", side);
-        var shift = side === "left" || side === "right" ? 0 : 15;
+        var shift = side === "left" || side === "right" ? Math.round((host.height - bh) / 2) : 0;
         if (onScreen && (side === "top" || side === "bottom")) {
             if (host.left + shift + bw > vw - margin) shift -= host.left + shift + bw - (vw - margin);
             if (host.left + shift < margin) shift = margin - host.left;
@@ -1081,15 +1081,7 @@
     var mw = document.querySelector("#mw-overlay .emp-mw");
     var mwOverlay = document.getElementById("mw-overlay");
     var mwSlot = mw && mw.querySelector("[data-mw-slot]");
-    function syncMw() {
-        if (!mwSlot) return;
-        var over = mwSlot.scrollHeight - mwSlot.clientHeight > 1;
-        var top = mwSlot.scrollTop > 1;
-        var more = mwSlot.scrollTop + mwSlot.clientHeight < mwSlot.scrollHeight - 1;
-        mw.classList.toggle("is-scrolled", over && top);
-        mw.classList.toggle("is-more", over && more);
-    }
-    if (mwSlot) mwSlot.addEventListener("scroll", syncMw);
+    function syncMw() { if (mwSlot && mwSlot._empFade) mwSlot._empFade(); }
     function openModal(size, scroll) {
             mw.className = "emp-mw emp-mw--" + size + (scroll ? " is-scroll" : "");
             if (scroll) {
@@ -1459,6 +1451,66 @@
             media.addEventListener(name, function () { paintMedia(media); });
         });
     });
+
+/* Scroll shadow: 17px edge shadow on scroll boxes (every scroll box inside .emp-overlay, .emp-mw__slot, [data-emp-fade]).
+   Edges are absolute siblings of the box, so the box's own layout is untouched. */
+(function () {
+    var SKIP = ".emp-chat, .emp-drop, .emp-cal, textarea, input, select";
+    function scrolls(el) {
+        if (el.nodeType !== 1 || el.matches(SKIP) || el.closest(".emp-chat")) return false;
+        if (el.hasAttribute("data-emp-fade") || el.classList.contains("emp-mw__slot")) return true;
+        var oy = getComputedStyle(el).overflowY;
+        return oy === "auto" || oy === "scroll";
+    }
+    function empFade(el) {
+        if (!el || el._empFade || !el.parentElement) return;
+        var parent = el.parentElement;
+        if (getComputedStyle(parent).position === "static") parent.style.position = "relative";
+        var top = document.createElement("div"), bottom = document.createElement("div");
+        top.className = "emp-fade emp-fade--top"; bottom.className = "emp-fade emp-fade--bottom";
+        top.setAttribute("aria-hidden", "true"); bottom.setAttribute("aria-hidden", "true");
+        var queued = false;
+        function sync() {
+            queued = false;
+            if (!el.isConnected) return;
+            if (top.parentNode !== parent || bottom.parentNode !== parent) el.after(top, bottom);
+            var over = el.scrollHeight - el.clientHeight > 1 && el.clientHeight > 0;
+            var x = el.offsetLeft + el.clientLeft, y = el.offsetTop + el.clientTop, w = el.clientWidth;
+            top.style.cssText = "left:" + x + "px;top:" + y + "px;width:" + w + "px";
+            bottom.style.cssText = "left:" + x + "px;top:" + (y + el.clientHeight - 17) + "px;width:" + w + "px";
+            top.classList.toggle("is-on", over && el.scrollTop > 1);
+            bottom.classList.toggle("is-on", over && el.scrollTop + el.clientHeight < el.scrollHeight - 1);
+        }
+        function queue() { if (!queued) { queued = true; requestAnimationFrame(sync); } }
+        el._empFade = queue;
+        el.after(top, bottom);
+        el.addEventListener("scroll", sync, { passive: true });
+        if (window.ResizeObserver) new ResizeObserver(queue).observe(el);
+        new MutationObserver(queue).observe(el, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ["hidden", "class", "style"] });
+        window.addEventListener("resize", queue);
+        el.addEventListener("load", queue, true);
+        queue();
+    }
+    function scan(root) {
+        if (root.nodeType !== 1) return;
+        var inModal = root.closest(".emp-overlay");
+        var list = Array.prototype.slice.call(root.querySelectorAll(inModal ? "*" : ".emp-overlay *, .emp-mw__slot, [data-emp-fade]"));
+        list.unshift(root);
+        list.forEach(function (el) {
+            if (el._empFade || el.classList.contains("emp-fade")) return;
+            if ((inModal || el.closest(".emp-overlay") || el.matches(".emp-mw__slot, [data-emp-fade]")) && scrolls(el)) empFade(el);
+        });
+    }
+    function start() {
+        scan(document.body);
+        new MutationObserver(function (records) {
+            records.forEach(function (r) { r.addedNodes.forEach(function (n) { if (n.nodeType === 1 && !n.classList.contains("emp-fade") && (n.closest(".emp-overlay") || n.matches("[data-emp-fade]") || n.querySelector("[data-emp-fade], .emp-mw__slot"))) scan(n); }); });
+        }).observe(document.body, { childList: true, subtree: true });
+        document.addEventListener("transitionend", function (e) { if (e.target.classList && e.target.classList.contains("emp-overlay")) e.target.querySelectorAll("*").forEach(function (n) { if (n._empFade) n._empFade(); }); });
+    }
+    window.empFade = empFade;
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start); else start();
+})();
 
     window.empOverlay = { open: openOverlay, close: closeOverlay };
     document.addEventListener("keydown", function (event) {

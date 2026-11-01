@@ -16,10 +16,12 @@
 
 /* Quote card — local block */
 .qt-card { display: flex; flex-direction: column; gap: var(--x4); height: 560px; padding: var(--x8); border: 1px solid var(--chat-line); border-radius: var(--x3); background: var(--chat-panel); }
-.qt-card__head { display: flex; align-items: center; gap: var(--x4); min-width: 0; }
-.qt-card__company { flex: 1 1 auto; min-width: 0; margin: 0; font-size: var(--x10); line-height: var(--x14, 28px); font-weight: 600; color: var(--chat-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.qt-marks { display: flex; align-items: center; flex-wrap: wrap; justify-content: flex-end; gap: var(--x2); }
-.qt-gmail { width: var(--x8); height: var(--x8); color: var(--chat-danger); flex: 0 0 auto; }
+.qt-card__company { flex: 0 0 auto; min-width: 0; margin: 0; font-size: var(--x10); line-height: var(--x14, 28px); font-weight: 600; color: var(--chat-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.qt-marks { display: flex; align-items: center; flex-wrap: wrap; gap: var(--x3); min-height: var(--x12); }
+.qt-marks .emp-chip { white-space: nowrap; }
+.qt-marks .qt-gmail { margin-left: auto; }
+.qt-gmail { width: var(--x8); height: var(--x8); flex: 0 0 auto; display: block; }
+.qt-gmail--lg { width: var(--x10); height: var(--x10); }
 .qt-card__contact, .qt-card__email, .qt-card__date, .qt-card__subject, .qt-mail__company { margin: 0; }
 .qt-card__contact { color: var(--chat-meta); }
 .qt-card__email { font-family: "Noto Sans Display", "Noto Sans", sans-serif; font-weight: 500; color: var(--chat-text); }
@@ -40,7 +42,7 @@
 .qt-rail { display: flex; flex-direction: column; gap: var(--x6); min-height: 0; overflow-y: auto; padding-right: var(--x2); }
 .qt-mini { display: flex; flex-direction: column; gap: var(--x4); flex: 0 0 auto; padding: var(--x8); border: 1px solid var(--chat-line); border-radius: var(--x3); background: var(--chat-panel); cursor: pointer; text-align: left; }
 .qt-mini.is-active { border: 2px solid var(--chat-accent-line); cursor: default; }
-.qt-mini .qt-marks { justify-content: flex-start; }
+
 .qt-mini__lane { margin: 0; font-family: "Noto Sans Display", "Noto Sans", sans-serif; font-weight: 500; color: var(--chat-text); }
 .qt-mini__thread { height: 360px; }
 .qt-drivers, .qt-chat { min-height: 0; display: flex; flex-direction: column; border: 1px solid var(--chat-line); border-radius: var(--x3); background: var(--chat-panel); overflow: hidden; }
@@ -78,7 +80,6 @@
 @media (max-width: 1199px) { .qt-check { grid-template-columns: 1fr; } }
 .qt-check__mail, .qt-check__offer { display: flex; flex-direction: column; gap: var(--x6); min-width: 0; }
 .qt-h { display: flex; align-items: center; gap: var(--x3); margin: 0; font-family: "Noto Sans", sans-serif; font-size: var(--x10); line-height: var(--x12); font-weight: 600; color: var(--chat-text); }
-.qt-h .emp-icon { width: 20px; height: 20px; color: var(--chat-danger); }
 .qt-mail { display: flex; flex-direction: column; gap: var(--x4); padding: var(--x8); border: 1px solid var(--chat-line); border-radius: var(--x3); }
 .qt-mail__head { display: flex; flex-direction: column; gap: var(--x); }
 .qt-mail__company { font-size: var(--x8); line-height: var(--x12); font-weight: 600; }
@@ -106,3 +107,12 @@
 .qt-rules__del svg { width: 20px; height: 20px; }
 .qt-rules__empty { margin: 0; color: var(--chat-meta); }
 .qt-drivers .emp-tab { white-space: nowrap; }
+
+/* Quote Rules — email search suggestions */
+.qt-rules__combo { flex: 1 1 auto; width: auto; }
+.qt-rules__combo .emp-drop { max-height: 280px; overflow-y: auto; }
+.qt-suggest { display: flex; align-items: center; gap: var(--x4); width: 100%; text-align: left; }
+.qt-suggest[disabled] { cursor: default; opacity: 0.6; background: transparent; }
+.qt-suggest__main { display: flex; flex-direction: column; flex: 1 1 auto; min-width: 0; }
+.qt-suggest__email { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.qt-suggest .qt-muted { font-size: var(--x6); line-height: var(--x8); }

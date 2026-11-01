@@ -19,9 +19,11 @@
         ];
         return base.slice(0, seed);
     }
-    function brokerThread(contact) {
+    function brokerThread(q) {
+        var contact = q.contact, at = new Date(q.date.replace(" ", "T"));
         return [
-            { side: "in", author: contact, text: "Lorem ipsum dolor sit amet consectetur. Bibendum donec enim dui pretium purus.", time: "12:30 AM", channel: "via Email" },
+            { side: "in", author: contact, text: "Subject: " + q.subject + "\n\n" + q.body, time: at.toLocaleTimeString("en-US", { hour: "numeric", minute: "2-digit" }), day: at.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }), channel: "via Email" },
+            { side: "in", author: contact, text: "Lorem ipsum dolor sit amet consectetur. Bibendum donec enim dui pretium purus.", time: "12:30 AM", day: "Today", channel: "via Email" },
             { side: "out", author: "Dispatcher", avatar: "AJ", text: "Okay", time: "12:34 AM", status: "read" },
             { side: "in", author: contact, text: "Thank you!", time: "12:36 AM", channel: "via Email" }
         ];
@@ -42,7 +44,7 @@
         { id: 1245310, company: "Apple", contact: "Jenny Wilson", email: "willie.jennings@example.com", date: "2020-04-28 15:02:44", days: 30, subject: "rate request", archived: true, offer: true, bid: true, lane: "Cupertino, CA – Reno, NV", pu: "Cupertino, CA", del: "Reno, NV", miles: 250, body: "Need a sprinter tomorrow 8AM\n2 pallets, 1,100 lbs\nCupertino CA → Reno NV", drivers: 2 },
         { id: 1245311, company: "Mitsubishi", contact: "Guy Hawkins", email: "georgia.young@example.com", date: "2020-04-25 10:12:01", days: 33, subject: "quote", archived: true, lane: "Detroit, MI – Toledo, OH", pu: "Detroit, MI", del: "Toledo, OH", miles: 60, body: "Hot shot Detroit to Toledo\n1 crate 400 lbs\nASAP" }
     ];
-    QUOTES.forEach(function (q) { q.driverList = drivers(q.drivers || 0); q.thread = brokerThread(q.contact); });
+    QUOTES.forEach(function (q) { q.driverList = drivers(q.drivers || 0); q.thread = brokerThread(q); });
     var RULES = {
         include: [["Mitsubishi", "georgia.young@example.com"], ["Apple", "willie.jennings@example.com"], ["Louis Vuitton", "curtis.weaver@example.com"], ["MasterCard", "deanna.curtis@example.com"], ["eBay", "tim.jennings@example.com"], ["General Electric", "michelle.rivera@example.com"]],
         exclude: [["Spam Freight", "noreply@spamfreight.com"], ["Load Bot", "bot@loadboard.io"]]
@@ -59,10 +61,10 @@
     function marks(q) {
         var h = "";
         if (q.offer) h += '<span class="emp-chip emp-chip--outline emp-chip--grey">Offer created</span>';
-        if (q.irrelevant) h += '<span class="emp-tip" data-place="auto"><span class="emp-chip emp-chip--orange" tabindex="0">Irrelevant</span><span class="emp-tip__bubble" role="tooltip"><svg class="emp-tip__cursor" viewBox="0 0 14 14" aria-hidden="true"><use href="#i-cursor"></use></svg><span class="emp-tip__line">' + esc(q.irrelevant) + "</span></span></span>";
+        if (q.irrelevant) h += '<span class="emp-tip" data-place="auto"><span class="emp-chip emp-chip--orange" tabindex="0">Irrelevant</span><span class="emp-tip__bubble" role="tooltip"><span class="emp-tip__line">' + esc(q.irrelevant) + "</span></span></span>";
         if (q.bid) h += '<span class="emp-chip emp-chip--green">BID created</span>';
         if (q.isNew) h += '<span class="emp-chip emp-chip--red">NEW</span>';
-        return h + svg("q-gmail", "qt-gmail") ;
+        return h + '<svg class="qt-gmail" viewBox="0 0 48 48" role="img" aria-label="Gmail"><use href="#q-gmail"></use></svg>';
     }
     function filtered() {
         var needle = state.q.trim().toLowerCase();
@@ -85,7 +87,7 @@
             : ready ? btn("Open", "secondary", "q-open", 'data-qt-open="' + q.id + '"')
             : btn("Create BID &amp; Offer", "primary", "q-stars", 'data-qt-check="' + q.id + '"');
         var a2 = archived ? btn("Open", "outline", "q-open", 'data-qt-open="' + q.id + '"') : btn("Archive", "outline", "q-archive", 'data-qt-archive="' + q.id + '"');
-        return '<article class="qt-card" data-id="' + q.id + '"><div class="qt-card__head"><h2 class="qt-card__company">' + esc(q.company) + '</h2><div class="qt-marks">' + marks(q) + "</div></div>" +
+        return '<article class="qt-card" data-id="' + q.id + '"><div class="qt-marks">' + marks(q) + '</div><h2 class="qt-card__company">' + esc(q.company) + "</h2>" +
             '<p class="qt-card__contact">' + esc(q.contact) + '</p><p class="qt-card__email">' + esc(q.email) + '</p><p class="qt-card__date">' + esc(q.date) + "</p>" +
             '<p class="qt-card__subject">Email subject: <strong>' + esc(q.subject) + '</strong></p><p class="qt-card__body">' + esc(q.body) + "</p>" +
             '<div class="qt-card__actions">' + a1 + a2 + "</div></article>";
@@ -106,8 +108,11 @@
         return h + "</div>";
     }
     function renderRail() {
-        var q = state.open, others = QUOTES.filter(function (x) { return !x.archived && x !== q; });
-        $("qt-rail").innerHTML = mini(q, true) + others.map(function (x) { return mini(x, false); }).join("");
+        var q = state.open, rail = $("qt-rail"), top = rail.scrollTop;
+        rail.innerHTML = QUOTES.filter(function (x) { return !x.archived || x === q; }).map(function (x) { return mini(x, x === q); }).join("");
+        rail.scrollTop = top;
+        var act = rail.querySelector(".qt-mini.is-active"), rr = rail.getBoundingClientRect(), ar = act.getBoundingClientRect();
+        if (ar.top < rr.top || ar.bottom > rr.bottom) act.scrollIntoView({ block: "nearest" });
         window.empChat.mount($("qt-mini-thread"), { size: "compact", me: { name: "Dispatcher", avatar: "AJ" }, messages: q.thread, quick: null, placeholder: "Reply to " + q.contact.split(" ")[0], channel: "via Email", onSend: function (m) { q.thread.push(m); } });
     }
     function driverRow(d) {
@@ -136,7 +141,7 @@
             '<div class="qt-drow qt-drow--between"><span class="qt-muted"><b>DEL:</b> ' + esc(q.del) + " / Tomorrow by 9 AM</span>" + btn("Renew offer", "link", "q-restore", "data-qt-renew") + "</div>" +
             '<div class="qt-drow">' + svg("q-timer", "qt-icon") + '<span class="qt-strong" id="qt-timer">4:54</span><span class="qt-muted qt-grow">No new drivers available</span>' + btn("Update offer", "secondary", "", "data-qt-update") + "</div></div>" +
             '<div class="qt-dsec qt-head-row"><div class="qt-drow"><label class="emp-check"><input class="emp-check__input" type="checkbox" id="qt-all"><span class="emp-check__box"><svg class="emp-check__mark" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-check"></use></svg><span class="emp-check__minus"></span></span><span>Choose all</span></label><span class="qt-grow"></span>' + btn("Mi away", "link", "q-sort", "data-qt-sort") + "</div></div>" +
-            '<div class="qt-list" id="qt-dlist">' + q.driverList.map(driverRow).join("") + "</div>";
+            '<div class="qt-list" id="qt-dlist" data-emp-fade>' + q.driverList.map(driverRow).join("") + "</div>";
     }
     function offerCard(m) {
         var d = m.driver, q = state.open;
@@ -187,7 +192,7 @@
     function openCheck(id) {
         var q = byId(id); if (!q) return;
         state.checkId = q.id;
-        $("qt-check-company").textContent = q.company; $("qt-check-contact").textContent = q.contact; $("qt-check-email").textContent = q.email; $("qt-check-date").textContent = q.date; $("qt-check-subject").textContent = q.subject; $("qt-check-body").textContent = q.body;
+        $("qt-check-company").textContent = q.company; $("qt-check-contact").textContent = q.contact; $("qt-check-email").textContent = q.email; $("qt-check-date").textContent = q.date; $("qt-check-subject").textContent = q.subject;
         $("qt-pu").value = q.pu; $("qt-del").value = q.del; $("qt-miles").value = ""; $("qt-rate").value = "";
         var thread = $("qt-check-thread"); thread.innerHTML = ""; var host = document.createElement("div"); thread.appendChild(host); host.style.height = "100%";
         window.empChat.mount(host, { size: "compact", me: { name: "Dispatcher", avatar: "AJ" }, messages: q.thread, placeholder: "Reply to " + q.contact.split(" ")[0], channel: "via Email", onSend: function (m) { q.thread.push(m); } });
@@ -195,21 +200,49 @@
     }
 
     /* ---------- rules ---------- */
+    var KNOWN = (function () {
+        var seen = {}, out = [];
+        QUOTES.map(function (q) { return [q.company, q.email]; }).concat(RULES.include, RULES.exclude, [["IBM", "nevaeh.simmons@example.com"], ["General Electric", "michelle.rivera@example.com"], ["Reid Transport", "felicia.reid@example.com"], ["Graham Freight", "jackson.graham@example.com"], ["Holt Cargo", "debra.holt@example.com"]]).forEach(function (r) { if (!seen[r[1]]) { seen[r[1]] = 1; out.push(r); } });
+        return out;
+    })();
+    function listOf(email) {
+        email = email.toLowerCase();
+        var has = function (l) { return RULES[l].some(function (r) { return r[1].toLowerCase() === email; }); };
+        return has("include") ? "include" : has("exclude") ? "exclude" : null;
+    }
     function renderRules() {
-        var q = $("qt-rules-q").value.trim().toLowerCase(), list = RULES[state.rulesTab];
-        var rows = list.map(function (r, i) { return [i, r]; }).filter(function (x) { return !q || (x[1][0] + " " + x[1][1]).toLowerCase().indexOf(q) >= 0; });
+        var list = RULES[state.rulesTab];
         var head = '<div class="emp-table__row qt-head-row" role="row"><div class="emp-table__cell"><p class="qt-muted">#</p></div><div class="emp-table__cell"><p class="qt-muted">Company name</p></div><div class="emp-table__cell"><p class="qt-muted">Email</p></div><div class="emp-table__cell emp-table__cell--center"><p class="qt-muted">Actions</p></div></div>';
-        $("qt-rules-rows").innerHTML = head + rows.map(function (x, n) { return '<div class="emp-table__row" role="row"><div class="emp-table__cell"><p>' + (n + 1) + '</p></div><div class="emp-table__cell"><p>' + esc(x[1][0]) + '</p></div><div class="emp-table__cell"><p>' + esc(x[1][1]) + '</p></div><div class="emp-table__cell emp-table__cell--center"><button class="qt-rules__del" type="button" data-qt-rule-del="' + x[0] + '" aria-label="Remove ' + esc(x[1][1]) + '">' + svg("q-minus") + "</button></div></div>"; }).join("");
-        var isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(q), exists = isEmail && RULES.include.concat(RULES.exclude).some(function (r) { return r[1].toLowerCase() === q; });
-        $("qt-rules-add").hidden = !(isEmail && !rows.length);
-        var other = state.rulesTab === "include" ? "Exclude" : "Always include";
-        $("qt-rules-empty").textContent = exists && !rows.length ? "This email is on the " + other + " list." : "No emails found. Enter a full email to add it to this list.";
-        $("qt-rules-empty").hidden = !!rows.length || (isEmail && !exists);
-        $("qt-rules-add").dataset.exists = exists ? "1" : "";
+        $("qt-rules-rows").innerHTML = head + list.map(function (r, i) { return '<div class="emp-table__row" role="row"><div class="emp-table__cell"><p>' + (i + 1) + '</p></div><div class="emp-table__cell"><p>' + esc(r[0]) + '</p></div><div class="emp-table__cell"><p>' + esc(r[1]) + '</p></div><div class="emp-table__cell emp-table__cell--center"><button class="qt-rules__del" type="button" data-qt-rule-del="' + i + '" aria-label="Remove ' + esc(r[1]) + '">' + svg("q-minus") + "</button></div></div>"; }).join("");
+        $("qt-rules-empty").hidden = !!list.length;
+        renderSuggest();
+    }
+    function renderSuggest() {
+        var input = $("qt-rules-q"), q = input.value.trim().toLowerCase(), combo = $("qt-rules-combo"), drop = $("qt-rules-drop");
+        var names = { include: "Always include", exclude: "Exclude" };
+        var hits = q ? KNOWN.filter(function (r) { return (r[0] + " " + r[1]).toLowerCase().indexOf(q) >= 0; }).slice(0, 6) : [];
+        drop.innerHTML = hits.map(function (r) {
+            var where = listOf(r[1]), here = where === state.rulesTab;
+            return '<button class="emp-drop__item qt-suggest" type="button" role="option" data-qt-suggest="' + esc(r[1]) + '" data-qt-company="' + esc(r[0]) + '"' + (here ? " disabled" : "") + '><span class="qt-suggest__main"><span class="qt-suggest__email">' + esc(r[1]) + '</span><span class="qt-muted">' + esc(r[0]) + "</span></span>" + (where ? '<span class="emp-chip ' + (here ? "emp-chip--outline emp-chip--grey" : "emp-chip--orange") + '">' + (here ? "Added" : names[where]) + "</span>" : "") + "</button>";
+        }).join("");
+        combo.classList.toggle("is-open", !!hits.length && document.activeElement === input);
+        var isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(q);
+        $("qt-rules-add").hidden = !(isEmail && !listOf(q) && !KNOWN.some(function (r) { return r[1].toLowerCase() === q; }));
+    }
+    function addRule(email, company) {
+        var where = listOf(email);
+        if (where && where !== state.rulesTab) { toast("ruleConflict"); return; }
+        if (!where) {
+            company = company || email.split("@")[1].split(".")[0].replace(/^\w/, function (c) { return c.toUpperCase(); });
+            RULES[state.rulesTab].unshift([company, email]);
+            if (!KNOWN.some(function (r) { return r[1] === email; })) KNOWN.push([company, email]);
+            toast("created");
+        }
+        $("qt-rules-q").value = ""; $("qt-rules-combo").classList.remove("is-open"); renderRules();
     }
 
     document.addEventListener("click", function (e) {
-        var t = e.target.closest("[data-qt-open],[data-qt-check],[data-qt-archive],[data-qt-restore],[data-qt-tab],[data-qt-back],[data-qt-review],[data-qt-pick],[data-qt-driver],[data-qt-book],[data-qt-hold],[data-qt-rules],[data-qt-rule-del],[data-qt-clear],[data-qt-renew],[data-qt-update],[data-qt-maps],[data-qt-miles],[data-qt-rate],[data-qt-dreset],[data-qt-dsearch],[data-qt-sort],[data-qt-stop]");
+        var t = e.target.closest("[data-qt-open],[data-qt-check],[data-qt-archive],[data-qt-restore],[data-qt-tab],[data-qt-back],[data-qt-review],[data-qt-pick],[data-qt-driver],[data-qt-book],[data-qt-hold],[data-qt-rules],[data-qt-rule-del],[data-qt-suggest],[data-qt-clear],[data-qt-renew],[data-qt-update],[data-qt-maps],[data-qt-miles],[data-qt-rate],[data-qt-dreset],[data-qt-dsearch],[data-qt-sort],[data-qt-stop]");
         if (!t) return;
         var d = t.dataset;
         if (d.qtOpen) openWork(d.qtOpen);
@@ -225,6 +258,7 @@
         else if (d.qtDriver && !e.target.closest("[data-stop],[data-qt-book]")) { state.driver = d.qtDriver; renderDrivers(); renderChat(); }
         else if (d.qtRules) { state.rulesTab = d.qtRules; document.querySelectorAll("[data-qt-rules]").forEach(function (b) { b.classList.toggle("is-active", b === t); b.setAttribute("aria-selected", b === t); }); renderRules(); }
         else if (d.qtRuleDel) { RULES[state.rulesTab].splice(+d.qtRuleDel, 1); renderRules(); }
+        else if (d.qtSuggest) addRule(d.qtSuggest, d.qtCompany);
         else if (t.hasAttribute("data-qt-clear")) { state.q = ""; $("qt-search").value = ""; ["qt-status", "qt-date"].forEach(function (id) { var i = $(id); i.value = i.getAttribute("data-emp-default"); i.dispatchEvent(new Event("change", { bubbles: true })); }); state.status = "New/active"; state.date = "Any date"; renderBoard(); }
         else if (t.hasAttribute("data-qt-renew")) { var tm = $("qt-timer"); if (tm) tm.textContent = "5:00"; toast("sent", { name: "Offer" }); }
         else if (t.hasAttribute("data-qt-update")) toast("updated");
@@ -244,7 +278,7 @@
     });
     document.addEventListener("input", function (e) {
         if (e.target.id === "qt-search") { state.q = e.target.value; renderBoard(); }
-        if (e.target.id === "qt-rules-q") renderRules();
+        if (e.target.id === "qt-rules-q") renderSuggest();
         if (e.target.id === "qt-status") { state.status = e.target.value; renderBoard(); }
         if (e.target.id === "qt-date") { state.date = e.target.value; renderBoard(); }
     });
@@ -256,11 +290,15 @@
         window.empOverlay.close($("qt-check")); toast("offerCreated");
         if (state.open) { renderRail(); renderDrivers(); renderChat(); } else renderBoard();
     });
-    $("qt-rules-add").addEventListener("click", function () {
-        var v = $("qt-rules-q").value.trim();
-        if (this.dataset.exists) { toast("ruleConflict"); return; }
-        RULES[state.rulesTab].unshift([v.split("@")[1].split(".")[0].replace(/^\w/, function (c) { return c.toUpperCase(); }), v]);
-        $("qt-rules-q").value = ""; renderRules(); toast("created");
+    $("qt-rules-add").addEventListener("click", function () { addRule($("qt-rules-q").value.trim()); });
+    $("qt-rules-q").addEventListener("focus", renderSuggest);
+    $("qt-rules-q").addEventListener("blur", function () { setTimeout(function () { $("qt-rules-combo").classList.remove("is-open"); }, 150); });
+    $("qt-rules-q").addEventListener("keydown", function (e) {
+        if (e.key === "Escape") { $("qt-rules-combo").classList.remove("is-open"); return; }
+        if (e.key !== "Enter") return;
+        e.preventDefault();
+        var first = $("qt-rules-drop").querySelector("[data-qt-suggest]:not([disabled])");
+        if (!$("qt-rules-add").hidden) $("qt-rules-add").click(); else if (first) first.click();
     });
     $("qt-rules-save").addEventListener("click", function () { window.empOverlay.close($("qt-rules")); toast("saved"); });
 

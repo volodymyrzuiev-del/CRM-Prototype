@@ -176,6 +176,8 @@
     --tip-border: #95bce1;
     --tip-text: #404040;
     --tip-cursor: #000000;
+    --tip-shadow: 0 4px 16px rgba(16, 17, 18, 0.08);
+    --scroll-shadow: rgba(0, 0, 0, 0.05);
     --ibox-note: #2c2c2c;
     --ibox-info: #3c84c2;
     --ibox-warning: #de8e10;
@@ -446,6 +448,8 @@
     --selchip-disabled-border: #ffffff;
     --selchip-text: #ffffff;
     --tip-fill: #2c2c2c;
+    --tip-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+    --scroll-shadow: rgba(0, 0, 0, 0.35);
     --tip-border: #95bce1;
     --tip-text: #e1e1e1;
     --tip-cursor: #f0f0f0;
@@ -1750,41 +1754,45 @@ input.emp-input:disabled {
 .emp-tip { position: relative; display: inline-flex; }
 .emp-tip__bubble {
     position: absolute;
-    z-index: 5;
+    z-index: 40;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    gap: var(--x);
     width: max-content;
-    padding: var(--x3);
+    max-width: 280px;
+    padding: var(--x3) var(--x5);
     border: 1px solid var(--tip-border);
-    border-radius: var(--x2);
+    border-radius: var(--x3);
     background: var(--tip-fill);
     color: var(--tip-text);
+    box-shadow: var(--tip-shadow);
     font-family: "Noto Sans Display", "Noto Sans", sans-serif;
     font-weight: 500;
     font-size: var(--x6);
     line-height: var(--x8);
+    text-align: left;
     opacity: 0;
+    visibility: hidden;
     pointer-events: none;
+    transform: translate3d(0, var(--tip-from, 4px), 0);
+    transition: opacity 0.16s ease, transform 0.16s ease, visibility 0s linear 0.16s;
 }
-.emp-tip__line { white-space: nowrap; }
-.emp-tip__cursor {
-    position: absolute;
-    width: 14px;
-    height: 14px;
-    color: var(--tip-cursor);
-}
-.emp-tip[data-placed="bottom"] .emp-tip__bubble { left: var(--tip-shift, 15px); top: calc(100% + 8px); }
-.emp-tip[data-placed="bottom"] .emp-tip__cursor { left: -15px; top: -15px; }
-.emp-tip[data-placed="top"] .emp-tip__bubble { left: var(--tip-shift, 15px); bottom: calc(100% + 8px); }
-.emp-tip[data-placed="top"] .emp-tip__cursor { left: -15px; bottom: -15px; transform: scaleY(-1); }
-.emp-tip[data-placed="right"] .emp-tip__bubble { left: calc(100% + 8px); top: var(--tip-shift, 0px); }
-.emp-tip[data-placed="right"] .emp-tip__cursor { left: -15px; top: 8px; transform: rotate(-90deg); }
-.emp-tip[data-placed="left"] .emp-tip__bubble { right: calc(100% + 8px); top: var(--tip-shift, 0px); }
-.emp-tip[data-placed="left"] .emp-tip__cursor { right: -15px; top: 8px; transform: rotate(90deg); }
+.emp-tip__line { white-space: normal; overflow-wrap: anywhere; }
+.emp-tip__cursor { display: none; }
+.emp-tip[data-placed="bottom"] .emp-tip__bubble { left: var(--tip-shift, 0px); top: calc(100% + 6px); --tip-from: -4px; }
+.emp-tip[data-placed="top"] .emp-tip__bubble { left: var(--tip-shift, 0px); bottom: calc(100% + 6px); }
+.emp-tip[data-placed="right"] .emp-tip__bubble { left: calc(100% + 6px); top: var(--tip-shift, 0px); --tip-from: 0; }
+.emp-tip[data-placed="left"] .emp-tip__bubble { right: calc(100% + 6px); top: var(--tip-shift, 0px); --tip-from: 0; }
 .emp-tip:hover .emp-tip__bubble,
 .emp-tip.is-open .emp-tip__bubble,
-.emp-tip:focus-within .emp-tip__bubble { opacity: 1; }
+.emp-tip:focus-within .emp-tip__bubble {
+    opacity: 1;
+    visibility: visible;
+    transform: translate3d(0, 0, 0);
+    transition: opacity 0.16s ease 0.12s, transform 0.16s ease 0.12s, visibility 0s linear 0.12s;
+}
+@media (prefers-reduced-motion: reduce) { .emp-tip__bubble, .emp-tip:hover .emp-tip__bubble { transition: none; transform: none; } }
 
 /* Pagination */
 
@@ -2426,18 +2434,18 @@ body.emp-app {
 .emp-mw__slot::-webkit-scrollbar-thumb { background: #b4b4b4; border: 2px solid #ffffff; border-radius: 4px; }
 .emp-mw__copy { margin: 0; font-size: 14px; line-height: 20px; color: #101112; }
 .emp-mw__copy + .emp-mw__copy { margin-top: 12px; }
-.emp-mw__fade {
-    display: none;
+/* Scroll shadow — any scroll box inside a modal or with [data-emp-fade] (Figma: MW / Shadow, 17px, 5% black). Edges are placed by empire.js. */
+.emp-fade {
     position: absolute;
-    left: 0;
-    right: 8px;
+    z-index: 3;
     height: 17px;
     pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s ease;
 }
-.emp-mw__fade--top { top: 0; background: linear-gradient(#ffffff, rgba(255, 255, 255, 0)); }
-.emp-mw__fade--bottom { bottom: 0; background: linear-gradient(rgba(255, 255, 255, 0), #ffffff); }
-.emp-mw.is-scrolled .emp-mw__fade--top,
-.emp-mw.is-more .emp-mw__fade--bottom { display: block; }
+.emp-fade--top { background: linear-gradient(var(--scroll-shadow), rgba(0, 0, 0, 0)); }
+.emp-fade--bottom { background: linear-gradient(rgba(0, 0, 0, 0), var(--scroll-shadow)); }
+.emp-fade.is-on { opacity: 1; }
 .emp-mw__foot { display: flex; justify-content: flex-end; gap: 16px; }
 .emp-mw__foot[hidden] { display: none; }
 .emp-mw__submit { width: 148px; min-width: 148px; }
@@ -3661,7 +3669,7 @@ mark.emp-chat__hit.is-current { outline: 2px solid var(--chat-warning-line); }
 .emp-chat__att-bar i { display: block; height: 100%; width: 0; background: var(--chat-accent); transition: width 0.2s linear; }
 .emp-chat__row { display: flex; align-items: flex-end; gap: var(--x3); }
 .emp-chat__input {
-    flex: 1 1 auto; min-width: 0; min-height: var(--x12); max-height: calc(3 * var(--x10) + var(--x2)); padding: var(--x) 0; margin: 0;
+    flex: 1 1 auto; min-width: 0; min-height: var(--x16); max-height: calc(3 * var(--x10) + var(--x6)); padding: var(--x3) 0; margin: 0;
     border: 0; outline: none; resize: none; overflow-y: hidden; background: transparent;
     font: inherit; font-size: var(--x7); line-height: var(--x10); color: var(--chat-text);
 }

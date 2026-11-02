@@ -20,6 +20,7 @@
         restored: { tone: "success", title: "Restored", text: "\"[Name]\" has been restored to active quotes.", icon: "icons/controls/success-fill.svg" },
         offerCreated: { tone: "success", title: "BID & Offer created", text: "The offer has been sent to drivers.", icon: "icons/controls/success-fill.svg" },
         booked: { tone: "success", title: "Booked", text: "\"[Name]\" has been booked for this load.", icon: "icons/controls/success-fill.svg" },
+        checkSaved: { tone: "success", title: "Check saved", text: "\"[Name]\" has been added to the List.", icon: "icons/controls/success-fill.svg" },
         ruleConflict: { tone: "error", title: "Error: unsuccessful", text: "This broker is already on the opposite list. Remove it first.", icon: "icons/controls/error-fill.svg" }
     };
 

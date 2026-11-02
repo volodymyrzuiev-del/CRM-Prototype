@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/empire.css?v=ds11">
     <link rel="stylesheet" href="css/header.css?v=ds3">
-    <link rel="stylesheet" href="css/documents.css?v=d1">
+    <link rel="stylesheet" href="css/documents.css?v=d2">
     <link rel="stylesheet" href="css/toast.css?v=t2">
     <script>
         (function () {
@@ -527,6 +527,19 @@
                 </div>
             </section>
 
+
+            <!-- 1b · AI reads the documents -->
+            <section class="dc-panel dc-scan" id="dc-scan" hidden aria-live="polite" aria-label="Reading documents">
+                <div class="dc-scan__anim" id="dc-scan-anim" aria-hidden="true"></div>
+                <div class="dc-scan__text">
+                    <h2 class="dc-step">AI is reading your documents</h2>
+                    <p class="dc-count" id="dc-scan-sub">Recognising the data and filling the fields. It takes a few seconds.</p>
+                </div>
+                <div class="dc-scan__bar" role="progressbar" aria-label="Reading progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="dc-scan-bar"><span id="dc-scan-fill"></span></div>
+                <ul class="dc-scan__list" id="dc-scan-list"></ul>
+                <button class="emp-btn emp-btn--link emp-btn--md" type="button" id="dc-scan-cancel"><span class="emp-btn__label">Cancel</span></button>
+            </section>
+
             <!-- 2 · Check documents -->
             <section class="dc-panel dc-review" id="dc-review" hidden aria-label="Check documents">
                 <aside class="dc-review__docs">
@@ -657,7 +670,9 @@
     </div>
 
     <script src="js/toast.js?v=t4"></script>
-    <script src="js/documents.js?v=d1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lottie-web@5.12.2/build/player/lottie_light.min.js"></script>
+    <script src="js/doc-scan-lottie.js?v=d2"></script>
+    <script src="js/documents.js?v=d2"></script>
     <script src="js/empire.js?v=ds8"></script>
 </body>
 </html>

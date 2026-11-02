@@ -154,6 +154,50 @@
     /* ---------- 2 · check ---------- */
     function typesInUse() { return TYPES.filter(function (t) { return state.files.some(function (f) { return f.type === t; }); }); }
     function filesOf(t) { return state.files.filter(function (f) { return f.type === t; }); }
+    /* ---------- 1b · AI reads the documents (~8 s) ---------- */
+    var SCAN_MS = 8000, scanTimers = [], scanAnim = null;
+    function stopScan() {
+        scanTimers.forEach(clearTimeout); scanTimers = [];
+        if (scanAnim) { scanAnim.destroy(); scanAnim = null; }
+        $("dc-scan-anim").innerHTML = "";
+        $("dc-scan-bar").classList.remove("is-run");
+    }
+    function playScanAnimation() {
+        var box = $("dc-scan-anim");
+        if (window.lottie && window.DC_SCAN_LOTTIE) {
+            try {
+                scanAnim = window.lottie.loadAnimation({ container: box, renderer: "svg", loop: true, autoplay: true, animationData: JSON.parse(JSON.stringify(window.DC_SCAN_LOTTIE)) });
+                // Safety net: if the player did not draw anything, show the CSS version.
+                scanTimers.push(setTimeout(function () { if (!box.querySelector("svg g")) { if (scanAnim) { scanAnim.destroy(); scanAnim = null; } fallbackScan(box); } }, 400));
+                return;
+            } catch (e) { scanAnim = null; }
+        }
+        fallbackScan(box);
+    }
+    function fallbackScan(box) {
+        box.innerHTML = '<div class="dc-scan__fallback"><svg viewBox="0 0 240 240" width="200" height="200"><rect x="58" y="38" width="124" height="164" rx="12" fill="var(--surface)" stroke="var(--primary)" stroke-width="3"/><rect x="66" y="55" width="30" height="6" rx="3" fill="var(--primary)"/>' +
+            [78, 98, 118, 138, 158, 178].map(function (y, i) { return '<rect x="78" y="' + (y - 3.5) + '" width="' + [72, 84, 60, 84, 48, 70][i] + '" height="7" rx="3.5" fill="var(--border)"/>'; }).join("") + '</svg><span class="dc-scan__beam"></span></div>';
+    }
+    function startScan() {
+        stopScan();
+        $("dc-upload").hidden = true; $("dc-scan").hidden = false;
+        var files = state.files.slice();
+        $("dc-scan-sub").textContent = "Recognising the data in " + files.length + " files and filling the fields. It takes a few seconds.";
+        $("dc-scan-list").innerHTML = files.map(function (f, i) {
+            return '<li class="dc-scan__item" data-i="' + i + '">' + icon("file-earmark-text") + '<span class="dc-scan__name">' + esc(f.name) + " · " + esc(f.type) + '</span><span class="dc-scan__state">Waiting</span></li>';
+        }).join("");
+        playScanAnimation();
+        var bar = $("dc-scan-bar"); bar.style.setProperty("--dc-scan-ms", SCAN_MS + "ms");
+        requestAnimationFrame(function () { requestAnimationFrame(function () { bar.classList.add("is-run"); }); });
+        var step = SCAN_MS / files.length;
+        files.forEach(function (f, i) {
+            scanTimers.push(setTimeout(function () { var li = $("dc-scan-list").children[i]; li.className = "dc-scan__item is-run"; li.querySelector(".dc-scan__state").innerHTML = '<span class="dc-spin"></span>Reading…'; }, i * step));
+            scanTimers.push(setTimeout(function () { var li = $("dc-scan-list").children[i]; li.className = "dc-scan__item is-done"; li.querySelector(".dc-scan__state").innerHTML = icon("check-circle-fill") + "Fields filled"; bar.setAttribute("aria-valuenow", Math.round((i + 1) / files.length * 100)); }, (i + 1) * step - 250));
+        });
+        scanTimers.push(setTimeout(function () { stopScan(); $("dc-scan").hidden = true; startCheck(); }, SCAN_MS + 400));
+    }
+    function cancelScan() { stopScan(); $("dc-scan").hidden = true; $("dc-upload").hidden = false; renderUpload(); }
+
     function startCheck() {
         state.status = {};
         typesInUse().forEach(function (t) { state.status[t] = "pending"; });
@@ -331,7 +375,7 @@
         document.querySelectorAll("[data-dc-tab]").forEach(function (b) { var on = b.getAttribute("data-dc-tab") === tab; b.classList.toggle("is-active", on); b.setAttribute("aria-selected", on); });
         var list = tab === "list";
         $("dc-list").hidden = !list;
-        if (list) { $("dc-upload").hidden = true; $("dc-review").hidden = true; renderList(); }
+        if (list) { if (scanTimers.length) cancelScan(); $("dc-upload").hidden = true; $("dc-review").hidden = true; renderList(); }
         else { var reviewing = Object.keys(state.status).length > 0; $("dc-upload").hidden = reviewing; $("dc-review").hidden = !reviewing; if (!reviewing) renderUpload(); }
     }
 
@@ -378,7 +422,8 @@
     $("dc-select").addEventListener("click", function () { state.selecting = !state.selecting; state.selected = {}; renderUpload(); });
     $("dc-assign-many").addEventListener("click", function () { openAssign(Object.keys(state.selected)); });
     $("dc-reset").addEventListener("click", resetCheck);
-    $("dc-start").addEventListener("click", startCheck);
+    $("dc-start").addEventListener("click", startScan);
+    $("dc-scan-cancel").addEventListener("click", cancelScan);
     $("dc-assign-ok").addEventListener("click", applyAssign);
     $("dc-compare-ok").addEventListener("click", function () { close("dc-compare"); state.compared = true; toast("updated"); setTimeout(openMismatch, 250); });
     $("dc-mismatch-ok").addEventListener("click", saveDecisions);

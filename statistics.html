@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/empire.css?v=ds11">
     <link rel="stylesheet" href="css/header.css?v=ds3">
-    <link rel="stylesheet" href="css/statistics.css?v=ds1">
+    <link rel="stylesheet" href="css/statistics.css?v=st2">
     <link rel="stylesheet" href="css/toast.css?v=t2">
     <script>
         (function () {
@@ -472,155 +472,85 @@
             </div>
             <div class="st-grow"></div>
             <div class="emp-meta"><span>Showing <strong id="st-range" data-emp-show-range>1-20</strong> of <strong id="st-total">670</strong> items.</span><span class="emp-meta__rule"></span><div class="emp-show"><span>Show</span><div class="emp-show__field"><div class="emp-combo" id="st-page-size" data-emp-show><div class="emp-field emp-field--sm"><div class="emp-combo__anchor"><div class="emp-input"><input class="emp-input__control" id="st-page-size-value" data-st="page-size" type="text" value="20" readonly aria-label="Items per page"><button class="emp-input__chevron-btn" type="button" aria-label="Items per page" aria-expanded="false"><svg class="emp-input__chevron" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-input-chevron"></use></svg></button></div><div class="emp-drop"><button class="emp-drop__item is-selected" type="button" data-size="20">20</button><button class="emp-drop__item" type="button" data-size="40">40</button><button class="emp-drop__item" type="button" data-size="60">60</button><button class="emp-drop__item" type="button" data-size="80">80</button><button class="emp-drop__item" type="button" data-size="100">100</button><button class="emp-drop__item" type="button" data-size="120">120</button></div></div></div></div></div><span>items.</span></div></div>
-            <div class="emp-field emp-field--sm st-bar__search">
-                <div class="emp-field__title"><span class="emp-field__label">Search</span></div>
-                <div class="emp-input"><span class="emp-input__icon" aria-hidden="true"><svg class="emp-input__search" viewBox="0 0 12 12"><use href="#i-input-search-sm"></use></svg></span><input class="emp-input__control" type="search" placeholder="Search" data-st="search" aria-label="Search"></div>
-            </div>
         </div>
 
-        <div class="st-top">
-            <section class="st-card st-users" aria-labelledby="st-users-title">
-                <h2 class="st-card__title" id="st-users-title">Users statistics all time</h2>
-                <div class="st-scroll">
-                    <table class="st-table">
-                        <thead><tr><th>User</th><th>Loads</th><th>Amount</th><th>Avg</th></tr></thead>
-                        <tbody id="st-users"></tbody>
-                    </table>
-                </div>
-            </section>
-            <section class="st-card st-amount" aria-labelledby="st-amount-title">
-                <div class="st-card__head">
-                    <h2 class="st-card__title" id="st-amount-title">Users Statistic Amount</h2>
-                    <div class="st-card__filters">
-                        <div class="emp-field emp-field--sm st-select st-select--year"><div class="emp-field__title"><span class="emp-field__label">Year</span></div><div class="emp-input"><input class="emp-input__control" type="text" value="2026" readonly data-emp-options="2026|2025|2024" data-st="amount-year" aria-label="Year"><svg class="emp-input__chevron" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-input-chevron"></use></svg></div></div>
-                    </div>
-                </div>
-                <div class="st-scroll">
-                    <table class="st-table">
-                        <thead><tr><th>Month</th><th>Loads</th><th>Amount</th><th>Avg</th></tr></thead>
-                        <tbody id="st-amount"></tbody>
-                    </table>
-                </div>
-                <div class="st-chart"><canvas id="st-chart-right" aria-label="Users statistic amount chart"></canvas></div>
-            </section>
-            <section class="st-card st-line" aria-labelledby="st-line-title">
-                <div class="st-card__head">
-                    <h2 class="st-card__title" id="st-line-title">User Statistic For The Year</h2>
-                    <div class="st-card__filters">
-                        <div class="emp-field emp-field--sm st-select st-select--who"><div class="emp-field__title"><span class="emp-field__label">????Dispatcher?</span></div><div class="emp-input"><input class="emp-input__control" type="text" value="MX1" readonly data-emp-options="MX1|MX2|MX3" data-st="line-who" aria-label="Dispatcher"><svg class="emp-input__chevron" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-input-chevron"></use></svg></div></div>
-                        <div class="emp-field emp-field--sm st-select st-select--year"><div class="emp-field__title"><span class="emp-field__label">Year</span></div><div class="emp-input"><input class="emp-input__control" type="text" value="2026" readonly data-emp-options="2026|2025|2024" data-st="line-year" aria-label="Year"><svg class="emp-input__chevron" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-input-chevron"></use></svg></div></div>
-                    </div>
-                </div>
-                <div class="st-chart"><canvas id="st-chart-left" aria-label="User statistic for the year"></canvas></div>
-            </section>
-        </div>
 
-        <div class="st-split">
-            <section class="st-card" aria-labelledby="st-donut-amount-title">
-                <h2 class="st-card__title" id="st-donut-amount-title">Users Statistic Amount</h2>
-                <div class="st-donut">
-                    <ul class="st-legend" id="st-legend-amount"></ul>
-                    <div class="st-donut__chart"><canvas id="st-chart-amount" aria-label="Users statistic amount doughnut"></canvas></div>
-                </div>
-            </section>
-            <section class="st-card" aria-labelledby="st-donut-loads-title">
-                <h2 class="st-card__title" id="st-donut-loads-title">Users Statistic Loads</h2>
-                <div class="st-donut">
-                    <ul class="st-legend" id="st-legend-loads"></ul>
-                    <div class="st-donut__chart"><canvas id="st-chart-loads" aria-label="Users statistic loads doughnut"></canvas></div>
-                </div>
-            </section>
-        </div>
-
-        <section class="st-card" aria-labelledby="st-general-title">
+        <section class="st-card" aria-labelledby="st-daily-title">
             <div class="st-card__head">
-                <h2 class="st-card__title" id="st-general-title">General by month</h2>
+                <h2 class="st-card__title" id="st-daily-title">Daily report</h2>
                 <div class="st-card__filters">
-                    <div class="emp-field emp-field--sm st-select st-select--who"><div class="emp-field__title"><span class="emp-field__label">????Dispatcher?</span></div><div class="emp-input"><input class="emp-input__control" type="text" value="MX1" readonly data-emp-options="MX1|MX2|MX3" data-st="month-who" aria-label="Dispatcher"><svg class="emp-input__chevron" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-input-chevron"></use></svg></div></div>
-                    <div class="emp-field emp-field--sm st-select st-select--year"><div class="emp-field__title"><span class="emp-field__label">Year</span></div><div class="emp-input"><input class="emp-input__control" type="text" value="2026" readonly data-emp-options="2026|2025|2024" data-st="month-year" aria-label="Year"><svg class="emp-input__chevron" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-input-chevron"></use></svg></div></div>
+                    <div class="emp-field emp-field--sm st-select st-select--who"><div class="emp-field__title"><span class="emp-field__label">Team</span></div><div class="emp-input"><input class="emp-input__control" type="text" value="All teams" readonly data-emp-default="All teams" data-emp-options="All teams|Guy Hawkins team|Jane Cooper team|Robert Fox team" data-st="team" aria-label="Team"><svg class="emp-input__chevron" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-input-chevron"></use></svg></div></div>
+                    <div class="emp-field emp-field--sm st-select st-select--year"><div class="emp-field__title"><span class="emp-field__label">Year</span></div><div class="emp-input"><input class="emp-input__control" type="text" value="2026" readonly data-emp-default="2026" data-emp-options="2026|2025|2024" data-st="daily-year" aria-label="Year"><svg class="emp-input__chevron" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-input-chevron"></use></svg></div></div>
                 </div>
             </div>
-            <div class="st-scroll">
-                <table class="st-table">
-                    <thead><tr><th>Month</th><th>Loads</th><th>Board</th><th>Warm</th><th>Profit</th><th>Average per load</th><th>Average per day</th><th>Best month</th><th>Comparison vs best month</th></tr></thead>
-                    <tbody id="st-general"></tbody>
+            <div class="st-scroll" data-emp-fade>
+                <table class="st-table st-table--daily">
+                    <thead><tr><th>Name</th><th>Current</th><th>Goals</th><th>Left</th><th>Daily goal</th><th>Left today</th><th>Profit today</th><th>Loads today</th><th>Average per day</th><th>Average per load</th><th>Pace</th><th>Best month</th><th>Comparison vs best month</th><th>Loads count</th><th>DAT loads</th></tr></thead>
+                    <tbody id="st-daily"></tbody>
                 </table>
             </div>
         </section>
 
         <div class="st-split">
-            <section class="st-card" aria-labelledby="st-office-title">
-                <h2 class="st-card__title" id="st-office-title">Office Statistic (Teams Summary)</h2>
-                <table class="st-table">
-                    <thead><tr><th>Teams</th><th>Avg</th></tr></thead>
-                    <tbody id="st-office"></tbody>
-                </table>
+            <section class="st-card" aria-labelledby="st-years-title">
+                <div class="st-card__head">
+                    <h2 class="st-card__title" id="st-years-title">Years Statistic Amount</h2>
+                    <div class="st-card__filters"><div class="emp-field emp-field--sm st-select st-select--year"><div class="emp-field__title"><span class="emp-field__label">Year</span></div><div class="emp-input"><input class="emp-input__control" type="text" value="2026" readonly data-emp-default="2026" data-emp-options="2026|2025|2024" data-st="years-year" aria-label="Year"><svg class="emp-input__chevron" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-input-chevron"></use></svg></div></div></div>
+                </div>
+                <div class="st-scroll">
+                    <table class="st-table">
+                        <thead><tr><th>Month</th><th>Loads count</th><th>Profit</th><th>Average per load</th><th>Average daily per month</th></tr></thead>
+                        <tbody id="st-years"></tbody>
+                    </table>
+                </div>
             </section>
-            <section class="st-card" aria-labelledby="st-change-title">
-                <h2 class="st-card__title" id="st-change-title">Change rate loads</h2>
-                <table class="st-table">
-                    <thead><tr><th>User</th><th>load</th></tr></thead>
-                    <tbody id="st-change"></tbody>
-                </table>
-                <div class="st-empty" id="st-change-empty">
-                    <svg class="st-empty__icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-question"></use></svg>
-                    <span>No result</span>
+            <section class="st-card" aria-labelledby="st-teams-title">
+                <div class="st-card__head">
+                    <h2 class="st-card__title" id="st-teams-title">Teams statistic</h2>
+                    <div class="st-card__filters"><div class="emp-field emp-field--sm st-select st-select--year"><div class="emp-field__title"><span class="emp-field__label">Year</span></div><div class="emp-input"><input class="emp-input__control" type="text" value="2026" readonly data-emp-default="2026" data-emp-options="2026|2025|2024" data-st="teams-year" aria-label="Year"><svg class="emp-input__chevron" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-input-chevron"></use></svg></div></div></div>
+                </div>
+                <div class="st-scroll">
+                    <table class="st-table">
+                        <thead><tr><th>Teams</th><th>Profit</th><th>Goal</th><th>Left</th></tr></thead>
+                        <tbody id="st-teams"></tbody>
+                    </table>
                 </div>
             </section>
         </div>
 
-        <section class="st-card" aria-labelledby="st-team-title">
-            <div class="st-card__head">
-                <h2 class="st-card__title" id="st-team-title">Tom Bob team</h2>
-                <div class="st-card__filters">
-                    <div class="emp-field emp-field--sm st-select st-select--who"><div class="emp-field__title"><span class="emp-field__label">????Dispatcher?</span></div><div class="emp-input"><input class="emp-input__control" type="text" value="MX1" readonly data-emp-options="MX1|MX2|MX3" data-st="team-who" aria-label="Dispatcher"><svg class="emp-input__chevron" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-input-chevron"></use></svg></div></div>
-                    <div class="emp-field emp-field--sm st-select st-select--year"><div class="emp-field__title"><span class="emp-field__label">Year</span></div><div class="emp-input"><input class="emp-input__control" type="text" value="2026" readonly data-emp-options="2026|2025|2024" data-st="team-year" aria-label="Year"><svg class="emp-input__chevron" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-input-chevron"></use></svg></div></div>
+        <div class="st-trio">
+            <section class="st-card" aria-labelledby="st-today-title">
+                <div class="st-card__head">
+                    <h2 class="st-card__title" id="st-today-title">Today summary</h2>
+                    <div class="st-card__filters"><div class="emp-date emp-date--sm st-card__date" data-emp-date="range" data-st-date="today"><span class="emp-date__label">Date/time<svg class="emp-date__sort" viewBox="0 0 7 12" aria-hidden="true"><use href="#i-sort"></use></svg></span><button class="emp-date__field" type="button"><svg class="emp-date__icon" viewBox="0 0 18 18" aria-hidden="true"><use href="#i-calendar-fill"></use></svg><span class="emp-date__value is-empty">MM/DD/YYYY - MM/DD/YYYY</span></button><div class="emp-date__panel"></div></div></div>
                 </div>
-            </div>
-            <div class="st-scroll">
-                <table class="st-table">
-                    <thead><tr><th>User</th><th>Current</th><th>Goals</th><th>Left</th><th>Daily goal</th><th>Left today</th><th>Profit today</th><th>Loads today</th><th>Average per day</th><th>Pace</th><th>Best month</th><th>Comparison vs Best month</th></tr></thead>
-                    <tbody id="st-team"></tbody>
-                </table>
-            </div>
-        </section>
-
-        <section class="st-card" aria-labelledby="st-lead-title">
-            <div class="st-card__head">
-                <h2 class="st-card__title" id="st-lead-title">Without team lead</h2>
-                <div class="st-card__filters">
-                    <div class="emp-field emp-field--sm st-select st-select--who"><div class="emp-field__title"><span class="emp-field__label">????Dispatcher?</span></div><div class="emp-input"><input class="emp-input__control" type="text" value="MX1" readonly data-emp-options="MX1|MX2|MX3" data-st="lead-who" aria-label="Dispatcher"><svg class="emp-input__chevron" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-input-chevron"></use></svg></div></div>
-                    <div class="emp-field emp-field--sm st-select st-select--year"><div class="emp-field__title"><span class="emp-field__label">Year</span></div><div class="emp-input"><input class="emp-input__control" type="text" value="2026" readonly data-emp-options="2026|2025|2024" data-st="lead-year" aria-label="Year"><svg class="emp-input__chevron" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-input-chevron"></use></svg></div></div>
+                <table class="st-table st-table--kv"><tbody id="st-today"></tbody></table>
+            </section>
+            <section class="st-card" aria-labelledby="st-source-title">
+                <div class="st-card__head">
+                    <h2 class="st-card__title" id="st-source-title">Today by source</h2>
+                    <div class="st-card__filters"><div class="emp-date emp-date--sm st-card__date" data-emp-date="range" data-st-date="source"><span class="emp-date__label">Date/time<svg class="emp-date__sort" viewBox="0 0 7 12" aria-hidden="true"><use href="#i-sort"></use></svg></span><button class="emp-date__field" type="button"><svg class="emp-date__icon" viewBox="0 0 18 18" aria-hidden="true"><use href="#i-calendar-fill"></use></svg><span class="emp-date__value is-empty">MM/DD/YYYY - MM/DD/YYYY</span></button><div class="emp-date__panel"></div></div></div>
                 </div>
-            </div>
-            <div class="st-scroll">
                 <table class="st-table">
-                    <thead><tr><th>User</th><th>Current</th><th>Goals</th><th>Left</th><th>Daily goal</th><th>Left today</th><th>Profit today</th><th>Loads today</th><th>Average per day</th><th>Pace</th><th>Best month</th><th>Comparison vs Best month</th></tr></thead>
-                    <tbody id="st-lead"></tbody>
+                    <thead><tr><th>Source</th><th>Today</th><th>Loads today</th></tr></thead>
+                    <tbody id="st-source"></tbody>
                 </table>
-            </div>
-        </section>
-
-        <section class="st-card" aria-labelledby="st-sub-title">
-            <div class="st-card__head">
-                <h2 class="st-card__title" id="st-sub-title">Sub-Departments total</h2>
-                <div class="st-card__filters">
-                    <div class="emp-field emp-field--sm st-select st-select--who"><div class="emp-field__title"><span class="emp-field__label">????Dispatcher?</span></div><div class="emp-input"><input class="emp-input__control" type="text" value="MX1" readonly data-emp-options="MX1|MX2|MX3" data-st="sub-who" aria-label="Dispatcher"><svg class="emp-input__chevron" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-input-chevron"></use></svg></div></div>
-                    <div class="emp-field emp-field--sm st-select st-select--year"><div class="emp-field__title"><span class="emp-field__label">Year</span></div><div class="emp-input"><input class="emp-input__control" type="text" value="2026" readonly data-emp-options="2026|2025|2024" data-st="sub-year" aria-label="Year"><svg class="emp-input__chevron" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-input-chevron"></use></svg></div></div>
+            </section>
+            <section class="st-card" aria-labelledby="st-month-title">
+                <div class="st-card__head">
+                    <h2 class="st-card__title" id="st-month-title">Month by source</h2>
+                    <div class="st-card__filters"><div class="emp-date emp-date--sm st-card__date" data-emp-date="range" data-st-date="month"><span class="emp-date__label">Date/time<svg class="emp-date__sort" viewBox="0 0 7 12" aria-hidden="true"><use href="#i-sort"></use></svg></span><button class="emp-date__field" type="button"><svg class="emp-date__icon" viewBox="0 0 18 18" aria-hidden="true"><use href="#i-calendar-fill"></use></svg><span class="emp-date__value is-empty">MM/DD/YYYY - MM/DD/YYYY</span></button><div class="emp-date__panel"></div></div></div>
                 </div>
-            </div>
-            <div class="st-scroll">
                 <table class="st-table">
-                    <thead><tr><th>User</th><th>Current</th><th>Goals</th><th>Left</th><th>Daily goal</th><th>Left today</th><th>Profit today</th><th>Loads today</th><th>Average per day</th><th>Pace</th><th>Best month</th><th>Comparison vs Best month</th></tr></thead>
-                    <tbody id="st-sub"></tbody>
+                    <thead><tr><th id="st-month-label">November 2026</th><th>Profit</th><th>Loads</th></tr></thead>
+                    <tbody id="st-month"></tbody>
                 </table>
-            </div>
-        </section>
+            </section>
+        </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
     <script src="js/toast.js?v=t4"></script>
     <script src="js/empire.js?v=ds8"></script>
-    <script src="js/statistics.js?v=ds1"></script>
+    <script src="js/statistics.js?v=st2"></script>
 </body>
 </html>

@@ -339,3 +339,6 @@ Action menu по Figma: кнопка 40px, точки 3×3 с шагом 5px. De
 - **List** — `emp-table`: фильтры Date / Name / Owner type + колонка на каждый тип документа со статусом (Verified / Mismatch / Processing / —). Глаз и «View documents / Edit» — модалка просмотра с переключением документов чипсами и полями Add / Delete; «Delete» — подтверждение.
 - Демо: `documents.html?demo=check` — сразу Company + 3 типизированных файла.
 - **AI reading (между загрузкой и проверкой).** «Start check» → шаг «AI is reading your documents», ~8 с: Lottie-анимация «Document scan» (`media/doc-scan.json`, она же в `js/doc-scan-lottie.js`, плеер `lottie-web` 5.12.2 light с jsDelivr), общий прогресс и статус по каждому файлу (Waiting → Reading… → Fields filled). Потом сразу экран проверки с заполненными полями. Без lottie-web показывается та же картинка на SVG + CSS. Cancel — назад к загрузке.
+
+## Экран Statistics dispatchers (`statistics.html`) — по фрейму Figma 490:29812
+Сверху Office + Date/time + «Showing … items». Дальше: **Daily report** (фильтры Team, Year; блоки команд — лид подсвечен, между командами разделитель, итог Total), **Years Statistic Amount** (Year) и **Teams statistic** (Year), три карточки с Date/time: **Today summary**, **Today by source**, **Month by source**. Все фильтры пересчитывают демо-данные. Графики Chart.js со старой версии убраны.

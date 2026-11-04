@@ -907,7 +907,11 @@
         function syncClear() {
             var off = input.disabled || field.classList.contains("is-disabled");
             box.classList.toggle("has-clear", !off && input.value !== initial);
+            // Narrow filter cells: the clear button and the chevron together would hide the value,
+            // so below 130px the chevron gives way to the clear button.
+            box.classList.toggle("is-tight", box.offsetWidth > 0 && box.offsetWidth < 130);
         }
+        if (window.ResizeObserver) new ResizeObserver(syncClear).observe(box);
         var native = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, "value");
         Object.defineProperty(input, "value", {
             configurable: true,

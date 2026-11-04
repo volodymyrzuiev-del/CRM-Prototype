@@ -141,7 +141,7 @@
             '<div class="qt-drow qt-drow--between"><span class="qt-muted"><b>PU:</b> ' + esc(q.pu) + " / ASAP</span>" + btn("Google Maps", "link", "q-geo", "data-qt-maps") + "</div>" +
             '<div class="qt-drow qt-drow--between"><span class="qt-muted"><b>DEL:</b> ' + esc(q.del) + " / Tomorrow by 9 AM</span>" + btn("Renew offer", "link", "q-restore", "data-qt-renew") + "</div>" +
             '<div class="qt-drow">' + svg("q-timer", "qt-icon") + '<span class="qt-strong" id="qt-timer">4:54</span><span class="qt-muted qt-grow">No new drivers available</span>' + btn("Update offer", "secondary", "", "data-qt-update") + "</div></div>" +
-            '<div class="qt-dsec qt-head-row"><div class="qt-drow"><label class="emp-check"><input class="emp-check__input" type="checkbox" id="qt-all"><span class="emp-check__box"><svg class="emp-check__mark" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-check"></use></svg><span class="emp-check__minus"></span></span><span>Choose all</span></label><span class="qt-grow"></span>' + btn("Mi away", "link", "q-sort", "data-qt-sort") + "</div></div>" +
+            '<div class="qt-dsec qt-head-row"><div class="qt-drow"><label class="emp-check"><input class="emp-check__input" type="checkbox" id="qt-all"><span class="emp-check__box"><svg class="emp-check__mark" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-check"></use></svg><span class="emp-check__minus"></span></span><span>Choose all</span></label><span class="qt-grow"></span>' + btn("Mi away", "link", "", "data-qt-sort") + "</div></div>" +
             '<div class="qt-list" id="qt-dlist" data-emp-fade>' + q.driverList.map(driverRow).join("") + "</div>";
     }
     function offerCard(m) {

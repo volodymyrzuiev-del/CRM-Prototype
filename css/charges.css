@@ -1,7 +1,7 @@
 /* Charges screen layout. Components live in empire.css. */
 
 .ch-table {
-    --emp-cols: 80px 260px 100px 100px 125px minmax(160px, 1fr) 200px 112px 200px 40px;
+    --emp-cols: 80px 230px 100px 100px 140px minmax(160px, 1fr) 200px 127px 200px 40px;
     --emp-table-min: 1377px;
     --emp-row-h: 60px;
 }

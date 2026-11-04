@@ -654,8 +654,10 @@ textarea { font-family: inherit; }
     display: none;
 }
 
+/* No focus state in the design: after a click the item looks normal again; only keyboard focus is shown, like hover. */
+.emp-navitem:focus { outline: none; }
 .emp-navitem:hover,
-.emp-navitem:focus,
+.emp-navitem:focus-visible,
 .emp-navitem.is-hover {
     background: var(--nav-hover);
     color: var(--nav-hover-text);

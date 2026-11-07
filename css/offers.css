@@ -1,0 +1,90 @@
+/* Offers — layout and local blocks of this section (Figma: CRM 3.0 / Offers, 1699:1913).
+   Shares the two-column card with Load's Chats (css/loadchats.css). Global look comes from empire.css. */
+.of-grow { flex: 1 1 auto; }
+.of-muted { font-size: var(--x6); line-height: var(--x8); color: var(--chat-meta); }
+.of-search { display: flex; align-items: center; gap: var(--x4); }
+.of-search .emp-field { flex: 1 1 auto; width: auto; max-width: none; }
+
+/* Offer summary (Figma: Offer summary 1744:11410 — Update: No new drivers / New drivers available / New drivers added; Renew: Enabled / Disabled) */
+.of-summary { display: flex; flex-direction: column; gap: var(--x3); padding: 0 var(--x6) var(--x6); border-bottom: 1px solid var(--chat-line); }
+.of-summary[hidden], .of-listbar[hidden], .of-listbar__bulk[hidden], .of-listbar__sorts[hidden] { display: none; }
+.of-sum__row { display: flex; align-items: center; gap: var(--x3); min-width: 0; }
+.of-sum__drivers { font-size: var(--x7); line-height: var(--x10); font-weight: 600; }
+.of-sum__stop { font-size: var(--x7); line-height: var(--x10); font-weight: 600; color: var(--chat-text); }
+.of-sum__stop--cut { min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.of-link { display: inline-flex; align-items: center; gap: var(--x2); padding: 0; border: 0; background: none; color: var(--chat-accent); font-size: var(--x6); line-height: var(--x8); white-space: nowrap; cursor: pointer; }
+.of-link .lc-ico { width: 14px; height: 14px; }
+.of-link--btn:disabled { color: var(--chat-muted); cursor: not-allowed; }
+.of-sum__timer { padding-top: var(--x2); }
+.of-timer { display: inline-flex; align-items: center; gap: var(--x2); padding: var(--x) var(--x4); border-radius: var(--x2); background: var(--chat-in); font-weight: 600; font-variant-numeric: tabular-nums; }
+.of-timer .lc-ico { width: 14px; height: 14px; fill: var(--chat-meta); }
+.of-status { display: inline-flex; align-items: center; gap: var(--x2); font-size: var(--x6); line-height: var(--x8); color: var(--chat-meta); }
+.of-status .lc-ico { width: 14px; height: 14px; }
+.of-status.is-available { color: var(--chat-success); }
+.of-status.is-added { color: var(--chat-warning); }
+.of-plus { padding: 0 var(--x3); border-radius: var(--x4); background: currentColor; font-size: 11px; font-weight: 600; }
+.of-status.is-available .of-plus { color: var(--chat-success); }
+.of-status .of-plus { -webkit-text-fill-color: #ffffff; }
+.of-status.is-added .of-plus { background: var(--chat-warning-line); -webkit-text-fill-color: #3f3300; }
+
+/* Drivers list bar: Choose all + sort / status, or the bulk Reject when drivers are selected */
+.of-listbar { display: flex; align-items: center; gap: var(--x4); min-height: 48px; padding: var(--x4) var(--x6); background: var(--chat-in); border-bottom: 1px solid var(--chat-line); }
+.of-listbar__sorts, .of-listbar__bulk { display: flex; align-items: center; gap: var(--x4); margin-left: auto; }
+.of-sel { width: 120px; }
+.of-sel-count { font-weight: 600; }
+
+/* Driver row (Figma: Offer driver row 1703:1271 — Active / Accepted / On hold / Not started / Unreliable / Rejected; Team = two drivers) */
+.of-driver { display: flex; align-items: flex-start; gap: var(--x6); padding: var(--x6); border-bottom: 1px solid var(--chat-line); background: var(--chat-panel); cursor: pointer; outline: none; }
+.of-driver:hover, .of-driver:focus-visible { background: var(--chat-in); }
+.of-driver.is-active { background: var(--chat-out); }
+.of-driver.is-unreliable { background-image: repeating-linear-gradient(135deg, transparent 0 12px, rgba(238, 153, 17, 0.08) 12px 24px); }
+.of-driver.is-rejected .of-driver__info, .of-driver.is-rejected .of-driver__rate { opacity: 0.6; }
+.of-driver .emp-check { margin-top: var(--x10); }
+.of-avatars { display: inline-flex; flex-direction: row-reverse; flex: 0 0 auto; }
+.of-avatars.is-team .emp-avatar + .emp-avatar { margin-right: -16px; }
+.of-avatars .emp-avatar { box-shadow: 0 0 0 2px var(--chat-panel); }
+.of-driver__info { display: flex; flex-direction: column; align-items: flex-start; gap: var(--x2); flex: 1 1 auto; min-width: 0; }
+.of-driver__name { display: flex; align-items: center; gap: var(--x3); font-size: var(--x7); line-height: var(--x10); color: var(--chat-text); }
+.of-driver__name--team { padding-left: 38px; }
+.of-star { width: 14px; height: 14px; fill: var(--chat-accent); flex: 0 0 auto; }
+.of-rating { font-size: var(--x6); line-height: var(--x8); color: var(--chat-accent); }
+.of-geo { width: 12px; height: 12px; fill: var(--chat-accent); display: inline-block; vertical-align: -2px; margin-right: var(--x); }
+.of-driver__side { display: flex; flex-direction: column; align-items: flex-end; gap: var(--x2); flex: 0 0 auto; }
+.of-driver__top { display: flex; align-items: center; gap: var(--x3); }
+.of-note { font-size: var(--x6); line-height: var(--x8); color: var(--chat-meta); white-space: nowrap; }
+.of-note--hold { color: var(--chat-warning-line); font-variant-numeric: tabular-nums; }
+.of-driver__rate { font-size: var(--x8); line-height: var(--x12); font-weight: 600; color: var(--chat-text); }
+.of-unread { min-width: 20px; height: 20px; padding: 0 6px; border-radius: 10px; background: var(--chat-accent); color: #ffffff; font-size: 11px; line-height: 20px; text-align: center; }
+.of-empty { margin: 0; padding: var(--x16) var(--x8); color: var(--chat-meta); text-align: center; }
+.of-arch { display: flex; flex-direction: column; gap: var(--x); padding: var(--x6); border-bottom: 1px solid var(--chat-line); cursor: pointer; }
+.of-arch:hover { background: var(--chat-in); }
+.of-arch.is-active { background: var(--chat-out); }
+.of-arch__result { font-size: var(--x6); line-height: var(--x8); font-weight: 600; color: var(--chat-accent); }
+
+/* Driver header (Figma: Offer chat header 1704:807) — driver row, details row and the always-visible Actions bar */
+.of-head { display: flex; flex-direction: column; flex: 0 0 auto; border-bottom: 1px solid var(--chat-line); }
+.of-head__driver, .of-head__details { display: flex; align-items: center; gap: var(--x8); padding: var(--x6) var(--x8); flex-wrap: wrap; }
+.of-head__driver { background: var(--chat-in); }
+.of-head__details { border-top: 1px solid var(--chat-line); }
+.of-head__who { display: flex; flex-direction: column; gap: var(--x2); flex: 1 1 360px; min-width: 0; }
+.of-head__name { display: flex; align-items: center; flex-wrap: wrap; gap: var(--x3); font-size: var(--x8); line-height: var(--x12); }
+.of-head__driver-name { color: var(--chat-accent); font-weight: 500; }
+.of-head__driver-name--team { padding-left: 54px; }
+.of-head__company { display: flex; align-items: center; flex-wrap: wrap; gap: var(--x3); }
+.of-flag { width: 16px; height: 16px; }
+.of-flag--red { fill: var(--chat-danger); }
+.of-flag--orange { fill: var(--chat-warning-line); }
+.of-vr { align-self: stretch; width: 1px; background: var(--chat-line); }
+.of-head__col { display: flex; flex-direction: column; align-items: flex-start; gap: var(--x); font-size: var(--x7); line-height: var(--x10); }
+.of-kv { display: flex; flex-direction: column; gap: var(--x); font-size: var(--x6); line-height: var(--x8); }
+.of-kv > span { display: flex; gap: var(--x6); }
+.of-kv .of-muted { min-width: 72px; }
+.of-kv a { display: inline-flex; align-items: center; gap: var(--x2); color: var(--chat-text); }
+.of-kv--grid { display: grid; grid-template-columns: auto auto; column-gap: var(--x12); }
+.of-phone { width: 14px; height: 14px; fill: var(--chat-accent); }
+.of-head__note { display: flex; align-items: center; gap: var(--x4); font-size: var(--x6); line-height: var(--x8); }
+.of-head__note b, .of-head__details > b { font-size: var(--x7); }
+.of-head__timers { display: flex; flex-direction: column; align-items: flex-end; gap: var(--x2); }
+.of-actions { display: flex; align-items: center; flex-wrap: wrap; gap: var(--x4); padding: var(--x4) var(--x8); border-top: 1px solid var(--chat-out-line); background: var(--chat-out); }
+.of-chat { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+.of-chat > .emp-chat, .of-chat.emp-chat { flex: 1 1 auto; min-height: 0; border: 0; border-radius: 0; }

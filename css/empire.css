@@ -3491,7 +3491,25 @@ button.emp-date__field { font: inherit; }
 .emp-chat__pinned-body { display: flex; flex-direction: column; min-width: 0; flex: 1 1 auto; }
 .emp-chat__pinned-label { font-size: var(--x6); line-height: var(--x8); font-weight: 500; color: var(--chat-accent); }
 .emp-chat__pinned-text { font-size: var(--x6); line-height: var(--x8); color: var(--chat-text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.emp-chat__search-field { flex: 1 1 auto; display: flex; align-items: center; gap: var(--x3); height: var(--x16); padding: 0 var(--x4); border: 1px solid var(--chat-accent-line); border-radius: var(--x3); color: var(--chat-meta); }
+
+/* Pinned messages expanded (Figma: Chat / Pinned bar, State=Expanded) */
+.emp-chat__pins { display: flex; flex-direction: column; gap: var(--x4); padding: var(--x4) var(--x8); border-bottom: 1px solid var(--chat-out-line); background: var(--chat-out); flex: 0 0 auto; max-height: 50%; overflow-y: auto; }
+.emp-chat__pins[hidden] { display: none; }
+.emp-chat__pins-main, .emp-chat__pins-row { display: grid; grid-template-columns: 140px minmax(0, 1fr) auto; gap: var(--x8); align-items: start; cursor: pointer; }
+.emp-chat__pins-row { grid-template-columns: 140px minmax(0, 1fr) auto auto; align-items: center; padding-top: var(--x4); border-top: 1px solid var(--chat-out-line); }
+.emp-chat__pins-who { display: flex; flex-direction: column; min-width: 0; }
+.emp-chat__pins-author { font-size: var(--x7); line-height: var(--x10); font-weight: 600; color: var(--chat-text); }
+.emp-chat__pins-role, .emp-chat__pins-time { font-size: var(--x6); line-height: var(--x8); color: var(--chat-meta); }
+.emp-chat__pins-time { text-align: right; white-space: nowrap; }
+.emp-chat__pins-text { margin: 0; font-size: var(--x6); line-height: var(--x8); color: var(--chat-text-2); white-space: pre-line; }
+.emp-chat__pins-line { font-size: var(--x6); line-height: var(--x8); color: var(--chat-text-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.emp-chat__pins-collapse { align-self: center; display: inline-flex; padding: 0; border: 0; background: none; color: var(--chat-accent); cursor: pointer; }
+/* Message menu: Read by (Figma: Chat / Message menu, Show read by) */
+.emp-chat__readby { display: flex; flex-direction: column; margin-top: var(--x2); padding: var(--x3) var(--x6) var(--x2); border-top: 1px solid var(--chat-line); }
+.emp-chat__readby-title { font-size: var(--x6); line-height: var(--x10); color: var(--chat-meta); }
+.emp-chat__reader { display: flex; align-items: center; gap: var(--x3); padding: var(--x2) 0; font-size: var(--x7); line-height: var(--x10); color: var(--chat-text); }
+.emp-chat__reader-role { flex: 1 1 auto; font-size: var(--x6); color: var(--chat-meta); }
+.emp-chat__reader .emp-chat__ico { color: var(--chat-muted); }.emp-chat__search-field { flex: 1 1 auto; display: flex; align-items: center; gap: var(--x3); height: var(--x16); padding: 0 var(--x4); border: 1px solid var(--chat-accent-line); border-radius: var(--x3); color: var(--chat-meta); }
 .emp-chat__search-field input { flex: 1 1 auto; min-width: 0; border: 0; outline: none; background: transparent; color: var(--chat-text); font: inherit; font-size: var(--x7); }
 .emp-chat__search-count { font-size: var(--x6); color: var(--chat-meta); white-space: nowrap; min-width: 48px; text-align: right; }
 mark.emp-chat__hit { padding: 0; border-radius: 2px; background: var(--chat-highlight); color: inherit; }
@@ -3722,3 +3740,19 @@ mark.emp-chat__hit.is-current { outline: 2px solid var(--chat-warning-line); }
 @media (prefers-reduced-motion: reduce) {
     .emp-chat__dots i, .emp-chat__rec-dot { animation: none; }
 }
+
+/* ===== Chat / Offer card — emp-offer (Figma: Chat / Offer card 7730:8561). Driver's offer in the chat feed.
+   States: Default, On hold (orange chip), Booked (green line), No location (red text). The time-zone "!" shows only
+   when the route crosses a time zone. Buttons are never inside the card: hold / book / decline live in the chat header. */
+.emp-offer { display: flex; flex-direction: column; align-items: center; gap: var(--x3); width: 400px; max-width: 100%; margin: 0 auto; padding: var(--x8); border: 1px solid var(--chat-out-line); border-radius: var(--x6); background: var(--chat-out); color: var(--chat-text); text-align: center; }
+.emp-offer__row { display: flex; align-items: baseline; flex-wrap: wrap; justify-content: center; gap: var(--x2); font-size: var(--x7); line-height: var(--x10); }
+.emp-offer__row b { font-weight: 600; }
+.emp-offer__value { font-size: var(--x8); line-height: var(--x12); font-weight: 600; color: var(--chat-accent); }
+.emp-offer__muted { font-size: var(--x6); line-height: var(--x8); color: var(--chat-meta); }
+.emp-offer__loc { display: flex; flex-direction: column; align-items: center; font-size: var(--x6); line-height: var(--x8); }
+.emp-offer__loc a { color: var(--chat-accent); text-decoration: underline; }
+.emp-offer__loc.is-missing a, .emp-offer__nogps { color: var(--chat-danger); text-decoration: none; }
+.emp-offer__tz { display: inline-flex; align-self: center; color: var(--chat-warning-line); cursor: help; }
+.emp-offer__tz svg { width: 16px; height: 16px; fill: currentColor; }
+.emp-offer__done { display: inline-flex; align-items: center; gap: var(--x2); color: var(--chat-success); font-weight: 600; }
+.emp-offer__done svg { width: 16px; height: 16px; fill: currentColor; }

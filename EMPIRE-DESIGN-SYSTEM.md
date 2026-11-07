@@ -360,3 +360,13 @@ Figma: Empire design system → Notification (section 6965:18941). Files: `css/n
 ## Navbar
 
 У пунктов навбара нет состояния «после клика»: подсветка (#D1E1F5) только при наведении и при фокусе с клавиатуры (`:focus-visible`).
+
+## Load's Chats и Offers (`loadchats.html`, `offers.html`) — Figma CRM 3.0 / Load's Chats (1699:1188), Offers (1699:1913)
+
+- Обе страницы — двухколоночная карточка `lc-card` (список слева, чат справа), раскладка в `css/loadchats.css`, Offers добавляет `css/offers.css`. Чат — глобальный `emp-chat`.
+- **Меню сообщения** (глобально, `emp-chat`): Reply, Pin / Unpin, Copy text, Resend (только для неотправленного), Delete (только свои). Edit убран. У своих сообщений — блок «Read by» (`m.readBy = [[name, role], …]`).
+- **Закреплённые** (глобально): `m.pinned: true` закрепляет при загрузке. Шеврон в баре разворачивает `emp-chat__pins`: текущий закреп целиком + остальные с Unpin; ⌃ сворачивает.
+- **Offer card** — глобальный `emp-offer`: состояния Default / On hold / Booked / No location (`is-missing`, красный текст). Оранжевый «!» (`emp-offer__tz` в `emp-tip`) — только при смене часового пояса. Кнопок внутри карточки нет.
+- **Load's Chats**: строка списка `lc-item` (Default / Hover / Active / Unread; последнее сообщение Text / System / File / Voice / Photo / Draft). My Labels: ⋮⋮ — перетащить лейбл на чат, ⋮ на hover — Edit / Delete, клик — фильтр. Меню ⋮ в шапке: участники, Add members, Add driver, Dispatch message, Files, Export chat (PDF), Offer's archive. Chat settings: виджет вкл/выкл, уведомления, шаблоны быстрых ответов.
+- **Offers**: панель действий `of-actions` в шапке водителя всегда видна (Put on hold → Book / Release / Renew hold / Decline; после брони — Cancel booking / Add to existed Load / Build the load). Строка водителя: Team (два водителя), галочки — DS-статусы `emp-chat__status`. Offer summary: Update offer — No new drivers (кнопка неактивна) / New drivers available +N / New drivers added +N; Renew offer неактивен, пока идёт таймер.
+- **Виджет чата** (`css/chat-widget.css`, `js/chat-widget.js`, на всех страницах, кроме Load's Chats и Offers — `body[data-chat-widget="off"]`): круглая кнопка со счётчиком, превью нового сообщения на 5 с, список (поиск, лейблы), чат внутри с закрепом; ↗ ведёт в раздел. Выключается в Chat settings (`localStorage empChatWidget.off`). Симуляция: первое сообщение через 6 с, далее раз в 2,5–3,5 мин.

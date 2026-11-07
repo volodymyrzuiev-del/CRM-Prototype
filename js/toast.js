@@ -21,6 +21,11 @@
         offerCreated: { tone: "success", title: "BID & Offer created", text: "The offer has been sent to drivers.", icon: "icons/controls/success-fill.svg" },
         booked: { tone: "success", title: "Booked", text: "\"[Name]\" has been booked for this load.", icon: "icons/controls/success-fill.svg" },
         checkSaved: { tone: "success", title: "Check saved", text: "\"[Name]\" has been added to the List.", icon: "icons/controls/success-fill.svg" },
+        labelAdded: { tone: "success", title: "Label added", text: "\"[Name]\" has been added to the chat.", icon: "icons/controls/success-fill.svg" },
+        exported: { tone: "success", title: "Exported", text: "\"[Name]\" has been saved as PDF.", icon: "icons/controls/success-fill.svg" },
+        requested: { tone: "info", title: "Request sent", text: "\"[Name]\" has been requested from the driver.", icon: "icons/controls/success-fill.svg" },
+        declined: { tone: "success", title: "Declined", text: "\"[Name]\" has been declined.", icon: "icons/controls/success-fill.svg" },
+        offerUpdated: { tone: "success", title: "Offer updated", text: "The offer has been sent to new drivers.", icon: "icons/controls/success-fill.svg" },
         ruleConflict: { tone: "error", title: "Error: unsuccessful", text: "This broker is already on the opposite list. Remove it first.", icon: "icons/controls/error-fill.svg" }
     };
 

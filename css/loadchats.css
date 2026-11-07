@@ -1,0 +1,151 @@
+/* Load's Chats — layout and local blocks of this section (Figma: CRM 3.0 / Load's Chats, 1699:1188).
+   Global look (tabs, inputs, chips, buttons, modal, chat) comes from empire.css. */
+.lc-app { display: flex; flex-direction: column; min-height: 100vh; }
+.lc-page { display: flex; flex-direction: column; gap: var(--x6); flex: 1 1 auto; min-height: 0; }
+.lc-bar { display: flex; align-items: center; gap: var(--x6); }
+.lc-card { display: grid; grid-template-columns: 400px minmax(0, 1fr); height: calc(100vh - 170px); min-height: 640px; border: 1px solid var(--chat-line); border-radius: var(--x3); background: var(--chat-panel); overflow: hidden; }
+@media (max-width: 1199px) { .lc-card { grid-template-columns: 340px minmax(0, 1fr); } }
+@media (max-width: 991px) { .lc-card { grid-template-columns: 1fr; height: auto; } .lc-side { max-height: 520px; } .lc-main { height: 720px; } }
+.lc-ico { width: var(--x8); height: var(--x8); fill: currentColor; flex: 0 0 auto; }
+.lc-grow { flex: 1 1 auto; }
+
+/* Left column */
+.lc-side { display: flex; flex-direction: column; min-height: 0; border-right: 1px solid var(--chat-line); }
+.lc-side__head { display: flex; flex-direction: column; gap: var(--x6); padding: var(--x6); flex: 0 0 auto; }
+.lc-tabs { width: 100%; }
+.lc-tabs .emp-tab { flex: 1 1 auto; justify-content: center; white-space: nowrap; }
+.lc-side__filters { display: flex; gap: var(--x4); }
+.lc-side__office { width: 140px; flex: 0 0 auto; }
+.lc-side__search { flex: 1 1 auto; width: auto; max-width: none; }
+.lc-side__body { display: flex; flex-direction: column; flex: 1 1 auto; min-height: 0; }
+
+/* My Labels — drag handle on the left, ⋮ menu on hover (Figma: My label, 1741:13579) */
+.lc-labels { display: flex; flex-direction: column; gap: var(--x4); padding: 0 var(--x6) var(--x6); border-bottom: 1px solid var(--chat-row-line); }
+.lc-labels__head { display: flex; align-items: center; justify-content: space-between; }
+.lc-labels__title { font-size: var(--x7); line-height: var(--x10); font-weight: 600; color: var(--chat-text); }
+.lc-labels__list { display: flex; flex-wrap: wrap; align-items: center; gap: var(--x3); }
+.lc-label { position: relative; display: inline-flex; align-items: center; gap: var(--x); padding: var(--x) var(--x) var(--x) 0; border-radius: var(--x2); cursor: grab; }
+.lc-label:hover, .lc-label:focus-within { background: var(--chat-out); }
+.lc-label.is-dragging { opacity: 0.4; }
+.lc-label__grip { width: 12px; height: 12px; fill: var(--chat-muted); flex: 0 0 auto; }
+.lc-label:hover .lc-label__grip { fill: var(--chat-meta); }
+.lc-label__chip { display: inline-flex; padding: 0; border: 0; background: none; cursor: pointer; }
+.lc-label__menu { display: inline-flex; width: 12px; height: 16px; padding: 0; border: 0; background: none; color: var(--chat-meta); cursor: pointer; visibility: hidden; }
+.lc-label__menu .lc-ico { width: 12px; height: 16px; }
+.lc-label:hover .lc-label__menu, .lc-label:focus-within .lc-label__menu, .lc-label__menu[aria-expanded="true"] { visibility: visible; }
+.lc-labels .emp-plus { width: 20px; height: 20px; }
+
+/* Chat list rows (Figma: Load chat item 1701:866 — Default / Hover / Active / Unread; content Text / System / File / Voice / Photo / Draft) */
+.lc-list { flex: 1 1 auto; min-height: 0; overflow-y: auto; }
+.lc-item { display: flex; flex-direction: column; gap: var(--x2); padding: var(--x5) var(--x6); border-bottom: 1px solid var(--chat-line); background: var(--chat-panel); cursor: pointer; outline: none; }
+.lc-item:hover, .lc-item:focus-visible { background: var(--chat-in); }
+.lc-item.is-active { background: var(--chat-out); }
+.lc-item.is-drop { background: var(--chat-out); box-shadow: inset 0 0 0 1.5px var(--chat-accent); }
+.lc-is-dragging .lc-item { transition: box-shadow 0.1s ease; }
+.lc-item__top { display: flex; align-items: center; gap: var(--x3); min-width: 0; }
+.lc-item__pro { font-size: var(--x7); line-height: var(--x10); font-weight: 600; color: var(--chat-text); white-space: nowrap; }
+.lc-item__route { flex: 1 1 auto; min-width: 0; font-size: var(--x6); line-height: var(--x8); color: var(--chat-accent); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lc-item__time { font-size: var(--x6); line-height: var(--x8); color: var(--chat-meta); white-space: nowrap; }
+.lc-item__archive { display: inline-flex; padding: 0; border: 0; background: none; color: var(--chat-meta); cursor: pointer; }
+.lc-item__archive:hover { color: var(--chat-accent); }
+.lc-item__body { display: flex; align-items: flex-start; gap: var(--x4); min-width: 0; }
+.lc-item__who { display: flex; flex-direction: column; width: 76px; flex: 0 0 auto; }
+.lc-item__author { font-size: var(--x6); line-height: var(--x8); color: var(--chat-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lc-item__role { font-size: 10px; line-height: var(--x8); color: var(--chat-meta); }
+.lc-item__msg { display: flex; align-items: flex-start; gap: var(--x3); flex: 1 1 auto; min-width: 0; font-size: var(--x6); line-height: var(--x8); color: var(--chat-text); }
+.lc-item__text { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.lc-item__type { width: 16px; height: 16px; fill: var(--chat-meta); flex: 0 0 auto; }
+.lc-item__type.is-accent { fill: var(--chat-accent); }
+.lc-item__msg--system { font-style: italic; color: var(--chat-meta); }
+.lc-item__draft { font-weight: 600; color: var(--chat-danger); }
+.lc-item.is-unread .lc-item__msg { font-weight: 600; }
+.lc-item__count { min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: var(--chat-accent); color: #ffffff; font-size: 10px; line-height: 18px; text-align: center; flex: 0 0 auto; }
+.lc-item__labels, .lc-head__labels { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--x2); }
+.lc-head__labels { justify-content: flex-start; }
+.lc-chip-x { display: inline-flex; margin-left: var(--x); padding: 0; border: 0; background: none; color: inherit; cursor: pointer; }
+.lc-chip-x__ico { width: 10px; height: 10px; fill: currentColor; }
+.lc-empty { margin: 0; padding: var(--x16) var(--x8); color: var(--chat-meta); text-align: center; }
+.lc-member { display: flex; align-items: center; gap: var(--x6); width: 100%; padding: var(--x5) var(--x6); border: 0; border-bottom: 1px solid var(--chat-line); background: var(--chat-panel); font: inherit; text-align: left; cursor: pointer; }
+.lc-member:hover { background: var(--chat-in); }
+.lc-member__body { display: flex; flex-direction: column; flex: 1 1 auto; }
+.lc-member__loads { font-size: var(--x6); line-height: var(--x8); color: var(--chat-accent); }
+.lc-crumb { display: inline-flex; align-items: center; gap: var(--x3); padding: var(--x4) var(--x6); border: 0; border-bottom: 1px solid var(--chat-line); background: var(--chat-in); color: var(--chat-accent); font: inherit; font-weight: 600; text-align: left; cursor: pointer; }
+
+/* Right column */
+.lc-main { display: flex; flex-direction: column; min-width: 0; min-height: 0; }
+.lc-head { display: flex; flex-direction: column; gap: var(--x4); padding: var(--x6) var(--x8); border-bottom: 1px solid var(--chat-line); flex: 0 0 auto; }
+.lc-head__row { display: flex; align-items: center; flex-wrap: wrap; gap: var(--x4); }
+.lc-head__title { margin: 0; font-size: var(--x8); line-height: var(--x12); font-weight: 600; color: var(--chat-text); }
+.lc-icon-btn { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; padding: 0; border: 0; border-radius: var(--x2); background: none; color: var(--chat-text); cursor: pointer; }
+.lc-icon-btn:hover { background: var(--chat-out); color: var(--chat-accent); }
+.lc-icon-btn--danger { color: var(--chat-danger); }
+.lc-menu-wrap { position: relative; display: inline-flex; }
+.lc-stops { display: flex; flex-direction: column; gap: var(--x2); }
+.lc-stop { display: flex; align-items: center; flex-wrap: wrap; gap: var(--x4); font-size: var(--x6); line-height: var(--x8); }
+.lc-stop__type, .lc-stop__city { font-size: var(--x7); line-height: var(--x10); font-weight: 600; color: var(--chat-text); }
+.lc-stop__addr { text-transform: uppercase; color: var(--chat-text); }
+.lc-stop__dt { color: var(--chat-meta); }
+.lc-chat { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
+.lc-chat > .emp-chat, .lc-chat.emp-chat { flex: 1 1 auto; min-height: 0; border: 0; border-radius: 0; }
+.lc-placeholder { margin: auto; display: flex; flex-direction: column; align-items: center; gap: var(--x4); color: var(--chat-meta); text-align: center; }
+.lc-placeholder strong { color: var(--chat-text); font-size: var(--x8); line-height: var(--x12); }
+.lc-placeholder__ico { width: 32px; height: 32px; fill: var(--chat-muted); }
+
+/* Menus: chat members (⋮ in the header) and label actions */
+.lc-menu { position: absolute; top: calc(100% + var(--x2)); left: 0; z-index: 50; display: flex; flex-direction: column; gap: var(--x2); min-width: 160px; padding: var(--x5) var(--x6); border: 1px solid var(--chat-line); border-radius: var(--x3); background: var(--chat-panel); box-shadow: var(--ntf-shadow, 0 1px 14px rgba(62, 77, 112, 0.4)); cursor: default; }
+.lc-menu--members { width: 260px; }
+.lc-menu--label { top: calc(100% + var(--x)); left: auto; right: 0; padding: var(--x2) 0; }
+.lc-menu__title { font-size: var(--x7); line-height: var(--x10); font-weight: 600; color: var(--chat-text); }
+.lc-menu__member { display: flex; align-items: center; gap: var(--x4); padding: var(--x2) 0; }
+.lc-menu__who { display: flex; flex-direction: column; flex: 1 1 auto; min-width: 0; font-size: var(--x7); line-height: var(--x10); color: var(--chat-text); }
+.lc-menu__role { font-size: var(--x6); line-height: var(--x8); color: var(--chat-meta); }
+.lc-menu__sep { height: 1px; margin: var(--x2) 0; background: var(--chat-line); }
+.lc-menu__item { display: flex; align-items: center; gap: var(--x4); width: 100%; padding: var(--x3) 0; border: 0; background: none; color: var(--chat-accent); font: inherit; font-size: var(--x7); line-height: var(--x10); text-align: left; cursor: pointer; }
+.lc-menu--label .lc-menu__item { padding: var(--x3) var(--x6); color: var(--chat-text); }
+.lc-menu--label .lc-menu__item .lc-ico { fill: var(--chat-accent); }
+.lc-menu__item:hover { text-decoration: underline; }
+.lc-menu--label .lc-menu__item:hover { background: var(--chat-out); text-decoration: none; }
+.lc-menu__item--danger, .lc-menu--label .lc-menu__item--danger, .lc-menu--label .lc-menu__item--danger .lc-ico { color: var(--chat-danger); fill: var(--chat-danger); }
+
+/* BOL check card in the feed */
+.lc-bol { display: flex; flex-direction: column; align-items: stretch; gap: var(--x4); width: 400px; max-width: 100%; margin: 0 auto; padding: var(--x6); border: 1px solid var(--chat-out-line); border-radius: var(--x6); background: var(--chat-panel); }
+.lc-bol__title { font-weight: 600; color: var(--chat-text); }
+.lc-bol__actions { display: flex; justify-content: flex-end; gap: var(--x4); }
+.lc-bol__rejected { color: var(--chat-danger); font-weight: 600; }
+
+/* Modals */
+.lc-set { display: flex; flex-direction: column; gap: var(--x8); }
+.lc-set__group { display: flex; flex-direction: column; gap: var(--x6); padding-bottom: var(--x8); border-bottom: 1px solid var(--chat-line); }
+.lc-set__group--last { padding-bottom: 0; border-bottom: 0; }
+.lc-set__title { margin: 0; font-size: var(--x8); line-height: var(--x12); font-weight: 600; color: var(--chat-text); }
+.lc-set__row { display: flex; align-items: center; justify-content: space-between; gap: var(--x8); }
+.lc-set__text { display: flex; flex-direction: column; }
+.lc-set__label { font-size: var(--x7); line-height: var(--x10); color: var(--chat-text); }
+.lc-set__hint { font-size: var(--x6); line-height: var(--x8); color: var(--chat-meta); }
+.lc-set .emp-field { width: 100%; max-width: none; }
+.lc-tpls { display: flex; flex-direction: column; border: 1px solid var(--chat-line); border-radius: var(--x3); }
+.lc-tpl { display: flex; align-items: center; gap: var(--x4); padding: var(--x4) var(--x6); border-bottom: 1px solid var(--chat-line); }
+.lc-tpl:last-child { border-bottom: 0; }
+.lc-tpl__grip { width: 16px; height: 16px; fill: var(--chat-muted); cursor: grab; }
+.lc-tpl__text { flex: 1 1 auto; min-width: 0; color: var(--chat-text); outline: none; }
+.lc-tpl__text[contenteditable="true"] { padding: 0 var(--x2); border-radius: var(--x2); box-shadow: 0 0 0 1px var(--chat-accent-line); }
+.lc-tpl .lc-icon-btn { color: var(--chat-accent); }
+.lc-tpl .lc-icon-btn--danger { color: var(--chat-danger); }
+.lc-tpl-add { display: flex; align-items: center; gap: var(--x4); }
+.lc-tpl-add .emp-field { flex: 1 1 auto; }
+.lc-colors { display: flex; flex-wrap: wrap; gap: var(--x4); }
+.lc-color { display: inline-flex; padding: var(--x2); border: 1px solid transparent; border-radius: var(--x2); background: none; cursor: pointer; }
+.lc-color.is-on { border-color: var(--chat-accent-line); }
+.lc-add__list { display: flex; flex-direction: column; gap: var(--x4); }
+.lc-add__row { gap: var(--x4); }
+.lc-add__history { display: flex; flex-direction: column; gap: var(--x4); margin: 0; padding: 0; border: 0; }
+.lc-add__legend { margin: 0 0 var(--x2); border: 0; font-size: var(--x7); line-height: var(--x10); font-weight: 600; color: var(--chat-text); }
+.lc-files { display: flex; flex-direction: column; gap: var(--x8); }
+.lc-files__list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--x4); }
+.lc-file { display: flex; align-items: center; gap: var(--x6); padding: var(--x6); border: 1px solid var(--chat-line); border-radius: var(--x3); }
+.lc-file__ico { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: var(--x3); background: var(--chat-out); color: var(--chat-accent); }
+.lc-file__ico .lc-ico { width: 20px; height: 20px; }
+.lc-file__body { display: flex; flex-direction: column; flex: 1 1 auto; min-width: 0; }
+.lc-file__name { font-weight: 600; color: var(--chat-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lc-file__meta { font-size: var(--x6); line-height: var(--x8); color: var(--chat-meta); }
+@media (max-width: 767px) { .lc-files__list { grid-template-columns: 1fr; } }

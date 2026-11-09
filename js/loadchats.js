@@ -165,11 +165,11 @@
             '<div class="emp-offer__row"><b>Rate:</b><span class="emp-offer__value">$1,050</span></div><div class="emp-offer__row"><b>Note:</b><span>can pick up the load earlier</span></div>' +
             '<div class="emp-offer__loc"><span class="emp-offer__muted">Driver’s current location:</span><a href="#" data-lc-noop>Coeur d’Alene, NM, 04205</a></div>' + foot + "</div>";
     }
-    /* BOL review — the driver's file (global file row, same as in messages and Files) + status and the check buttons under it. */
+    /* BOL review — system card in the middle of the feed: title, the file (global file row) and the check status / buttons. */
     function bolCard(m) {
         var status = m.status === "review" ? chip("Waiting for check", "orange") + btn("Reject", "outline", "", 'data-lc-bol-reject="' + m.id + '"') + btn("Approve", "primary", "", 'data-lc-bol-approve="' + m.id + '"')
             : m.status === "approved" ? chip("BOL approved by " + ME.name, "green") : chip("BOL rejected · " + (m.reason || ""), "red");
-        return '<div class="lc-bol"><span class="lc-bol__meta"><b>John Driver</b> ' + esc(m.time || "") + " · BOL for review</span>" + window.empChat.fileHtml({ name: m.file, author: "John Driver", size: "3 pages · 860 KB" }) + '<div class="lc-bol__status">' + status + "</div></div>";
+        return '<div class="lc-bol"><span class="lc-bol__title">BOL sent — check it</span>' + window.empChat.fileHtml({ name: m.file, author: "John Driver", size: "3 pages · 860 KB" }) + '<div class="lc-bol__status">' + status + "</div></div>";
     }
     function chatNode() { var n = document.querySelector("#lc-main .emp-chat"); return n && n._empChat; }
     function pushEvent(text, tone) { var c = chatNode(); if (!c) return; c.push({ kind: "event", tone: tone || "neutral", text: text }); c.scrollBottom(); }

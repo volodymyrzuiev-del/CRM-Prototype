@@ -107,12 +107,11 @@
 .lc-menu--label .lc-menu__item:hover { background: var(--chat-out); text-decoration: none; }
 .lc-menu__item--danger, .lc-menu--label .lc-menu__item--danger, .lc-menu--label .lc-menu__item--danger .lc-ico { color: var(--chat-danger); fill: var(--chat-danger); }
 
-/* BOL review in the feed — under the driver's avatar column, file row + status + check buttons (Figma: 1.3 / 1.4 BOL review) */
-.emp-chat__event:has(> .lc-bol) { align-items: stretch; text-align: left; }
-.lc-bol { display: flex; flex-direction: column; align-items: flex-start; gap: var(--x3); padding-left: 48px; text-align: left; }
-.lc-bol__meta { font-size: var(--x6); line-height: var(--x8); color: var(--chat-meta); }
-.lc-bol__meta b { font-weight: 600; color: var(--chat-text); }
-.lc-bol__status { display: flex; align-items: center; flex-wrap: wrap; gap: var(--x4); }
+/* BOL review — system card in the feed (Figma: 1.3 / 1.4 · BOL card (system)) with the global file row */
+.lc-bol { display: flex; flex-direction: column; align-items: center; gap: var(--x5); width: 400px; max-width: 100%; margin: 0 auto; padding: var(--x8); border: 1px solid var(--chat-out-line); border-radius: var(--x6); background: var(--chat-panel); }
+.lc-bol__title { font-size: var(--x7); line-height: var(--x10); font-weight: 600; color: var(--chat-text); }
+.lc-bol .emp-chat__file { width: 100%; }
+.lc-bol__status { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: var(--x4); }
 
 /* Modals */
 .lc-set { display: flex; flex-direction: column; gap: var(--x8); }

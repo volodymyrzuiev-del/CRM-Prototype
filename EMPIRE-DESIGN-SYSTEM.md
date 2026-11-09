@@ -374,4 +374,5 @@ Figma: Empire design system → Notification (section 6965:18941). Files: `css/n
 ### Файл в чате — одна строка везде
 - Figma: Empire DS / **Chat / File** (Type = Document / Photo / Voice, State = Default / Hover). Используется в сообщениях (Chat / Message, Content=File), в BOL review, в модалке Files и в виджете.
 - Код: `empChat.fileHtml({ name, author, size, kind })` → `emp-chat__file`: плитка 36 с иконкой типа, имя (обрезается), мета «автор · тип · размер», скачивание. Hover — синяя рамка и голубой фон. Другие способы показать файл (превью-карточки, свои строки) в чатах не используем.
-- Панель действий при наведении на сообщение (`emp-chat__tools`) стоит рядом с пузырём: справа от входящего, слева от исходящего; в компактном чате — на верхнем крае пузыря.
+- При наведении на сообщение появляется только ⋮ (`emp-chat__tools`) у нижнего угла пузыря: справа от входящего, слева от исходящего. Он открывает меню сообщения (Reply, Pin, Copy text, Resend, Delete + Read by). Отдельных кнопок React / Reply / Forward / Pin нет.
+- BOL на проверку — системная карточка по центру ленты («BOL sent — check it»): файл (та же строка `emp-chat__file`), статус и Reject / Approve.

@@ -1694,12 +1694,8 @@
         if (m.translated) b += '<button class="emp-chat__trans" type="button" data-act="translate">' + ico("translate", "sm") + '<span>Translated from ' + esc(m.translated.from) + " · " + (m.showOriginal ? "Show translation" : "Show original") + "</span></button>";
         var reacts = (m.reactions || []).length ? '<div class="emp-chat__reactions">' + m.reactions.map(function (r, i) { return '<button class="emp-chat__reaction' + (r.mine ? " is-mine" : "") + '" type="button" data-act="toggle-react" data-index="' + i + '" title="' + esc(r.who || "") + '"><span class="emp-chat__reaction-emoji">' + r.e + "</span>" + r.n + "</button>"; }).join("") + '<button class="emp-chat__reaction" type="button" data-act="react" aria-label="Add reaction">' + ico("smile", "sm") + "</button></div>" : "";
         var seen = m.seenBy ? '<span class="emp-chat__seen">' + m.seenBy.map(function (p) { return '<span class="emp-avatar">' + esc(initials(p)) + "</span>"; }).join("") + "<span>Seen by " + esc(m.seenBy.slice(0, 2).join(", ")) + (m.seenBy.length > 2 ? " +" + (m.seenBy.length - 2) : "") + "</span></span>" : "";
-        var tools = '<div class="emp-chat__tools" role="toolbar" aria-label="Message actions">' +
-            '<button class="emp-chat__btn" type="button" data-act="react" aria-label="React">' + ico("smile") + "</button>" +
-            '<button class="emp-chat__btn" type="button" data-act="reply" aria-label="Reply">' + ico("reply") + "</button>" +
-            '<button class="emp-chat__btn" type="button" data-act="forward" aria-label="Forward">' + ico("forward") + "</button>" +
-            '<button class="emp-chat__btn" type="button" data-act="pin" aria-label="Pin">' + ico("pin") + "</button>" +
-            '<button class="emp-chat__btn" type="button" data-act="more" aria-label="More">' + ico("dots") + "</button></div>";
+        /* On hover — only ⋮ next to the bubble; everything else is in the message menu (Figma: Chat / Hover toolbar). */
+        var tools = '<div class="emp-chat__tools" role="toolbar" aria-label="Message actions"><button class="emp-chat__btn" type="button" data-act="more" aria-label="Message actions" title="Reply, pin, copy…">' + ico("dots") + "</button></div>";
         var shownText = m.showOriginal && m.translated ? m.translated.original : null;
         if (shownText) b = b.replace(/<p class="emp-chat__text">[\s\S]*?<\/p>/, '<p class="emp-chat__text">' + richText(shownText, o.mentions) + "</p>");
         return '<div class="' + cls + '" data-id="' + m.id + '"><span class="emp-avatar emp-avatar--lg' + (m.alt ? " emp-avatar--alt" : "") + '">' + esc(m.avatar || initials(m.author)) + "</span>" +

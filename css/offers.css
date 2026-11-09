@@ -38,7 +38,7 @@
 .of-driver:hover, .of-driver:focus-visible { background: var(--chat-in); }
 .of-driver.is-active { background: var(--chat-out); }
 .of-driver.is-unreliable { background-image: repeating-linear-gradient(135deg, transparent 0 12px, rgba(238, 153, 17, 0.08) 12px 24px); }
-.of-driver.is-rejected .of-driver__info, .of-driver.is-rejected .of-driver__rate { opacity: 0.6; }
+.of-driver.is-rejected .of-driver__body { opacity: 0.6; }
 .of-driver .emp-check { margin-top: var(--x10); }
 .of-avatars { display: inline-flex; flex-direction: row-reverse; flex: 0 0 auto; }
 .of-avatars.is-team .emp-avatar + .emp-avatar { margin-right: -16px; }
@@ -88,3 +88,22 @@
 .of-actions { display: flex; align-items: center; flex-wrap: wrap; gap: var(--x4); padding: var(--x4) var(--x8); border-top: 1px solid var(--chat-out-line); background: var(--chat-out); }
 .of-chat { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
 .of-chat > .emp-chat, .of-chat.emp-chat { flex: 1 1 auto; min-height: 0; border: 0; border-radius: 0; }
+
+/* Driver row lines (as in CRM 2.0): every line is one row — name + rating on the left, status / rate / ticks on the right.
+   Names never wrap: they shrink with an ellipsis; the right part never shrinks. */
+.of-driver__body { display: flex; flex-direction: column; gap: var(--x2); flex: 1 1 auto; min-width: 0; }
+.of-line { display: flex; align-items: center; justify-content: space-between; gap: var(--x4); min-width: 0; min-height: var(--x10); }
+.of-line__end { display: inline-flex; align-items: center; gap: var(--x3); flex: 0 0 auto; white-space: nowrap; }
+.of-line__chip { min-width: 0; overflow: hidden; }
+.of-line__chip .emp-chip { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.of-driver .of-driver__name { display: flex; align-items: center; gap: var(--x3); flex: 0 1 auto; min-width: 0; white-space: nowrap; }
+.of-driver .of-driver__name b { flex: 0 0 auto; }
+.of-driver .of-driver__nm { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.of-driver .of-driver__name--team { padding-left: 0; margin-left: 38px; }
+.of-driver .of-star, .of-driver .of-rating { flex: 0 0 auto; }
+.of-nowrap { white-space: nowrap; }
+.of-driver .emp-check { margin-top: var(--x8); }
+.of-head__driver-name, .of-head__name b { white-space: nowrap; }
+.of-driver { gap: var(--x4); }
+.of-driver .of-driver__name { gap: var(--x2); }
+.of-driver .of-driver__nm { margin-left: var(--x); }

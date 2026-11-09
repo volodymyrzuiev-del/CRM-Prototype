@@ -52,29 +52,24 @@
     }
     function stateChip(d) {
         if (d.state === "booked") return chip("Booked by You", "green");
-        if (d.state === "hold") return chip("Hold by " + d.holdBy, d.holdBy === "You" ? "orange" : "grey");
+        if (d.state === "hold") return chip("Hold by " + d.holdBy + (d.holdBy === "You" ? " · " + mmss(d.hold) : ""), d.holdBy === "You" ? "orange" : "grey");
         if (d.state === "holdover") return chip("Hold time is over", "red");
         if (d.state === "rejected") return chip(d.reason || "Declined", "red");
         if (d.state === "accepted") return d.holdBy ? chip("Hold by " + d.holdBy, "grey") : chip("Driver accepted offer", "blue");
         return chip("Chat not started", "grey");
     }
-    function sideNote(d) {
-        if (d.state === "hold") return '<span class="of-note of-note--hold">on hold ' + mmss(d.hold) + "</span>";
-        if (d.unreliable) return '<span class="of-note">unreliable</span>';
-        if (d.state === "rejected") return '<span class="of-note">rejected by You</span>';
-        if (d.holdBy && d.holdBy !== "You") return '<span class="of-note">on hold by ' + esc(d.holdBy) + "</span>";
-        return "";
-    }
+    /* Right of the name only what is not in the chip: "unreliable". The hold timer lives in the chip, so the name keeps its room. */
+    function sideNote(d) { return d.unreliable ? '<span class="of-note">unreliable</span>' : ""; }
     function rowHtml(d) {
         var cls = "of-driver" + (state.open === d.id ? " is-active" : "") + (d.unreliable ? " is-unreliable" : "") + (d.state === "rejected" ? " is-rejected" : "");
         var av = '<span class="of-avatars' + (d.team ? " is-team" : "") + '">' + (d.team ? '<span class="emp-avatar emp-avatar--lg emp-avatar--alt">' + window.empChat.initials(d.team.name) + "</span>" : "") + '<span class="emp-avatar emp-avatar--lg">' + window.empChat.initials(d.name) + "</span></span>";
         return '<div class="' + cls + '" role="button" tabindex="0" data-of-open="' + d.id + '">' +
             '<label class="emp-check" data-of-stop><input class="emp-check__input" type="checkbox" aria-label="Select ' + esc(d.name) + '"' + (d.checked ? " checked" : "") + (d.state === "booked" ? " disabled" : "") + ' data-of-check="' + d.id + '"><span class="emp-check__box"><svg class="emp-check__mark" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-check"></use></svg><span class="emp-check__minus"></span></span></label>' + av +
-            '<div class="of-driver__info"><span class="of-driver__name"><b>' + d.unit + '</b><span class="of-driver__nm">' + esc(d.name) + "</span>" + icon("star", "of-star") + '<span class="of-rating">' + d.rating + "</span></span>" +
-            (d.team ? '<span class="of-driver__name of-driver__name--team">' + esc(d.team.name) + icon("star", "of-star") + '<span class="of-rating">' + d.team.rating + "</span></span>" : "") +
-            '<span class="of-muted">' + icon("ci-geo", "of-geo") + d.miles + " mi away</span><span>" + stateChip(d) + "</span></div>" +
-            '<div class="of-driver__side"><span class="of-driver__top">' + sideNote(d) + '<span class="emp-chip emp-chip--sm emp-chip--outline emp-chip--green">' + d.avail + "</span></span>" +
-            (d.rate ? '<span class="of-driver__rate">$' + d.rate.toLocaleString("en-US") + "</span>" : "") + ticks(d) + "</div></div>";
+            '<div class="of-driver__body">' +
+            '<div class="of-line"><span class="of-driver__name"><b>' + d.unit + '</b><span class="of-driver__nm" title="' + esc(d.name) + '">' + esc(d.name) + "</span>" + icon("star", "of-star") + '<span class="of-rating">' + d.rating + '</span></span><span class="of-line__end">' + sideNote(d) + '<span class="emp-chip emp-chip--sm emp-chip--outline emp-chip--green">' + d.avail + "</span></span></div>" +
+            (d.team ? '<div class="of-line"><span class="of-driver__name of-driver__name--team"><span class="of-driver__nm" title="' + esc(d.team.name) + '">' + esc(d.team.name) + "</span>" + icon("star", "of-star") + '<span class="of-rating">' + d.team.rating + "</span></span></div>" : "") +
+            '<div class="of-line"><span class="of-muted of-nowrap">' + icon("ci-geo", "of-geo") + d.miles + ' mi away</span><span class="of-line__end">' + (d.rate ? '<span class="of-driver__rate">$' + d.rate.toLocaleString("en-US") + "</span>" : "") + "</span></div>" +
+            '<div class="of-line"><span class="of-line__chip">' + stateChip(d) + '</span><span class="of-line__end">' + ticks(d) + "</span></div></div></div>";
     }
     function visible() {
         var order = { hold: 0, accepted: 1, booked: 1, holdover: 2, notstarted: 3, rejected: 5 };

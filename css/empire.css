@@ -3548,7 +3548,7 @@ mark.emp-chat__hit.is-current { outline: 2px solid var(--chat-warning-line); }
 .emp-chat--compact .emp-chat__content { max-width: 100%; }
 .emp-chat__meta { display: flex; align-items: center; flex-wrap: wrap; gap: var(--x3); font-size: var(--x6); line-height: var(--x8); color: var(--chat-meta); }
 .emp-chat__msg--out .emp-chat__meta { flex-direction: row-reverse; }
-.emp-chat__author { font-family: "Noto Sans Display", "Noto Sans", sans-serif; font-weight: 500; color: var(--chat-text); }
+.emp-chat__author { font-family: "Noto Sans Display", "Noto Sans", sans-serif; font-weight: 500; color: var(--chat-text); white-space: nowrap; }
 .emp-chat__bubble {
     position: relative; display: flex; flex-direction: column; gap: var(--x3);
     max-width: 420px; padding: var(--x4) var(--x6); border: 1px solid transparent;

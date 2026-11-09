@@ -144,3 +144,8 @@
 .lc-files__list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--x4); }
 .lc-files__list .emp-chat__file { width: 100%; }
 @media (max-width: 767px) { .lc-files__list { grid-template-columns: 1fr; } }
+
+/* Names never break by letters */
+.lc-menu__who > span, .lc-member__body > span, .lc-crumb span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lc-item__who { min-width: 0; }
+.lc-item__role { white-space: nowrap; }

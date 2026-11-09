@@ -107,11 +107,12 @@
 .lc-menu--label .lc-menu__item:hover { background: var(--chat-out); text-decoration: none; }
 .lc-menu__item--danger, .lc-menu--label .lc-menu__item--danger, .lc-menu--label .lc-menu__item--danger .lc-ico { color: var(--chat-danger); fill: var(--chat-danger); }
 
-/* BOL check card in the feed */
-.lc-bol { display: flex; flex-direction: column; align-items: stretch; gap: var(--x4); width: 400px; max-width: 100%; margin: 0 auto; padding: var(--x6); border: 1px solid var(--chat-out-line); border-radius: var(--x6); background: var(--chat-panel); }
-.lc-bol__title { font-weight: 600; color: var(--chat-text); }
-.lc-bol__actions { display: flex; justify-content: flex-end; gap: var(--x4); }
-.lc-bol__rejected { color: var(--chat-danger); font-weight: 600; }
+/* BOL review in the feed — under the driver's avatar column, file row + status + check buttons (Figma: 1.3 / 1.4 BOL review) */
+.emp-chat__event:has(> .lc-bol) { align-items: stretch; text-align: left; }
+.lc-bol { display: flex; flex-direction: column; align-items: flex-start; gap: var(--x3); padding-left: 48px; text-align: left; }
+.lc-bol__meta { font-size: var(--x6); line-height: var(--x8); color: var(--chat-meta); }
+.lc-bol__meta b { font-weight: 600; color: var(--chat-text); }
+.lc-bol__status { display: flex; align-items: center; flex-wrap: wrap; gap: var(--x4); }
 
 /* Modals */
 .lc-set { display: flex; flex-direction: column; gap: var(--x8); }
@@ -142,10 +143,5 @@
 .lc-add__legend { margin: 0 0 var(--x2); border: 0; font-size: var(--x7); line-height: var(--x10); font-weight: 600; color: var(--chat-text); }
 .lc-files { display: flex; flex-direction: column; gap: var(--x8); }
 .lc-files__list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--x4); }
-.lc-file { display: flex; align-items: center; gap: var(--x6); padding: var(--x6); border: 1px solid var(--chat-line); border-radius: var(--x3); }
-.lc-file__ico { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: var(--x3); background: var(--chat-out); color: var(--chat-accent); }
-.lc-file__ico .lc-ico { width: 20px; height: 20px; }
-.lc-file__body { display: flex; flex-direction: column; flex: 1 1 auto; min-width: 0; }
-.lc-file__name { font-weight: 600; color: var(--chat-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.lc-file__meta { font-size: var(--x6); line-height: var(--x8); color: var(--chat-meta); }
+.lc-files__list .emp-chat__file { width: 100%; }
 @media (max-width: 767px) { .lc-files__list { grid-template-columns: 1fr; } }

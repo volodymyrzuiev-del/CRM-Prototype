@@ -3581,12 +3581,16 @@ mark.emp-chat__hit.is-current { outline: 2px solid var(--chat-warning-line); }
 .emp-chat__status--failed { color: var(--chat-danger); font-weight: 500; }
 .emp-chat__status--failed button { padding: 0; border: 0; background: none; color: inherit; font: inherit; text-decoration: underline; cursor: pointer; }
 /* attachments in bubble */
-.emp-chat__file { display: flex; align-items: center; gap: var(--x4); width: 300px; max-width: 100%; padding: var(--x3) var(--x4); border: 1px solid var(--chat-line); border-radius: var(--x3); background: var(--chat-panel); color: var(--chat-text); text-decoration: none; }
+/* File row (Figma: Chat / File) — the only way a file is shown: chat messages, BOL review, Files modal, chat widget */
+.emp-chat__file { display: flex; align-items: center; gap: var(--x4); width: 320px; max-width: 100%; padding: var(--x3) var(--x6) var(--x3) var(--x3); border: 1px solid var(--chat-line); border-radius: var(--x3); background: var(--chat-panel); color: var(--chat-text); text-align: left; text-decoration: none; }
 .emp-chat--compact .emp-chat__file { width: 240px; }
-.emp-chat__file:hover { border-color: var(--chat-accent-line); text-decoration: none; color: var(--chat-text); }
+.emp-chat__file:hover, .emp-chat__file:focus-visible { border-color: var(--chat-accent-line); background: var(--chat-out); color: var(--chat-text); text-decoration: none; outline: none; }
+.emp-chat__file-tile { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; flex: 0 0 36px; border-radius: var(--x3); background: var(--chat-out); color: var(--chat-accent); }
+.emp-chat__file:hover .emp-chat__file-tile { background: var(--chat-panel); }
+.emp-chat__file-tile .emp-chat__ico { width: 20px; height: 20px; }
 .emp-chat__file-info { display: flex; flex-direction: column; min-width: 0; flex: 1 1 auto; }
-.emp-chat__file-name { font-family: "Noto Sans Display", "Noto Sans", sans-serif; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.emp-chat__file-size { font-size: var(--x6); line-height: var(--x8); color: var(--chat-meta); }
+.emp-chat__file-name { font-size: var(--x7); line-height: var(--x10); font-weight: 500; color: var(--chat-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.emp-chat__file-size { font-size: var(--x6); line-height: var(--x8); color: var(--chat-meta); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .emp-chat__file .emp-chat__ico { color: var(--chat-accent); }
 .emp-chat__img { display: block; width: 300px; max-width: 100%; aspect-ratio: 3 / 2; border-radius: var(--x3); background: var(--chat-media); object-fit: cover; cursor: zoom-in; }
 .emp-chat--compact .emp-chat__img { width: 240px; }
@@ -3617,12 +3621,17 @@ mark.emp-chat__hit.is-current { outline: 2px solid var(--chat-warning-line); }
 .emp-chat__seen .emp-avatar { width: 16px; height: 16px; min-width: 16px; font-size: 7px; margin-left: -6px; box-shadow: 0 0 0 1px var(--chat-panel); }
 .emp-chat__seen .emp-avatar:first-child { margin-left: 0; }
 /* hover tools + menu */
+.emp-chat__content { position: relative; }
 .emp-chat__tools {
-    position: absolute; top: calc(-1 * var(--x6)); right: var(--x24); z-index: 3;
-    display: none; align-items: center; gap: var(--x); padding: var(--x);
+    position: absolute; top: 50%; left: calc(100% + var(--x4)); z-index: 3; transform: translateY(-50%);
+    display: none; align-items: center; gap: var(--x); padding: var(--x); white-space: nowrap;
     border: 1px solid var(--chat-line); border-radius: var(--x3); background: var(--chat-panel); box-shadow: var(--chat-shadow);
 }
-.emp-chat__msg--out .emp-chat__tools { right: auto; left: var(--x24); }
+/* Hover toolbar sits right next to the bubble: on the right of an incoming message, on the left of an outgoing one.
+   In the compact chat (widget, threads) there is no room on the side, so it sits on the top edge of the bubble. */
+.emp-chat__msg--out .emp-chat__tools { left: auto; right: calc(100% + var(--x4)); }
+.emp-chat--compact .emp-chat__tools { top: var(--x6); left: auto; right: 0; transform: none; }
+.emp-chat--compact .emp-chat__msg--out .emp-chat__tools { right: auto; left: 0; }
 .emp-chat__msg:hover .emp-chat__tools, .emp-chat__msg:focus-within .emp-chat__tools, .emp-chat__msg.is-menu .emp-chat__tools { display: flex; }
 .emp-chat__msg.is-deleted .emp-chat__tools { display: none; }
 .emp-chat__tools .emp-chat__btn { width: 28px; height: 28px; }

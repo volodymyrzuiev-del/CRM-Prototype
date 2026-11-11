@@ -1621,7 +1621,7 @@
             (full && o.emoji !== false ? '<button class="emp-chat__btn" type="button" data-act="emoji" aria-label="Emoji">' + ico("smile", "lg") + "</button>" : "") +
             '<textarea class="emp-chat__input" rows="1" placeholder="' + esc(o.placeholder || "Write a message") + '" aria-label="Message"></textarea>' +
             '<div class="emp-chat__rec" hidden><button class="emp-chat__btn emp-chat__btn--danger" type="button" data-act="rec-cancel" aria-label="Cancel recording">' + ico("trash", "lg") + '</button><span class="emp-chat__rec-dot"></span><span class="emp-chat__rec-time">Recording 0:00</span><span class="emp-chat__wave">' + waveHtml(14) + "</span></div>" +
-            '<div class="emp-chat__closed" hidden>' + ico("lock") + "<span>This conversation is closed. Messages can’t be sent.</span>" + '<button class="emp-btn emp-btn--link emp-btn--md" type="button" data-act="reopen"><span class="emp-btn__label">Reopen</span></button></div>' +
+            '<div class="emp-chat__closed" hidden>' + ico("lock") + "<span>" + esc(o.closedText || "This conversation is closed. Messages can’t be sent.") + "</span>" + (o.reopen === false ? "" : '<button class="emp-btn emp-btn--link emp-btn--md" type="button" data-act="reopen"><span class="emp-btn__label">' + esc(o.reopenLabel || "Reopen") + "</span></button>") + "</div>" +
             (full && o.voice !== false ? '<button class="emp-chat__btn" type="button" data-act="voice" aria-label="Record voice message">' + ico("mic", "lg") + "</button>" : "") +
             '<button class="emp-chat__btn emp-chat__send" type="button" data-act="send" aria-label="Send">' + ico("send", "lg") + "</button>" +
             "</div></div>";
@@ -1699,7 +1699,7 @@
         var shownText = m.showOriginal && m.translated ? m.translated.original : null;
         if (shownText) b = b.replace(/<p class="emp-chat__text">[\s\S]*?<\/p>/, '<p class="emp-chat__text">' + richText(shownText, o.mentions) + "</p>");
         return '<div class="' + cls + '" data-id="' + m.id + '"><span class="emp-avatar emp-avatar--lg' + (m.alt ? " emp-avatar--alt" : "") + '">' + esc(m.avatar || initials(m.author)) + "</span>" +
-            '<div class="emp-chat__content">' + meta + '<div class="emp-chat__bubble">' + b + "</div>" + reacts + seen + tools + "</div></div>";
+            '<div class="emp-chat__content">' + meta + '<div class="emp-chat__line"><div class="emp-chat__bubble">' + b + "</div>" + tools + "</div>" + reacts + seen + "</div></div>";
     };
     Chat.prototype.append = function (m) {
         var state = this.list.querySelector(".emp-chat__state"); if (state) state.remove();
@@ -2035,8 +2035,10 @@
                     var items = [["reply", "Reply", "reply"], [isPinned ? "pin-fill" : "pin", isPinned ? "Unpin" : "Pin", "pin"], ["copy", "Copy text", "copy"]];
                     if (m.status === "failed") items.push(["retry", "Resend", "retry"]);
                     if (own) items.push(["trash", "Delete", "delete"]);
+                    /* Closed / archived conversation is read-only: only Copy text */
+                    if (self.composer.classList.contains("is-disabled")) items = [["copy", "Copy text", "copy"]];
                     var readers = own && m.status !== "failed" ? (m.readBy || (m.seenBy || []).map(function (n) { return [n, ""]; })) : [];
-                    row.classList.add("is-menu"); self._menuFor = m.id;
+                    row.classList.add("is-menu"); self._menuFor = m.id; self._menuByMouse = e.detail > 0;
                     self.openPop(items.map(function (x) { return '<button class="emp-chat__menu-item' + (x[2] === "delete" ? " emp-chat__menu-item--danger" : "") + '" type="button" data-act="menu-' + x[2] + '">' + ico(x[0]) + x[1] + "</button>"; }).join("") +
                         (readers.length ? '<div class="emp-chat__readby"><span class="emp-chat__readby-title">Read by</span>' + readers.map(function (r) { return '<span class="emp-chat__reader"><span class="emp-chat__reader-name">' + esc(r[0]) + '</span><span class="emp-chat__reader-role">' + esc(r[1] || "") + "</span>" + ico("eye") + "</span>"; }).join("") + "</div>" : ""), a, "", false); break;
                 case "menu-pin": self.closePop(); var pm = self.byId(self._menuFor), pi = self.pinned.indexOf(pm.id); if (pi >= 0) self.pinned.splice(pi, 1); else { self.pinned.unshift(pm.id); self._pinIndex = 0; if (window.empToast) window.empToast("pinned"); } self.paintPinned(); break;
@@ -2073,13 +2075,19 @@
                 case "cm-pins": self.closePop(); if (self.pinned.length) self.highlight(self.pinned[0]); break;
                 case "cm-search": self.closePop(); r.querySelector('[data-act="search"]').click(); break;
                 case "cm-close": self.closePop(); var dis = !self.composer.classList.contains("is-disabled"); self.setDisabled(dis); self.push({ kind: "event", tone: "neutral", text: (dis ? "Conversation closed by " : "Conversation reopened by ") + self.me.name }); break;
-                case "reopen": self.setDisabled(false); self.push({ kind: "event", tone: "neutral", text: "Conversation reopened by " + self.me.name }); break;
+                case "reopen": if (self.o.onReopen) { self.o.onReopen(self); break; } self.setDisabled(false); self.push({ kind: "event", tone: "neutral", text: "Conversation reopened by " + self.me.name }); break;
                 case "state-retry": if (self.o.onRetry) self.o.onRetry(self); break;
                 case "pick-mention": self.pickMention(+a.getAttribute("data-index")); break;
             }
         });
         r.addEventListener("mouseleave", function () { r.querySelectorAll(".emp-chat__msg.is-menu").forEach(function (n) { if (self.pop.hidden) n.classList.remove("is-menu"); }); });
-        new MutationObserver(function () { if (self.pop.hidden) r.querySelectorAll(".emp-chat__msg.is-menu").forEach(function (n) { n.classList.remove("is-menu"); }); }).observe(this.pop, { attributes: true, attributeFilter: ["hidden"] });
+        new MutationObserver(function () {
+            if (!self.pop.hidden) return;
+            r.querySelectorAll(".emp-chat__msg.is-menu").forEach(function (n) { n.classList.remove("is-menu"); });
+            /* Menu opened with the mouse: let ⋮ go with the hover. Opened from the keyboard: focus stays on ⋮. */
+            var f = document.activeElement;
+            if (self._menuByMouse && f && f.closest && f.closest(".emp-chat__tools")) f.blur();
+        }).observe(this.pop, { attributes: true, attributeFilter: ["hidden"] });
     };
 
     window.empChat = {

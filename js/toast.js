@@ -26,6 +26,12 @@
         requested: { tone: "info", title: "Request sent", text: "\"[Name]\" has been requested from the driver.", icon: "icons/controls/success-fill.svg" },
         declined: { tone: "success", title: "Declined", text: "\"[Name]\" has been declined.", icon: "icons/controls/success-fill.svg" },
         offerUpdated: { tone: "success", title: "Offer updated", text: "The offer has been sent to new drivers.", icon: "icons/controls/success-fill.svg" },
+        loadCopied: { tone: "info", title: "Copied", text: "\"[Name]\" has been copied to your clipboard.", icon: "icons/toast/copy-toast.svg" },
+        chatRestored: { tone: "success", title: "Restored", text: "\"[Name]\" has been restored to active loads.", icon: "icons/controls/success-fill.svg" },
+        rejected: { tone: "success", title: "Rejected", text: "\"[Name]\" has been rejected.", icon: "icons/controls/success-fill.svg" },
+        downloading: { tone: "info", title: "Downloading", text: "\"[Name]\" is being downloaded.", icon: "icons/controls/success-fill.svg" },
+        added: { tone: "success", title: "Added", text: "\"[Name]\" has been added.", icon: "icons/controls/success-fill.svg" },
+        bookingCancelled: { tone: "success", title: "Booking cancelled", text: "\"[Name]\" is back to Active. The driver got a push.", icon: "icons/controls/success-fill.svg" },
         ruleConflict: { tone: "error", title: "Error: unsuccessful", text: "This broker is already on the opposite list. Remove it first.", icon: "icons/controls/error-fill.svg" }
     };
 
@@ -71,18 +77,31 @@
         head.appendChild(title);
         toast.appendChild(head);
         toast.appendChild(body);
+        /* Optional action (e.g. Undo): { action: { label: "Undo", run: fn } } — the toast then stays 5 s */
+        var action = data && data.action;
+        if (action) {
+            var act = document.createElement("button");
+            act.type = "button";
+            act.className = "emp-btn emp-btn--link emp-btn--md emp-toast__action";
+            act.innerHTML = '<span class="emp-btn__label"></span>';
+            act.firstChild.textContent = action.label || "Undo";
+            act.addEventListener("click", function () { action.run(); hide(); });
+            toast.appendChild(act);
+        }
         stack().appendChild(toast);
         requestAnimationFrame(function () {
             requestAnimationFrame(function () {
                 toast.classList.add("is-show");
             });
         });
-        setTimeout(function () {
+        var gone = false;
+        function hide() {
+            if (gone) return;
+            gone = true;
             toast.classList.remove("is-show");
-            setTimeout(function () {
-                toast.remove();
-            }, 250);
-        }, 1500);
+            setTimeout(function () { toast.remove(); }, 250);
+        }
+        setTimeout(hide, (data && data.duration) || (action ? 5000 : 1500));
     }
 
     window.empToast = showToast;

@@ -41,7 +41,7 @@
 .of-driver.is-rejected .of-driver__body { opacity: 0.6; }
 .of-driver .emp-check { margin-top: var(--x10); }
 .of-avatars { display: inline-flex; flex-direction: row-reverse; flex: 0 0 auto; }
-.of-avatars.is-team .emp-avatar + .emp-avatar { margin-right: -16px; }
+.of-avatars.is-team .emp-avatar + .emp-avatar { margin-right: -10px; }
 .of-avatars .emp-avatar { box-shadow: 0 0 0 2px var(--chat-panel); }
 .of-driver__info { display: flex; flex-direction: column; align-items: flex-start; gap: var(--x2); flex: 1 1 auto; min-width: 0; }
 .of-driver__name { display: flex; align-items: center; gap: var(--x3); font-size: var(--x7); line-height: var(--x10); color: var(--chat-text); }
@@ -84,7 +84,7 @@
 .of-phone { width: 14px; height: 14px; fill: var(--chat-accent); }
 .of-head__note { display: flex; align-items: center; gap: var(--x4); font-size: var(--x6); line-height: var(--x8); }
 .of-head__note b, .of-head__details > b { font-size: var(--x7); }
-.of-head__timers { display: flex; flex-direction: column; align-items: flex-end; gap: var(--x2); }
+.of-head__timers { display: flex; flex-direction: column; align-items: flex-end; gap: var(--x2); margin-left: auto; }
 .of-actions { display: flex; align-items: center; flex-wrap: wrap; gap: var(--x4); padding: var(--x4) var(--x8); border-top: 1px solid var(--chat-out-line); background: var(--chat-out); }
 .of-chat { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
 .of-chat > .emp-chat, .of-chat.emp-chat { flex: 1 1 auto; min-height: 0; border: 0; border-radius: 0; }
@@ -107,3 +107,53 @@
 .of-driver { gap: var(--x4); }
 .of-driver .of-driver__name { gap: var(--x2); }
 .of-driver .of-driver__nm { margin-left: var(--x); }
+
+/* Timers: under 3 minutes the offer timer turns red (chips use emp-chip--red) */
+.of-timer.is-red { background: rgba(215, 57, 37, 0.1); color: var(--chat-danger); }
+.of-timer.is-red .lc-ico { fill: var(--chat-danger); }
+
+/* Not started (Figma 4.2): empty feed with "Waiting for the driver" */
+.of-wait { margin: auto; max-width: 360px; }
+.of-wait__ico { width: 32px; height: 32px; fill: var(--chat-muted); }
+
+/* Archive list (Figma 6.1) and its date range */
+.of-search { flex-wrap: wrap; }
+.of-arch-date[hidden], .emp-field[hidden] { display: none; }
+.of-arch-date { flex: 1 1 100%; }
+.of-arch-date .emp-date__field { width: 100%; }
+.of-arch { gap: var(--x2); }
+.of-arch__result { display: inline-flex; align-items: center; gap: var(--x3); }
+.of-arch__ico { width: 14px; height: 14px; fill: var(--chat-meta); }
+
+/* Modals: New offer, Make offer, Add to existing load, Reject, Cancel booking (Figma 5.1–5.5) */
+.of-hint { margin: 0; font-size: var(--x6); line-height: var(--x8); color: var(--chat-meta); }
+.of-mw--new { width: 1216px; }
+.of-grid { display: grid; gap: var(--x4) var(--x8); }
+.of-grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.of-grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.of-grid .emp-field, .of-mk__row .emp-field, .of-nt__filters .emp-field { width: 100%; max-width: none; }
+.of-stops, .of-stop { display: flex; flex-direction: column; gap: var(--x4); }
+.of-stop--extra { padding-top: var(--x4); border-top: 1px dashed var(--chat-line); }
+.of-stop__x { height: auto; padding: 0; margin-left: auto; }
+.of-stop .emp-field__title { display: flex; align-items: center; }
+.of-addstop { justify-self: start; height: auto; padding: 0; }
+.of-mk__row { display: flex; align-items: flex-end; gap: var(--x6); }
+.of-mk__row > .emp-field { flex: 0 1 260px; }
+.of-mk__row > .of-link, .of-mk__row > .emp-check { margin-bottom: var(--x3); }
+.of-nt__filters { display: flex; flex-wrap: wrap; align-items: flex-end; gap: var(--x4); }
+.of-nt__filters > .emp-combo, .of-nt__filters > .emp-field { flex: 1 1 130px; min-width: 0; width: auto; max-width: none; }
+.of-nt__filters > .emp-combo:first-child, .of-nt__filters > .emp-field:first-child { flex-basis: 200px; }
+.of-nt__filters .emp-combo .emp-field { width: 100%; max-width: none; }
+.of-nt__filters > .emp-check, .of-nt__filters > .emp-btn { flex: 0 0 auto; }
+.of-nt__na { margin-bottom: var(--x3); white-space: nowrap; }
+.of-table { display: flex; flex-direction: column; border: 1px solid var(--chat-line); border-radius: var(--x3); overflow: auto; }
+.of-table__row { display: grid; grid-template-columns: 1.4fr 0.6fr 1fr 1fr; align-items: center; gap: var(--x6); padding: var(--x4) var(--x6); border-bottom: 1px solid var(--chat-line); font-size: var(--x7); line-height: var(--x10); color: var(--chat-text); }
+.of-table__row:last-child { border-bottom: 0; }
+.of-table__row > span { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; }
+.of-table__row--head { background: var(--chat-in); font-size: var(--x6); line-height: var(--x8); color: var(--chat-meta); font-weight: 600; }
+.of-table--trucks .of-table__row { grid-template-columns: 24px 48px 100px 128px minmax(170px, 1.4fr) 120px 56px 120px minmax(130px, 1fr) 120px; min-width: 1100px; gap: var(--x4); }
+.of-nt__driver a { font-weight: 500; }
+.of-nt__chips { display: flex; flex-wrap: wrap; gap: var(--x2); padding-top: var(--x); }
+.of-nt__hold { gap: var(--x2); }
+.of-nt__hold .emp-btn { width: 100%; }
+@media (max-width: 1279px) { .of-mw--new { width: calc(100vw - 32px); } }

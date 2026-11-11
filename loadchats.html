@@ -8,10 +8,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Display:wght@400;500;600&family=Noto+Sans:wdth,wght@87.5,700;100,400;100,500;100,600;100,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/empire.css?v=ds16">
+    <link rel="stylesheet" href="css/empire.css?v=ds17">
     <link rel="stylesheet" href="css/header.css?v=ds3">
-    <link rel="stylesheet" href="css/loadchats.css?v=c4">
-    <link rel="stylesheet" href="css/toast.css?v=t2">
+    <link rel="stylesheet" href="css/loadchats.css?v=c5">
+    <link rel="stylesheet" href="css/toast.css?v=t3">
     <link rel="stylesheet" href="css/notifications.css?v=n3">
     <link rel="stylesheet" href="css/chat-widget.css?v=cw1">
     <script>
@@ -517,18 +517,19 @@
             <div class="emp-mw__head"><h2 class="emp-mw__title" id="lc-settings-title">Load's Chats settings</h2><button class="emp-mw__close" type="button" data-overlay-close aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-x-lg"></use></svg></button></div>
             <div class="emp-mw__body"><div class="emp-mw__slot lc-set">
                 <section class="lc-set__group"><h3 class="lc-set__title">Chat widget</h3>
-                    <div class="lc-set__row"><span class="lc-set__text"><span class="lc-set__label">Show the chat widget on all pages</span><span class="lc-set__hint">Compact chat in the bottom-right corner of every CRM page.</span></span><label class="emp-toggle"><input class="emp-toggle__input" id="lc-set-widget" type="checkbox" aria-label="Show the chat widget on all pages"><span class="emp-toggle__track"></span></label></div>
+                    <div class="lc-set__row"><span class="lc-set__text"><span class="lc-set__label">Show the chat widget on all pages</span><span class="lc-set__hint">Round button in the bottom-right corner with unread counter. Not shown on Load's Chats and Offers.</span></span><label class="emp-toggle"><input class="emp-toggle__input" id="lc-set-widget" type="checkbox" aria-label="Show the chat widget on all pages"><span class="emp-toggle__track"></span></label></div>
                 </section>
                 <section class="lc-set__group"><h3 class="lc-set__title">Notifications</h3>
-                    <div class="lc-set__row"><span class="lc-set__text"><span class="lc-set__label">Sound for new messages</span><span class="lc-set__hint">Plays when a new message comes to any of your chats.</span></span><label class="emp-toggle"><input class="emp-toggle__input" id="lc-set-sound" type="checkbox" aria-label="Sound for new messages"><span class="emp-toggle__track"></span></label></div>
-                    <div class="lc-set__row"><span class="lc-set__text"><span class="lc-set__label">Message preview</span><span class="lc-set__hint">Shows a short preview above the widget for 5 seconds.</span></span><label class="emp-toggle"><input class="emp-toggle__input" id="lc-set-popup" type="checkbox" aria-label="Message preview"><span class="emp-toggle__track"></span></label></div>
+                    <div class="lc-set__row"><span class="lc-set__text"><span class="lc-set__label">Sound for new messages</span></span><label class="emp-toggle"><input class="emp-toggle__input" id="lc-set-sound" type="checkbox" aria-label="Sound for new messages"><span class="emp-toggle__track"></span></label></div>
+                    <div class="lc-set__row"><span class="lc-set__text"><span class="lc-set__label">Desktop notifications</span><span class="lc-set__hint">Browser pop-ups when the CRM tab is in the background.</span></span><label class="emp-toggle"><input class="emp-toggle__input" id="lc-set-desktop" type="checkbox" aria-label="Desktop notifications"><span class="emp-toggle__track"></span></label></div>
+                    <div class="lc-set__row"><span class="lc-set__text"><span class="lc-set__label">Only mentions and my loads</span><span class="lc-set__hint">Other team chats come without sound and pop-ups.</span></span><label class="emp-toggle"><input class="emp-toggle__input" id="lc-set-mentions" type="checkbox" aria-label="Only mentions and my loads"><span class="emp-toggle__track"></span></label></div>
                 </section>
-                <section class="lc-set__group lc-set__group--last"><h3 class="lc-set__title">Quick replies templates</h3>
+                <section class="lc-set__group lc-set__group--last"><div class="lc-set__row"><h3 class="lc-set__title">Quick replies</h3><button class="emp-btn emp-btn--link emp-btn--md" type="button" data-lc-tpl-add><span class="emp-btn__label">Add template</span></button></div>
+                    <span class="lc-set__hint">Shown above the message field. Drag to change the order.</span>
                     <div class="lc-tpls" id="lc-tpl-list"></div>
-                    <div class="lc-tpl-add"><div class="emp-field emp-field--sm"><div class="emp-input"><input class="emp-input__control" type="text" id="lc-tpl-new" placeholder="New template" aria-label="New template"></div></div><button class="emp-btn emp-btn--secondary emp-btn--md" type="button" data-lc-tpl-add><span class="emp-btn__label">Add</span></button></div>
                 </section>
             </div></div>
-            <div class="emp-mw__foot"><button class="emp-btn emp-btn--outline emp-btn--lg" type="button" data-overlay-close>Cancel</button><button class="emp-btn emp-btn--primary emp-btn--lg emp-mw__submit" type="button" data-lc-settings-save>Save</button></div>
+            <div class="emp-mw__foot"><button class="emp-btn emp-btn--outline emp-btn--lg" type="button" data-overlay-close>Cancel</button><button class="emp-btn emp-btn--primary emp-btn--lg emp-mw__submit" type="button" data-lc-settings-save>Save changes</button></div>
         </div>
     </div>
     <div class="emp-overlay" id="lc-label-modal">
@@ -551,9 +552,13 @@
     <div class="emp-overlay" id="lc-files">
         <div class="emp-mw emp-mw--lg emp-mw--fit" role="dialog" aria-modal="true" aria-labelledby="lc-files-title">
             <div class="emp-mw__head"><h2 class="emp-mw__title" id="lc-files-title">Files</h2><button class="emp-mw__close" type="button" data-overlay-close aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-x-lg"></use></svg></button></div>
-
             <div class="emp-mw__body"><div class="emp-mw__slot lc-files">
-                <div class="emp-tabs__list emp-tabs__list--boxed" role="tablist" id="lc-files-tabs"><button class="emp-tab is-active" type="button" role="tab" data-lc-files-tab="all">All</button><button class="emp-tab" type="button" role="tab" data-lc-files-tab="photo">Photos</button><button class="emp-tab" type="button" role="tab" data-lc-files-tab="doc">Documents</button><button class="emp-tab" type="button" role="tab" data-lc-files-tab="voice">Voice</button></div>
+                <div class="lc-files__bar">
+                    <div class="emp-tabs__list emp-tabs__list--boxed" role="tablist" id="lc-files-tabs"><button class="emp-tab is-active" type="button" role="tab" data-lc-files-tab="all">All<span class="emp-tab__count" data-lc-files-count="all"></span></button><button class="emp-tab" type="button" role="tab" data-lc-files-tab="photo">Photos<span class="emp-tab__count" data-lc-files-count="photo"></span></button><button class="emp-tab" type="button" role="tab" data-lc-files-tab="doc">Documents<span class="emp-tab__count" data-lc-files-count="doc"></span></button><button class="emp-tab" type="button" role="tab" data-lc-files-tab="voice">Voice<span class="emp-tab__count" data-lc-files-count="voice"></span></button></div>
+                    <span class="lc-grow"></span>
+                    <div class="emp-field emp-field--sm lc-files__search"><div class="emp-input"><span class="emp-input__icon" aria-hidden="true"><svg class="emp-input__search" viewBox="0 0 12 12"><use href="#i-input-search-sm"></use></svg></span><input class="emp-input__control" type="search" placeholder="Search by file name" aria-label="Search by file name" id="lc-files-q"></div></div>
+                    <button class="emp-btn emp-btn--outline emp-btn--md" type="button" data-lc-files-all><span class="emp-btn__glyph"><svg class="emp-icon" aria-hidden="true"><use href="#ci-download"></use></svg></span><span class="emp-btn__label">Download all</span></button>
+                </div>
                 <div class="lc-files__list" id="lc-files-list"></div>
             </div></div>
         </div>
@@ -565,25 +570,43 @@
             <div class="emp-mw__foot"><button class="emp-btn emp-btn--outline emp-btn--lg" type="button" data-overlay-close>Cancel</button><button class="emp-btn emp-btn--primary emp-btn--lg emp-mw__submit" type="button" data-lc-add-save>Add</button></div>
         </div>
     </div>
+    <div class="emp-overlay" id="lc-add-driver">
+        <div class="emp-mw emp-mw--sm emp-mw--form" role="dialog" aria-modal="true" aria-labelledby="lc-add-driver-title">
+            <div class="emp-mw__head"><h2 class="emp-mw__title" id="lc-add-driver-title">Add driver to the Load's chat</h2><button class="emp-mw__close" type="button" data-overlay-close aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-x-lg"></use></svg></button></div>
+            <div class="emp-mw__body"><div class="emp-mw__slot lc-set lc-set--tight">
+                <div class="emp-field"><div class="emp-field__title"><span class="emp-field__label">Truck number</span></div><div class="emp-input"><span class="emp-input__icon" aria-hidden="true"><svg class="emp-input__search" viewBox="0 0 12 12"><use href="#i-input-search-sm"></use></svg></span><input class="emp-input__control" type="text" id="lc-drv-truck" placeholder="Enter truck #" inputmode="numeric" aria-label="Truck number"></div></div>
+                <div class="emp-field" id="lc-drv-field"><div class="emp-field__title"><span class="emp-field__label">Driver *</span></div><div class="emp-input"><span class="emp-input__icon" aria-hidden="true"><svg class="emp-input__search" viewBox="0 0 12 12"><use href="#i-input-search-sm"></use></svg></span><input class="emp-input__control" type="text" id="lc-drv-name" placeholder="Enter driver's name" aria-label="Driver" data-emp-default="" data-emp-options="Oliver Smith · 2323|Nolan Kenter · 4440|Bob Marley · 3463|Gavin Chesterton · 4441"><svg class="emp-input__chevron" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-input-chevron"></use></svg></div><span class="emp-field__error" id="lc-drv-error" hidden>Choose a driver</span></div>
+                <div class="emp-field"><div class="emp-field__title"><span class="emp-field__label">Team driver</span></div><div class="emp-input"><span class="emp-input__icon" aria-hidden="true"><svg class="emp-input__search" viewBox="0 0 12 12"><use href="#i-input-search-sm"></use></svg></span><input class="emp-input__control" type="text" id="lc-drv-team" placeholder="Enter driver's name" aria-label="Team driver" data-emp-default="" data-emp-options="Oliver Smith · 2323|Nolan Kenter · 4440|Bob Marley · 3463"><svg class="emp-input__chevron" viewBox="0 0 20 20" aria-hidden="true"><use href="#i-input-chevron"></use></svg></div></div>
+                <div class="emp-info emp-info--note"><svg class="emp-info__icon" viewBox="0 0 16 16" aria-hidden="true"><use href="#i-info-circle"></use></svg><p>Choose what the new driver sees from the chat history.</p></div>
+                <fieldset class="lc-add__history" aria-label="Chat history for the new driver">
+                    <label class="emp-radio"><input class="emp-radio__input" type="radio" name="lc-history" value="Files only"><span class="emp-radio__box"></span><span>Files only</span></label>
+                    <label class="emp-radio"><input class="emp-radio__input" type="radio" name="lc-history" value="All messages and files" checked><span class="emp-radio__box"></span><span>All messages and files</span></label>
+                    <label class="emp-radio"><input class="emp-radio__input" type="radio" name="lc-history" value="Nothing from before"><span class="emp-radio__box"></span><span>Nothing from before</span></label>
+                </fieldset>
+            </div></div>
+            <div class="emp-mw__foot"><button class="emp-btn emp-btn--outline emp-btn--lg" type="button" data-overlay-close>Cancel</button><button class="emp-btn emp-btn--primary emp-btn--lg emp-mw__submit" type="button" data-lc-driver-save>Add driver</button></div>
+        </div>
+    </div>
     <div class="emp-overlay" id="lc-reject">
         <div class="emp-mw emp-mw--sm emp-mw--form" role="dialog" aria-modal="true" aria-labelledby="lc-reject-title">
             <div class="emp-mw__head"><h2 class="emp-mw__title" id="lc-reject-title">Reject the BOL</h2><button class="emp-mw__close" type="button" data-overlay-close aria-label="Close"><svg viewBox="0 0 24 24" aria-hidden="true"><use href="#i-x-lg"></use></svg></button></div>
-            <div class="emp-mw__body"><div class="emp-mw__slot lc-set">
+            <div class="emp-mw__body"><div class="emp-mw__slot lc-set lc-set--tight">
                 <fieldset class="lc-add__history"><legend class="lc-add__legend">Reason</legend>
-                    <label class="emp-radio"><input class="emp-radio__input" type="radio" name="lc-reason" value="Not readable" checked><span class="emp-radio__box"></span><span>Not readable</span></label>
-                    <label class="emp-radio"><input class="emp-radio__input" type="radio" name="lc-reason" value="No signature" ><span class="emp-radio__box"></span><span>No signature</span></label>
-                    <label class="emp-radio"><input class="emp-radio__input" type="radio" name="lc-reason" value="Wrong document"><span class="emp-radio__box"></span><span>Wrong document</span></label>
-                    <label class="emp-radio"><input class="emp-radio__input" type="radio" name="lc-reason" value="Missing pages"><span class="emp-radio__box"></span><span>Missing pages</span></label>
+                    <label class="emp-radio"><input class="emp-radio__input" type="radio" name="lc-reason" value="Wrong paperwork or missing pages"><span class="emp-radio__box"></span><span>Wrong paperwork or missing pages</span></label>
+                    <label class="emp-radio"><input class="emp-radio__input" type="radio" name="lc-reason" value="Missing signature, printed name or date" checked><span class="emp-radio__box"></span><span>Missing signature, printed name or date</span></label>
+                    <label class="emp-radio"><input class="emp-radio__input" type="radio" name="lc-reason" value="Poor quality of the paperwork (blurred, cropped)"><span class="emp-radio__box"></span><span>Poor quality of the paperwork (blurred, cropped)</span></label>
+                    <label class="emp-radio"><input class="emp-radio__input" type="radio" name="lc-reason" value="No BOL at the shipper"><span class="emp-radio__box"></span><span>No BOL at the shipper</span></label>
+                    <label class="emp-radio"><input class="emp-radio__input" type="radio" name="lc-reason" value="Other reason"><span class="emp-radio__box"></span><span>Other reason</span></label>
                 </fieldset>
-                <div class="emp-field"><div class="emp-field__title"><span class="emp-field__label">Comment for the driver</span></div><div class="emp-input"><input class="emp-input__control" type="text" id="lc-reject-note" placeholder="Optional"></div></div>
+                <div class="emp-field" id="lc-reject-field"><div class="emp-field__title"><span class="emp-field__label" id="lc-reject-label">Message to the driver</span></div><div class="emp-input emp-input--extended"><textarea class="emp-input__control" id="lc-reject-note" rows="3" placeholder="Will be sent to the chat with the reason" aria-labelledby="lc-reject-label"></textarea></div><span class="emp-field__error" id="lc-reject-error" hidden>Write the reason for the driver</span></div>
             </div></div>
-            <div class="emp-mw__foot"><button class="emp-btn emp-btn--outline emp-btn--lg" type="button" data-overlay-close>Cancel</button><button class="emp-btn emp-btn--alarm emp-btn--lg emp-mw__submit" type="button" data-lc-reject-save>Reject</button></div>
+            <div class="emp-mw__foot"><button class="emp-btn emp-btn--outline emp-btn--lg" type="button" data-overlay-close>Cancel</button><button class="emp-btn emp-btn--primary emp-btn--lg emp-mw__submit" type="button" data-lc-reject-save>Reject</button></div>
         </div>
     </div>
-    <script src="js/toast.js?v=t5"></script>
+    <script src="js/toast.js?v=t6"></script>
     <script src="js/notifications.js?v=n1"></script>
     <script src="js/chat-widget.js?v=cw1"></script>
-    <script src="js/loadchats.js?v=c3"></script>
-    <script src="js/empire.js?v=ds12"></script>
+    <script src="js/loadchats.js?v=c4"></script>
+    <script src="js/empire.js?v=ds13"></script>
 </body>
 </html>

@@ -30,6 +30,8 @@
 
 .emp-toast .emp-info__icon { display: block; max-width: none; }
 .emp-toast p { white-space: pre-line; }
+/* Action inside a toast (Undo) — the stack ignores the pointer, the action takes it */
+.emp-toast__action { pointer-events: auto; align-self: flex-end; height: auto; padding: 0; }
 .emp-copy-sink { position: fixed; left: -999px; top: 0; }
 
 @media (prefers-reduced-motion: reduce) {

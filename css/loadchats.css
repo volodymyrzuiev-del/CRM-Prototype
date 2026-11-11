@@ -30,7 +30,9 @@
 .lc-label__grip { width: 12px; height: 12px; fill: var(--chat-muted); flex: 0 0 auto; }
 .lc-label:hover .lc-label__grip { fill: var(--chat-meta); }
 .lc-label__chip { display: inline-flex; padding: 0; border: 0; background: none; cursor: pointer; }
-.lc-label__menu { display: inline-flex; width: 12px; height: 16px; padding: 0; border: 0; background: none; color: var(--chat-meta); cursor: pointer; visibility: hidden; }
+/* ⋮ keeps a 24px hit area while the label stays compact (negative margin) */
+.lc-label__menu { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; margin: -4px -6px -4px -4px; padding: 0; border: 0; border-radius: var(--x2); background: none; color: var(--chat-meta); cursor: pointer; visibility: hidden; }
+.lc-label__menu:hover { color: var(--chat-accent); }
 .lc-label__menu .lc-ico { width: 12px; height: 16px; }
 .lc-label:hover .lc-label__menu, .lc-label:focus-within .lc-label__menu, .lc-label__menu[aria-expanded="true"] { visibility: visible; }
 .lc-labels .emp-plus { width: 20px; height: 20px; }
@@ -149,3 +151,31 @@
 .lc-menu__who > span, .lc-member__body > span, .lc-crumb span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .lc-item__who { min-width: 0; }
 .lc-item__role { white-space: nowrap; }
+
+/* Archive choice under the archive button of a chat row: for me / for everyone (Figma 3.2) */
+.lc-item__top .lc-menu-wrap { flex: 0 0 auto; }
+.lc-menu--archive { min-width: 240px; white-space: nowrap; }
+
+/* My team — accordion of the team's dispatchers (Figma 3.1) */
+.lc-acc { display: flex; align-items: center; gap: var(--x4); width: 100%; padding: var(--x5) var(--x6); border: 0; border-bottom: 1px solid var(--chat-line); background: var(--chat-panel); color: var(--chat-text); font: inherit; text-align: left; cursor: pointer; }
+.lc-acc:hover, .lc-acc:focus-visible { background: var(--chat-in); outline: none; }
+.lc-acc.is-open { background: var(--chat-in); }
+.lc-acc__name { flex: 1 1 auto; min-width: 0; font-size: var(--x7); line-height: var(--x10); font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lc-acc__count { font-size: var(--x6); line-height: var(--x8); color: var(--chat-meta); white-space: nowrap; }
+.lc-acc__chev { width: 16px; height: 16px; fill: var(--chat-meta); flex: 0 0 auto; }
+.lc-acc__body .lc-item { padding-left: var(--x10); }
+.lc-empty--sm { padding: var(--x8); font-size: var(--x6); line-height: var(--x8); }
+
+/* Files: tabs with counters, search and Download all (Figma 2.2) */
+.lc-files__bar { display: flex; align-items: center; flex-wrap: wrap; gap: var(--x4); }
+.lc-files__search { width: 240px; max-width: 100%; }
+.lc-files__list .lc-empty { grid-column: 1 / -1; }
+
+/* Modal details */
+.lc-set--tight { gap: var(--x6); }
+.emp-field__error { display: block; margin-top: var(--x2); font-size: var(--x6); line-height: var(--x8); color: var(--chat-danger); }
+.emp-field__error[hidden] { display: none; }
+.lc-tpl { background: var(--chat-panel); }
+.lc-tpl.is-dragging { opacity: 0.4; }
+.lc-tpl.is-drop { box-shadow: inset 0 2px 0 var(--chat-accent); }
+.lc-set .emp-input--extended textarea { min-height: 72px; resize: vertical; }
